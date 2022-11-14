@@ -74,7 +74,7 @@ const Home = () => {
                   <div className="card h-100" onClick={()=>{Navigate(`/shop/${book.id}`)}}>
                     <img
                       className="card-img-top img-fluid"
-                      src={book.book_cover_photo ? Image[book.book_cover_photo]:Image[bookDefault]}
+                      src={book.book_cover_photo ? Image[book.book_cover_photo]:Image['defaultBook']}
                       alt="Books"
                     />
                     <div className="card-body d-flex flex-column">
@@ -116,7 +116,7 @@ const Home = () => {
                     <div className="card h-100">
                       <img
                         className="card-img-top img-fluid"
-                        src={book.book_cover_photo ? Image[book.book_cover_photo]:Image[bookDefault]}
+                        src={book.book_cover_photo ? Image[book.book_cover_photo]:Image['defaultBook']}
                         alt="Books"
                       />
                       <div className="card-body d-flex flex-column">

@@ -8,11 +8,6 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from "react-router-dom";
 import queryString from 'query-string';
 import { Dropdown } from 'react-bootstrap';
-
-
-
-  
-  
   
 const Shop = () => {
   const Navigate = useNavigate();
@@ -283,7 +278,7 @@ const handleFilter = (value,name,key) => {
                       return (
                       <div className="col-lg-3 col-md-4 col-sm-6 mb-4" style={{height:500}} key={book.id}>
                       
-                        <div className="card"  onClick={()=>{Navigate(`/shop/${book.id}`)}}>
+                        <div className="card" onClick={()=>{Navigate(`/shop/${book.id}`)}}>
                           <img className="card-img-top img-fluid" src={book.book_cover_photo ? Image[book.book_cover_photo]:Image['defaultBook']} alt="Books" />
                             <div className="card-body">
                             <p className="book-title ">{book.book_title}</p>
@@ -308,21 +303,25 @@ const handleFilter = (value,name,key) => {
                       <ReactPaginate
                     
                         breakLabel="..."
-                        nextLabel="Next"
-                        className="pagination"
-                        previousClassName="px-4 py-2"
-                        nextClassName="px-4 py-2"
-                        breakClassName="px-4 py2"
-                        pageClassName="page-item px-4 py-2 cursor-pointer"
-                        activeClassName="bg-secondary"
+                        nextLabel="Next >"
+                        pageClassName={'page-item'}
+                        pageLinkClassName={'page-link'}
+                        previousClassName={'page-item'}
+                        previousLinkClassName={'page-link'}
+                        nextClassName={'page-item'}
+                        nextLinkClassName={'page-link'}
+                        breakClassName={'page-item'}
+                        breakLinkClassName={'page-link'}
+                        containerClassName={'pagination'}
+                        activeClassName={'active'}        
+                        previousLabel="< Previous"
+                        prevPageRel="null"
                         onPageChange={(event) =>{
                             handlepage(event.selected);   
                         }}
-                        pageRangeDisplayed={3}
-                        
+                        pageRangeDisplayed={3}      
                         pageCount={finalPage}
-                        forcePage={parseInt(currentPage)-1}
-                        previousLabel="Previous"
+                        forcePage={parseInt(currentPage)-1}            
                         renderOnZeroPageCount={null}
                       />
                       )}

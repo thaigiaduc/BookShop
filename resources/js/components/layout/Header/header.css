@@ -4,5 +4,13 @@ header {
     left: 0;
     right: 0;
     z-index: 100;
+}
 
+.activeClass {
+    border-bottom: 1px solid black;
+    color: black;
+    list-style: none;
+    padding: 2px;
+    text-decoration: none;
+    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;
 }

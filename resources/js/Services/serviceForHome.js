@@ -3,7 +3,6 @@ import api from "./api";
 const serviceForHome = {
     getBookOnSale: () => {
         const url = "api/home/onsale";
-        
         return api.get(url);
     },
 

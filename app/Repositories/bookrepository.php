@@ -4,6 +4,7 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 use App\models\Book;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\BookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 class BookRepository
 {
@@ -98,5 +99,49 @@ class BookRepository
         $listing->orderByDesc(DB::raw('count(rating_start)'))
         ->orderBy('finalprice','asc');
         return $listing->take(8)->get();
+    }
+
+    // admin -----------------------------------------------------------------------------------------------
+    public function showBook() 
+    {
+        $books = Book::orderBy('id','desc');
+        return $books->paginate(15);
+    }
+
+    // thêm sách mới
+    public function insertBook(BookRequest $request)
+    {
+        $books = Book::create([
+            'category_id' => $request->category_id,
+            'author_id' => $request->author_id,
+            'book_title' => $request->book_title,
+            'book_summary' => $request->book_summary,
+            'book_price' => $request->book_price,
+            'book_cover_photo' => $request->book_cover_photo
+        ]);
+
+        return $books;
+    }
+
+    /// cập nhật lại thông tin của sách
+    public function updateBook(BookRequest $request, $id)
+    {
+        $books = Book::where('id',$id)->update([
+            'category_id' => $request->category_id,
+            'author_id' => $request->author_id,
+            'book_title' => $request->book_title,
+            'book_summary' => $request->book_summary,
+            'book_price' => $request->book_price,
+            'book_cover_photo' => $request->book_cover_photo
+        ]);
+
+        return $books;
+    }
+
+    // xóa sách khỏi database
+    public function deleteBook($id)
+    {
+        $books = Book::where('id',$id)->delete();
+        return $books;
     }
 }

@@ -11892,7 +11892,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -11907,7 +11906,7 @@ if (sessionStorage.getItem('userLogin')) {
 }
 
 var api = axios__WEBPACK_IMPORTED_MODULE_1___default().create({
-  baseURL: process.env.MIX_BASE_URL,
+  baseURL: "http://localhost:8000/",
   headers: {
     'content-type': 'application/json',
     "Authorization": "Bearer ".concat(token)
@@ -12352,28 +12351,40 @@ function Header() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
           className: "nav-item active",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
-            className: "nav-link",
+            className: function className(_ref2) {
+              var isActive = _ref2.isActive;
+              return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
+            },
             to: "/",
             children: "Home"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
           className: "nav-item",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
-            className: "nav-link",
+            className: function className(_ref3) {
+              var isActive = _ref3.isActive;
+              return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
+            },
             to: "/shop",
             children: "Shop"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
           className: "nav-item",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
-            className: "nav-link",
+            className: function className(_ref4) {
+              var isActive = _ref4.isActive;
+              return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
+            },
             to: "/about",
             children: "About"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
           className: "nav-item",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
-            className: "nav-link",
+            className: function className(_ref5) {
+              var isActive = _ref5.isActive;
+              return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
+            },
             to: "/cart",
             children: ["Cart(", cartAmount, ")"]
           })
@@ -13192,7 +13203,7 @@ var Home = function Home() {
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("img", {
                 className: "card-img-top img-fluid",
-                src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default[bookDefault],
+                src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.defaultBook,
                 alt: "Books"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                 className: "card-body d-flex flex-column",
@@ -13246,7 +13257,7 @@ var Home = function Home() {
                 className: "card h-100",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("img", {
                   className: "card-img-top img-fluid",
-                  src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default[bookDefault],
+                  src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.defaultBook,
                   alt: "Books"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                   className: "card-body d-flex flex-column",
@@ -14880,20 +14891,25 @@ var Shop = function Shop() {
                 className: "col-12 d-flex justify-content-center",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)((react_paginate__WEBPACK_IMPORTED_MODULE_5___default()), {
                   breakLabel: "...",
-                  nextLabel: "Next",
-                  className: "pagination",
-                  previousClassName: "px-4 py-2",
-                  nextClassName: "px-4 py-2",
-                  breakClassName: "px-4 py2",
-                  pageClassName: "page-item px-4 py-2 cursor-pointer",
-                  activeClassName: "bg-secondary",
+                  nextLabel: "Next >",
+                  pageClassName: 'page-item',
+                  pageLinkClassName: 'page-link',
+                  previousClassName: 'page-item',
+                  previousLinkClassName: 'page-link',
+                  nextClassName: 'page-item',
+                  nextLinkClassName: 'page-link',
+                  breakClassName: 'page-item',
+                  breakLinkClassName: 'page-link',
+                  containerClassName: 'pagination',
+                  activeClassName: 'active',
+                  previousLabel: "< Previous",
+                  prevPageRel: "null",
                   onPageChange: function onPageChange(event) {
                     handlepage(event.selected);
                   },
                   pageRangeDisplayed: 3,
                   pageCount: finalPage,
                   forcePage: parseInt(currentPage) - 1,
-                  previousLabel: "Previous",
                   renderOnZeroPageCount: null
                 })
               })
@@ -15153,7 +15169,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "header {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    z-index: 100;\n\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "header {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    z-index: 100;\n}\n\n.activeClass {\n    border-bottom: 1px solid black;\n    color: black;\n    list-style: none;\n    padding: 2px;\n    text-decoration: none;\n    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15369,7 +15385,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".shop-page .title-page {\n  padding: 2rem 0;\n  border-bottom: 0.1rem solid lightgray;\n}\n\n.shop-page .title-page > p,\n.book-list .bl-filter,\n.book-list #mainRow .card .card-body .book-title {\n  font-weight: bold;\n  font-size: 20px;\n}\n\n.book-author {\n  font-weight: bold;\n  font-size: 20px;\n}\n\n.shop-page .title-page > p > span {\n  font-weight: light;\n  color: gray;\n}\n\n.book-list {\n  margin-top: 4rem;\n  margin-bottom: 2rem;\n}\n\n.book-list .bl-showing {\n  color: gray;\n  font-size: 26px;\n}\n\n.book-list .bl-main-filter,\n.book-list #mainRow {\n  margin-top: 0.5rem;\n  font-size: 20px;\n}\n\n.book-list .bl-main-filter .blmf-card {\n  border: 0.1rem solid;\n  border-radius: 0.25rem;\n  padding: 1rem;\n}\n\n.book-list .bl-main-filter .blmf-card:not(:last-child) {\n  margin-bottom: 1.25rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-title {\n  font-weight: bold;\n  margin-bottom: 0.5rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-list > li {\n  margin-left: 1rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-list > li:not(:last-child) {\n  margin-bottom: 0.5rem;\n}\n\n.book-list #mainRow .card > img {\n  width: 100%;\n  max-width: 100%;\n  height: 300px;\n  vertical-align: middle;\n}\n\n.page-link:focus {\n  box-shadow: none !important;\n}\n\n.filter__body {\n  margin-bottom: 4px;\n  cursor: pointer;\n  font-size: 24px;\n}\n\n.filter__body:hover {\n  background-color: #f5f5f5;\n}\n\n.filter__body__active {\n  background-color: gray;\n  cursor: pointer;\n  font-size: 24px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".shop-page .title-page {\n  padding: 2rem 0;\n  border-bottom: 0.1rem solid lightgray;\n}\n\n.shop-page .title-page > p,\n.book-list .bl-filter,\n.book-list #mainRow .card .card-body .book-title {\n  font-weight: bold;\n  font-size: 20px;\n}\n\n.book-author {\n  font-weight: bold;\n  font-size: 20px;\n}\n\n.shop-page .title-page > p > span {\n  font-weight: light;\n  color: gray;\n}\n\n.book-list {\n  margin-top: 4rem;\n  margin-bottom: 2rem;\n}\n\n.book-list .bl-showing {\n  color: gray;\n  font-size: 26px;\n}\n\n.book-list .bl-main-filter,\n.book-list #mainRow {\n  margin-top: 0.5rem;\n  font-size: 20px;\n}\n\n.book-list .bl-main-filter .blmf-card {\n  border: 0.1rem solid;\n  border-radius: 0.25rem;\n  padding: 1rem;\n}\n\n.book-list .bl-main-filter .blmf-card:not(:last-child) {\n  margin-bottom: 1.25rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-title {\n  font-weight: bold;\n  margin-bottom: 0.5rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-list > li {\n  margin-left: 1rem;\n}\n\n.book-list .bl-main-filter .blmf-card .blmfc-list > li:not(:last-child) {\n  margin-bottom: 0.5rem;\n}\n\n.book-list #mainRow .card > img {\n  width: 100%;\n  max-width: 100%;\n  height: 300px;\n  vertical-align: middle;\n}\n\n.page-link:focus {\n  box-shadow: none !important;\n}\n\n.filter__body {\n  margin-bottom: 4px;\n  cursor: pointer;\n  font-size: 24px;\n}\n\n.filter__body:hover {\n  background-color: #f5f5f5;\n}\n\n.filter__body__active {\n  background-color: gray;\n  cursor: pointer;\n  font-size: 24px;\n}\n\n#cartItem {\n  height: 450px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -45,16 +45,24 @@ function Header(){
             <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
                 <ul className="navbar-nav">
                     <li className="nav-item active">
-                        <NavLink className="nav-link" to="/">Home</NavLink>
+                        <NavLink className={({ isActive }) =>
+                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
+                        } to="/">Home</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/shop">Shop</NavLink>
+                        <NavLink className={({ isActive }) =>
+                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
+                        } to="/shop">Shop</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/about">About</NavLink>
+                        <NavLink className={({ isActive }) =>
+                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
+                        } to="/about">About</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/cart">Cart({cartAmount})</NavLink>
+                        <NavLink className={({ isActive }) =>
+                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
+                        } to="/cart">Cart({cartAmount})</NavLink>
                     </li>
                     <li className="nav-item">
                     {
