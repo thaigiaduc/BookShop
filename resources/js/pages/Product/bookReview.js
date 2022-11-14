@@ -207,21 +207,22 @@ function BookReview({ id }) {
 
                                     <div className="reviews__pagination">
                                         <ReactPaginate 
-                                            previousLabel={'Previous'}
-                                            nextLabel={'Next'}
-                                            breakLabel={'...'}
                                             pageRangeDisplayed={3}
                                             renderOnZeroPageCount={null}
-                                            pageClassName="page-item"
-                                            pageLinkClassName="page-link"
-                                            previousClassName="page-item"
-                                            previousLinkClassName="page-link"
-                                            nextClassName="page-item"
-                                            nextLinkClassName="page-link"
-                                            breakClassName="page-item"
-                                            breakLinkClassName="page-link"
-                                            containerClassName="pagination"
-                                            activeClassName="active"
+                                            breakLabel="..."
+                                            nextLabel="Next >"
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            breakClassName={'page-item'}
+                                            breakLinkClassName={'page-link'}
+                                            containerClassName={'pagination'}
+                                            activeClassName={'active'}        
+                                            previousLabel="< Previous"
+                                            prevPageRel="null"
                                             pageCount={paginate.last_page}
                                             onPageChange={(e) => handlePageClick(e)}
                                             forcePage={paginate.current_page - 1}

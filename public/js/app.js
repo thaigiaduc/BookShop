@@ -14303,21 +14303,22 @@ function BookReview(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
             className: "reviews__pagination",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_paginate__WEBPACK_IMPORTED_MODULE_3___default()), {
-              previousLabel: 'Previous',
-              nextLabel: 'Next',
-              breakLabel: '...',
               pageRangeDisplayed: 3,
               renderOnZeroPageCount: null,
-              pageClassName: "page-item",
-              pageLinkClassName: "page-link",
-              previousClassName: "page-item",
-              previousLinkClassName: "page-link",
-              nextClassName: "page-item",
-              nextLinkClassName: "page-link",
-              breakClassName: "page-item",
-              breakLinkClassName: "page-link",
-              containerClassName: "pagination",
-              activeClassName: "active",
+              breakLabel: "...",
+              nextLabel: "Next >",
+              pageClassName: 'page-item',
+              pageLinkClassName: 'page-link',
+              previousClassName: 'page-item',
+              previousLinkClassName: 'page-link',
+              nextClassName: 'page-item',
+              nextLinkClassName: 'page-link',
+              breakClassName: 'page-item',
+              breakLinkClassName: 'page-link',
+              containerClassName: 'pagination',
+              activeClassName: 'active',
+              previousLabel: "< Previous",
+              prevPageRel: "null",
               pageCount: paginate.last_page,
               onPageChange: function onPageChange(e) {
                 return handlePageClick(e);
@@ -15169,7 +15170,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "header {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    z-index: 100;\n}\n\n.activeClass {\n    border-bottom: 1px solid black;\n    color: black;\n    list-style: none;\n    padding: 2px;\n    text-decoration: none;\n    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "header {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    z-index: 100;\r\n}\r\n\r\n.activeClass {\r\n    border-bottom: 1px solid black;\r\n    color: black;\r\n    list-style: none;\r\n    padding: 2px;\r\n    text-decoration: none;\r\n    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
