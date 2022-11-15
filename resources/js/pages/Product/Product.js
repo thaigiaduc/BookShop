@@ -101,7 +101,7 @@ const Product = () =>{
             <Row className="detail_card">
                 <Col xs={12} md={2} lg={6} className="detail__colitem">
                     <div >
-                        <img className="detail__image__imd" src={bookDetail.book_cover_photo ? Image[bookDetail.book_cover_photo] :Image['bookDefault']}/>
+                        <img className="detail__image__imd" src={bookDetail.book_cover_photo ? Image[bookDetail.book_cover_photo] :Image['defaultBook']}/>
                     </div>
                     <div className="detail__author">
                         <span>By (author) <strong>{bookDetail.author_name}</strong></span>
