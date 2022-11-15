@@ -15122,7 +15122,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.title-page {\n    padding: 2rem 0;\n    border-bottom: 0.1rem solid var(--light-gray);\n}\n\n.title-page>h4 {\n    font-weight: var(--bold);\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n.title-page {\r\n    padding: 2rem 0;\r\n    border-bottom: 0.1rem solid var(--light-gray);\r\n}\r\n\r\n.title-page>h4 {\r\n    font-weight: var(--bold);\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15146,7 +15146,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "footer {\n    display: flex;\n}\n\nfooter>.logo>img {\n    width: 75px;\n    height: 75px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "footer {\r\n    display: flex;\r\n}\r\n\r\nfooter>.logo>img {\r\n    width: 75px;\r\n    height: 75px;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15194,7 +15194,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',\n    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',\n    sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\ncode {\n  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',\n    monospace;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\r\n  margin: 0;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',\r\n    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',\r\n    sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\ncode {\r\n  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',\r\n    monospace;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15218,7 +15218,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.about-page .title-page {\n    padding: 2rem 0;\n    border-bottom: 0.1rem solid var(--light-gray);\n}\n\n.about-page .row h2,\n.about-page .row h3 {\n    font-weight: var(--bold);\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n.about-page .title-page {\r\n    padding: 2rem 0;\r\n    border-bottom: 0.1rem solid var(--light-gray);\r\n}\r\n\r\n.about-page .row h2,\r\n.about-page .row h3 {\r\n    font-weight: var(--bold);\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15242,7 +15242,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.home-page {\n    margin: 1rem 0;\n}\n\n.custom-link,\n.custom-link:hover {\n    display: inline-block;\n    color: var(--black);\n    cursor: pointer;\n    padding: 0.375rem 0.75rem;\n    text-decoration: none;\n    line-height: 1.5;\n    text-align: center;\n    vertical-align: middle;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n\n.home-page .book-list {\n    margin-top: 4rem;\n}\n\n.home-page .book-list .section-title {\n    font-weight: var(--medium);\n}\n\n.home-page .book-list .bl-filter,\n.home-page .book-list #mainRow .card .card-body .book-title,\n.home-page .carousel .card .card-body .book-title {\n    font-weight: var(--bold);\n}\n\n.home-page .carousel .card .card-body .book-title,\n.home-page .book-list #mainRow .card .card-body .book-title {\n    word-break: break-all;\n    display: -webkit-box;\n    -webkit-line-clamp: 2;\n    -webkit-box-orient: vertical;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    word-break: break-word;\n}\n\n.home-page .book-list .bl-showing {\n    color: var(--gray);\n}\n\n.home-page .book-list .bl-main-filter,\n.home-page .book-list #mainRow {\n    margin-top: 0.5rem;\n}\n\n.home-page .book-list .bl-main-filter .blmf-card {\n    border: 0.1rem solid var(--gray2);\n    border-radius: 0.25rem;\n    padding: 1rem;\n}\n\n.home-page .book-list .bl-main-filter .blmf-card:not(:last-child) {\n    margin-bottom: 1.25rem;\n}\n\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-title {\n    font-weight: var(--bold);\n    margin-bottom: 0.5rem;\n}\n\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-list>li {\n    margin-left: 1rem;\n}\n\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-list>li:not(:last-child) {\n    margin-bottom: 0.5rem;\n}\n\n.home-page .book-list #mainRow .card>img,\n.carousel .card>img {\n    width: 100%;\n    max-width: 100%;\n    height: 300px;\n    vertical-align: middle;\n}\n\n.swiper-button-next,\n.swiper-button-prev {\n    color: var(--gray2) !important;\n}\n\n@media only screen and (max-width: 576px) {\n    .home-page .book-list #mainRow .card>img,\n    .carousel .card>img {\n        height: 100%;\n    }\n}\n\n.swiper-slide {\n    height: auto !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n.home-page {\r\n    margin: 1rem 0;\r\n}\r\n\r\n.custom-link,\r\n.custom-link:hover {\r\n    display: inline-block;\r\n    color: var(--black);\r\n    cursor: pointer;\r\n    padding: 0.375rem 0.75rem;\r\n    text-decoration: none;\r\n    line-height: 1.5;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n}\r\n\r\n.home-page .book-list {\r\n    margin-top: 4rem;\r\n}\r\n\r\n.home-page .book-list .section-title {\r\n    font-weight: var(--medium);\r\n}\r\n\r\n.home-page .book-list .bl-filter,\r\n.home-page .book-list #mainRow .card .card-body .book-title,\r\n.home-page .carousel .card .card-body .book-title {\r\n    font-weight: var(--bold);\r\n}\r\n\r\n.home-page .carousel .card .card-body .book-title,\r\n.home-page .book-list #mainRow .card .card-body .book-title {\r\n    word-break: break-all;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 2;\r\n    -webkit-box-orient: vertical;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    word-break: break-word;\r\n}\r\n\r\n.home-page .book-list .bl-showing {\r\n    color: var(--gray);\r\n}\r\n\r\n.home-page .book-list .bl-main-filter,\r\n.home-page .book-list #mainRow {\r\n    margin-top: 0.5rem;\r\n}\r\n\r\n.home-page .book-list .bl-main-filter .blmf-card {\r\n    border: 0.1rem solid var(--gray2);\r\n    border-radius: 0.25rem;\r\n    padding: 1rem;\r\n}\r\n\r\n.home-page .book-list .bl-main-filter .blmf-card:not(:last-child) {\r\n    margin-bottom: 1.25rem;\r\n}\r\n\r\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-title {\r\n    font-weight: var(--bold);\r\n    margin-bottom: 0.5rem;\r\n}\r\n\r\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-list>li {\r\n    margin-left: 1rem;\r\n}\r\n\r\n.home-page .book-list .bl-main-filter .blmf-card .blmfc-list>li:not(:last-child) {\r\n    margin-bottom: 0.5rem;\r\n}\r\n\r\n.home-page .book-list #mainRow .card>img,\r\n.carousel .card>img {\r\n    width: 100%;\r\n    max-width: 100%;\r\n    height: 300px;\r\n    vertical-align: middle;\r\n}\r\n\r\n.swiper-button-next,\r\n.swiper-button-prev {\r\n    color: var(--gray2) !important;\r\n}\r\n\r\n@media only screen and (max-width: 576px) {\r\n    .home-page .book-list #mainRow .card>img,\r\n    .carousel .card>img {\r\n        height: 100%;\r\n    }\r\n}\r\n\r\n.swiper-slide {\r\n    height: auto !important;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
