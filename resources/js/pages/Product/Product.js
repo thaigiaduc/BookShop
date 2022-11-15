@@ -14,10 +14,10 @@ const Product = () =>{
     const [bookDetail, setBookDetail] = useState([]);
     const [quantity, setQuantity] = useState(1);
     
-    const minMaxQuantity = {
+    const [minMaxQuantity,setminMaxQuantity] = useState({
         min: 1,
-        max: 8
-    };
+        max: 8,
+    });
     const schema = yup.object().shape({
       review_title: yup.string().required(),
       review_details: yup.string().required(),
@@ -30,6 +30,29 @@ const Product = () =>{
   useEffect(() => {
     const fetchBookDetail = async () => {
       const bookDetail = await serviceForProduct.getBook(id);
+      if(sessionStorage.getItem("item_cart")!=null){
+        let flag = 0;
+        const items = JSON.parse(sessionStorage.getItem("item_cart"));
+        items.map((item)=>{
+            if(item.id==id){
+                setminMaxQuantity({
+                    ...minMaxQuantity,
+                    max: bookDetail['quantity']-item.quantity>1?bookDetail['quantity']-item.quantity:1
+                  });
+                flag=1;
+            }
+        });
+        if(flag==0) setminMaxQuantity({
+            ...minMaxQuantity,
+            max: bookDetail['quantity'],
+          })
+     }
+        else setminMaxQuantity({
+            ...minMaxQuantity,
+            max: bookDetail['quantity'],
+          })
+        
+      
       setBookDetail(bookDetail);
     }
     fetchBookDetail();
@@ -48,7 +71,7 @@ const Product = () =>{
         items = JSON.parse(sessionStorage.getItem("item_cart"));
         items.map((item)=>{
             if(item.id==id){
-                if(item.quantity+dataCart.quantity<8)item.quantity+=dataCart.quantity;
+                if(item.quantity+dataCart.quantity<=bookDetail['quantity'])item.quantity+=dataCart.quantity;
                 flag=1;
             }
         });
@@ -101,7 +124,7 @@ const Product = () =>{
             <Row className="detail_card">
                 <Col xs={12} md={2} lg={6} className="detail__colitem">
                     <div >
-                        <img className="detail__image__imd" src={bookDetail.book_cover_photo ? Image[bookDetail.book_cover_photo] :Image['bookDefault']}/>
+                        <img className="detail__image__imd" style={{height:450,width:300}} src={bookDetail.book_cover_photo ? Image[bookDetail.book_cover_photo] :Image['defaultBook']}/>
                     </div>
                     <div className="detail__author">
                         <span>By (author) <strong>{bookDetail.author_name}</strong></span>

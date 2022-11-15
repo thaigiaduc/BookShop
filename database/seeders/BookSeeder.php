@@ -22,17 +22,18 @@ class BookSeeder extends Seeder
     {
         $categories = Category::factory()->count(5)->create();
         $authors = Author::factory()->count(10)->create();
-        $publishers = Publisher::factory()->count(15)->create();
+        $publishers = Publisher::factory()->count(10)->create();
         $faker = Factory::create();
         foreach ($categories as $category) {
             foreach ($authors as $author) {
-                foreach($publishers as $publisher){
                 $books = Book::factory()
                     ->count($faker->numberBetween(1, 10))
                     ->create([
+
                         'category_id' => $category->id,
                         'author_id' => $author->id,
-                        'publisher_id' => $publisher->id,
+                        'publisher_id' => $publishers->get($faker->numberBetween(0, 9))->id,
+                        'quantity' => $faker->numberBetween(25,50),
                     ]);
                 foreach ($books as $book) {
                     if ($faker->boolean(25)) {
@@ -55,7 +56,6 @@ class BookSeeder extends Seeder
                     }
                 }
             }
-        }
         }
     }
 }

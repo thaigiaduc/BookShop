@@ -26,7 +26,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'itemOrder' => 'required|array',
             'itemOrder.*.book_id' => 'required|integer|exists:book,id',
-            'itemOrder.*.quantity' => 'required|integer|between:1,8',
+            'itemOrder.*.quantity' => 'required|integer',
         ];
     }
     public function failedValidation($validator)

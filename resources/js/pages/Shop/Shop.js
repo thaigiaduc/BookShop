@@ -18,6 +18,7 @@ const Shop = () => {
   const [allBooks, setAllBooks] = useState([]);
   const [allAuthors,setAllAuthors] = useState([]);
   const [allCategories,setAllCategories] = useState([]);
+  const [allPublishers, setAllPublishers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);   
   const [showing, setShowing] = useState({});
   const [filter,setFilter] = useState({
@@ -73,10 +74,13 @@ useEffect(() => {
       try {
         const resultAuthors = await serviceForShop.getAuthor();
         const resultCategories = await serviceForShop.getCategory();
+        const resultPublishers = await serviceForShop.getPublisher();
         const allAuthors = resultAuthors.data;
         const allCategories = resultCategories.data;
+        const allPublishers = resultPublishers.data;
         setAllCategories(allCategories);
         setAllAuthors(allAuthors);
+        setAllPublishers(allPublishers);
       } catch (error) {
         
       }
@@ -174,6 +178,23 @@ const handleFilter = (value,name,key) => {
                   delete showing['rating'];
                 }
                 break;
+          case 4: if(filter.publisher != value){
+                  setFilter({
+                  ...filter,
+                  publisher: value,
+                  page: 1,
+                  });
+                    setShowing({
+                      ...showing,
+                      publisher: name,
+                    });
+                  }
+                  else{
+                    delete filter['publisher'];
+                    setFilter({...filter});
+                    delete showing['publisher'];
+                  }
+                  break;
         default: break;    
       }
     setCurrentPage(1);
@@ -220,9 +241,22 @@ const handleFilter = (value,name,key) => {
                     </Accordion.Body>
                   </Accordion.Item>
 
-                  {/*
-                        <!-- Rating --> */}
+                   {/*
+                        <!-- Publisher --> */}
                   <Accordion.Item eventKey="2">
+                    <Accordion.Header>Publisher</Accordion.Header>
+                    <Accordion.Body>
+                    {allPublishers.map((publisher) =>{
+                        return(
+                          <div className={showing['publisher']==publisher.publisher_name ? "filter__body__active":"filter__body"} onClick={() => handleFilter(publisher.id,publisher.publisher_name,4)}>{publisher.publisher_name}</div>
+                        );
+                      })}
+                    </Accordion.Body>
+                  </Accordion.Item>
+
+                  {/* 
+                        <!-- Rating --> */}
+                  <Accordion.Item eventKey="3">
                     <Accordion.Header>Rating</Accordion.Header>
                     <Accordion.Body>
                       <div className={showing['rating']==1 ? "filter__body__active":"filter__body"} onClick={() => handleFilter(1,1,3)}>1 Star</div>

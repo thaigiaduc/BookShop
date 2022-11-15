@@ -29,6 +29,9 @@ class BookRepository
                 ->when($request->has('category'),function($listing) use($request){
                         return $listing->where('category_id', $request->category);
                 })
+                ->when($request->has('publisher'),function($listing) use($request){
+                    return $listing->where('publisher_id', $request->publisher);
+                })
                 ->when($request->has('rating'),function($listing)use($request){
                         return $listing->havingraw('avg(rating_start)>='.$request->rating);      
                 });

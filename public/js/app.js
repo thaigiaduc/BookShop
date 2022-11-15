@@ -12090,6 +12090,10 @@ var serviceForShop = {
   getAuthor: function getAuthor() {
     var url = "/api/author";
     return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
+  },
+  getPublisher: function getPublisher() {
+    var url = "/api/publisher";
+    return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (serviceForShop);
@@ -12706,7 +12710,7 @@ function Cart() {
   var handleAddQuantity = function handleAddQuantity(id) {
     cart.map(function (item) {
       if (item.id == id) {
-        if (item.quantity < 8) item.quantity++;
+        if (item.quantity < item.book.quantity) item.quantity++;
         sessionStorage.setItem("item_cart", JSON.stringify(cart));
       }
     });
@@ -12918,7 +12922,7 @@ function Cart() {
                             width: 150
                           },
                           className: "cart__image",
-                          src: item.book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[item.book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.bookDefault,
+                          src: item.book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[item.book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.defaultBook,
                           alt: "book"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                           className: "ms-3 d-flex justify-content-center flex-column",
@@ -13500,13 +13504,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! yup */ "./node_modules/yup/es/index.js");
 /* harmony import */ var _bookReview__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bookReview */ "./resources/js/pages/Product/bookReview.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -13554,10 +13558,14 @@ var Product = function Product() {
       quantity = _useState4[0],
       setQuantity = _useState4[1];
 
-  var minMaxQuantity = {
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)({
     min: 1,
     max: 8
-  };
+  }),
+      _useState6 = _slicedToArray(_useState5, 2),
+      minMaxQuantity = _useState6[0],
+      setminMaxQuantity = _useState6[1];
+
   var schema = yup__WEBPACK_IMPORTED_MODULE_6__.object().shape({
     review_title: yup__WEBPACK_IMPORTED_MODULE_6__.string().required(),
     review_details: yup__WEBPACK_IMPORTED_MODULE_6__.string().required(),
@@ -13574,7 +13582,7 @@ var Product = function Product() {
   (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
     var fetchBookDetail = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var bookDetail;
+        var bookDetail, flag, items;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -13584,9 +13592,28 @@ var Product = function Product() {
 
               case 2:
                 bookDetail = _context.sent;
+
+                if (sessionStorage.getItem("item_cart") != null) {
+                  flag = 0;
+                  items = JSON.parse(sessionStorage.getItem("item_cart"));
+                  items.map(function (item) {
+                    if (item.id == id) {
+                      setminMaxQuantity(_objectSpread(_objectSpread({}, minMaxQuantity), {}, {
+                        max: bookDetail['quantity'] - item.quantity > 1 ? bookDetail['quantity'] - item.quantity : 1
+                      }));
+                      flag = 1;
+                    }
+                  });
+                  if (flag == 0) setminMaxQuantity(_objectSpread(_objectSpread({}, minMaxQuantity), {}, {
+                    max: bookDetail['quantity']
+                  }));
+                } else setminMaxQuantity(_objectSpread(_objectSpread({}, minMaxQuantity), {}, {
+                  max: bookDetail['quantity']
+                }));
+
                 setBookDetail(bookDetail);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -13615,7 +13642,7 @@ var Product = function Product() {
       items = JSON.parse(sessionStorage.getItem("item_cart"));
       items.map(function (item) {
         if (item.id == id) {
-          if (item.quantity + dataCart.quantity < 8) item.quantity += dataCart.quantity;
+          if (item.quantity + dataCart.quantity <= bookDetail['quantity']) item.quantity += dataCart.quantity;
           flag = 1;
         }
       });
@@ -13711,7 +13738,11 @@ var Product = function Product() {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                       className: "detail__image__imd",
-                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.bookDefault
+                      style: {
+                        height: 450,
+                        width: 300
+                      },
+                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.defaultBook
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "detail__author",
@@ -14436,24 +14467,29 @@ var Shop = function Shop() {
       allCategories = _useState14[0],
       setAllCategories = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      currentPage = _useState16[0],
-      setCurrentPage = _useState16[1];
+      allPublishers = _useState16[0],
+      setAllPublishers = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1),
       _useState18 = _slicedToArray(_useState17, 2),
-      showing = _useState18[0],
-      setShowing = _useState18[1];
+      currentPage = _useState18[0],
+      setCurrentPage = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+      _useState20 = _slicedToArray(_useState19, 2),
+      showing = _useState20[0],
+      setShowing = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     sort: 1,
     page: 1,
     limit: 15
   }),
-      _useState20 = _slicedToArray(_useState19, 2),
-      filter = _useState20[0],
-      setFilter = _useState20[1];
+      _useState22 = _slicedToArray(_useState21, 2),
+      filter = _useState22[0],
+      setFilter = _useState22[1];
 
   var sortby = {
     "1": "On Sale",
@@ -14526,7 +14562,7 @@ var Shop = function Shop() {
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     var fetchFilterList = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var resultAuthors, resultCategories, _allAuthors, _allCategories;
+        var resultAuthors, resultCategories, resultPublishers, _allAuthors, _allCategories, _allPublishers;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
@@ -14543,23 +14579,30 @@ var Shop = function Shop() {
 
               case 6:
                 resultCategories = _context2.sent;
+                _context2.next = 9;
+                return _Services_serviceForShop__WEBPACK_IMPORTED_MODULE_4__.default.getPublisher();
+
+              case 9:
+                resultPublishers = _context2.sent;
                 _allAuthors = resultAuthors.data;
                 _allCategories = resultCategories.data;
+                _allPublishers = resultPublishers.data;
                 setAllCategories(_allCategories);
                 setAllAuthors(_allAuthors);
-                _context2.next = 15;
+                setAllPublishers(_allPublishers);
+                _context2.next = 20;
                 break;
 
-              case 13:
-                _context2.prev = 13;
+              case 18:
+                _context2.prev = 18;
                 _context2.t0 = _context2["catch"](0);
 
-              case 15:
+              case 20:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 13]]);
+        }, _callee2, null, [[0, 18]]);
       }));
 
       return function fetchFilterList() {
@@ -14657,6 +14700,23 @@ var Shop = function Shop() {
 
         break;
 
+      case 4:
+        if (filter.publisher != value) {
+          setFilter(_objectSpread(_objectSpread({}, filter), {}, {
+            publisher: value,
+            page: 1
+          }));
+          setShowing(_objectSpread(_objectSpread({}, showing), {}, {
+            publisher: name
+          }));
+        } else {
+          delete filter['publisher'];
+          setFilter(_objectSpread({}, filter));
+          delete showing['publisher'];
+        }
+
+        break;
+
       default:
         break;
     }
@@ -14720,6 +14780,21 @@ var Shop = function Shop() {
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Item, {
                   eventKey: "2",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Header, {
+                    children: "Publisher"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Body, {
+                    children: allPublishers.map(function (publisher) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                        className: showing['publisher'] == publisher.publisher_name ? "filter__body__active" : "filter__body",
+                        onClick: function onClick() {
+                          return handleFilter(publisher.id, publisher.publisher_name, 4);
+                        },
+                        children: publisher.publisher_name
+                      });
+                    })
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Item, {
+                  eventKey: "3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Header, {
                     children: "Rating"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Body, {
@@ -15362,7 +15437,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".detail_card {\n  padding-bottom: 20px;\n}\n\n.detail__image img {\n  width: 100%;\n  border-top-left-radius: 0.5rem;\n  border-bottom-left-radius: 0.5rem;\n}\n\n.detail__author {\n  margin-top: 20px;\n  text-align: right;\n  font-size: 18px;\n}\n\n.detail__description {\n  font-size: 18px;\n}\n.detail__description p:first-child {\n  margin-bottom: 0;\n}\n\n.detail__title {\n  font-size: 26px;\n}\n\n.detail__card__price__finalprice {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #000;\n  margin-left: 5px;\n}\n\n.detail__card__price__bookprice {\n  text-decoration: line-through;\n  color: #999;\n}\n\n.detail__card__price {\n  display: flex;\n  align-items: center;\n}\n\n.detail__card__body__quantity {\n  display: flex;\n  align-items: center;\n  margin-bottom: 20px;\n}\n\n.detail__card__body__quantity {\n  width: 100%;\n  display: flex;\n  justify-content: space-between;\n  background-color: #999;\n}\n.detail__card__body__quantity span {\n  cursor: pointer;\n  font-size: 28px;\n  border-radius: 15px;\n}\n.detail__card__body__quantity button {\n  height: 42px;\n  width: 42px;\n  border: none;\n  color: #000;\n}\n\n.detail__card__body__addtocart {\n  margin-top: 30px;\n}\n.detail__card__body__addtocart button {\n  width: 100%;\n  height: 42px;\n  border: none;\n  background-color: #000;\n  color: #fff;\n  font-size: 1.2rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.detail__card__body__addtocart button:hover {\n  background-color: #999;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".detail_card {\n  padding-bottom: 20px;\n}\n\n.detail__image img {\n  width: 80%;\n  border-top-left-radius: 0.5rem;\n  border-bottom-left-radius: 0.5rem;\n}\n\n.detail__author {\n  margin-top: 20px;\n  text-align: right;\n  font-size: 18px;\n}\n\n.detail__description {\n  font-size: 18px;\n}\n.detail__description p:first-child {\n  margin-bottom: 0;\n}\n\n.detail__title {\n  font-size: 26px;\n}\n\n.detail__card__price__finalprice {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #000;\n  margin-left: 5px;\n}\n\n.detail__card__price__bookprice {\n  text-decoration: line-through;\n  color: #999;\n}\n\n.detail__card__price {\n  display: flex;\n  align-items: center;\n}\n\n.detail__card__body__quantity {\n  display: flex;\n  align-items: center;\n  margin-bottom: 20px;\n}\n\n.detail__card__body__quantity {\n  width: 100%;\n  display: flex;\n  justify-content: space-between;\n  background-color: #999;\n}\n.detail__card__body__quantity span {\n  cursor: pointer;\n  font-size: 28px;\n  border-radius: 15px;\n}\n.detail__card__body__quantity button {\n  height: 42px;\n  width: 42px;\n  border: none;\n  color: #000;\n}\n\n.detail__card__body__addtocart {\n  margin-top: 30px;\n}\n.detail__card__body__addtocart button {\n  width: 100%;\n  height: 42px;\n  border: none;\n  background-color: #000;\n  color: #fff;\n  font-size: 1.2rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.detail__card__body__addtocart button:hover {\n  background-color: #999;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
