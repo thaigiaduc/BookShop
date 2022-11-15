@@ -13711,7 +13711,9 @@ var Product = function Product() {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                       className: "detail__image__imd",
-                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.bookDefault
+                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.defaultBook,
+                      height: "450px",
+                      width: "300px"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "detail__author",
@@ -59948,13 +59950,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
 /* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./config */ "./node_modules/react-transition-group/esm/config.js");
-/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/esm/utils/PropTypes.js");
-/* harmony import */ var _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TransitionGroupContext */ "./node_modules/react-transition-group/esm/TransitionGroupContext.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config */ "./node_modules/react-transition-group/esm/config.js");
+/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/esm/utils/PropTypes.js");
+/* harmony import */ var _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TransitionGroupContext */ "./node_modules/react-transition-group/esm/TransitionGroupContext.js");
+/* harmony import */ var _utils_reflow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/reflow */ "./node_modules/react-transition-group/esm/utils/reflow.js");
+
 
 
 
@@ -60182,6 +60186,14 @@ var Transition = /*#__PURE__*/function (_React$Component) {
       this.cancelNextCallback();
 
       if (nextStatus === ENTERING) {
+        if (this.props.unmountOnExit || this.props.mountOnEnter) {
+          var node = this.props.nodeRef ? this.props.nodeRef.current : react_dom__WEBPACK_IMPORTED_MODULE_3__.findDOMNode(this); // https://github.com/reactjs/react-transition-group/pull/749
+          // With unmountOnExit or mountOnEnter, the enter animation should happen at the transition between `exited` and `entering`.
+          // To make the animation happen,  we have to separate each rendering and avoid being processed as batched.
+
+          if (node) (0,_utils_reflow__WEBPACK_IMPORTED_MODULE_4__.forceReflow)(node);
+        }
+
         this.performEnter(mounting);
       } else {
         this.performExit();
@@ -60207,7 +60219,7 @@ var Transition = /*#__PURE__*/function (_React$Component) {
     var enterTimeout = appearing ? timeouts.appear : timeouts.enter; // no enter animation skip right to ENTERED
     // if we are mounting and running this it means appear _must_ be set
 
-    if (!mounting && !enter || _config__WEBPACK_IMPORTED_MODULE_4__.default.disabled) {
+    if (!mounting && !enter || _config__WEBPACK_IMPORTED_MODULE_5__.default.disabled) {
       this.safeSetState({
         status: ENTERED
       }, function () {
@@ -60239,7 +60251,7 @@ var Transition = /*#__PURE__*/function (_React$Component) {
     var timeouts = this.getTimeouts();
     var maybeNode = this.props.nodeRef ? undefined : react_dom__WEBPACK_IMPORTED_MODULE_3__.findDOMNode(this); // no exit animation skip right to EXITED
 
-    if (!exit || _config__WEBPACK_IMPORTED_MODULE_4__.default.disabled) {
+    if (!exit || _config__WEBPACK_IMPORTED_MODULE_5__.default.disabled) {
       this.safeSetState({
         status: EXITED
       }, function () {
@@ -60351,7 +60363,7 @@ var Transition = /*#__PURE__*/function (_React$Component) {
     return (
       /*#__PURE__*/
       // allows for nested Transitions
-      react__WEBPACK_IMPORTED_MODULE_2__.createElement(_TransitionGroupContext__WEBPACK_IMPORTED_MODULE_5__.default.Provider, {
+      react__WEBPACK_IMPORTED_MODULE_2__.createElement(_TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__.default.Provider, {
         value: null
       }, typeof children === 'function' ? children(status, childProps) : react__WEBPACK_IMPORTED_MODULE_2__.cloneElement(react__WEBPACK_IMPORTED_MODULE_2__.Children.only(children), childProps))
     );
@@ -60360,7 +60372,7 @@ var Transition = /*#__PURE__*/function (_React$Component) {
   return Transition;
 }(react__WEBPACK_IMPORTED_MODULE_2__.Component);
 
-Transition.contextType = _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_5__.default;
+Transition.contextType = _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__.default;
 Transition.propTypes =  true ? {
   /**
    * A React reference to DOM element that need to transition:
@@ -60373,10 +60385,10 @@ Transition.propTypes =  true ? {
    *     (see
    *     [test/CSSTransition-test.js](https://github.com/reactjs/react-transition-group/blob/13435f897b3ab71f6e19d724f145596f5910581c/test/CSSTransition-test.js#L362-L437)).
    */
-  nodeRef: prop_types__WEBPACK_IMPORTED_MODULE_6___default().shape({
-    current: typeof Element === 'undefined' ? (prop_types__WEBPACK_IMPORTED_MODULE_6___default().any) : function (propValue, key, componentName, location, propFullName, secret) {
+  nodeRef: prop_types__WEBPACK_IMPORTED_MODULE_7___default().shape({
+    current: typeof Element === 'undefined' ? (prop_types__WEBPACK_IMPORTED_MODULE_7___default().any) : function (propValue, key, componentName, location, propFullName, secret) {
       var value = propValue[key];
-      return prop_types__WEBPACK_IMPORTED_MODULE_6___default().instanceOf(value && 'ownerDocument' in value ? value.ownerDocument.defaultView.Element : Element)(propValue, key, componentName, location, propFullName, secret);
+      return prop_types__WEBPACK_IMPORTED_MODULE_7___default().instanceOf(value && 'ownerDocument' in value ? value.ownerDocument.defaultView.Element : Element)(propValue, key, componentName, location, propFullName, secret);
     }
   }),
 
@@ -60394,12 +60406,12 @@ Transition.propTypes =  true ? {
    * </Transition>
    * ```
    */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_6___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_6___default().func.isRequired), (prop_types__WEBPACK_IMPORTED_MODULE_6___default().element.isRequired)]).isRequired,
+  children: prop_types__WEBPACK_IMPORTED_MODULE_7___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_7___default().func.isRequired), (prop_types__WEBPACK_IMPORTED_MODULE_7___default().element.isRequired)]).isRequired,
 
   /**
    * Show the component; triggers the enter or exit states
    */
-  in: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  in: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * By default the child component is mounted immediately along with
@@ -60407,13 +60419,13 @@ Transition.propTypes =  true ? {
    * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
    * mounted, even on "exited", unless you also specify `unmountOnExit`.
    */
-  mountOnEnter: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  mountOnEnter: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * By default the child component stays mounted after it reaches the `'exited'` state.
    * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
    */
-  unmountOnExit: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  unmountOnExit: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * By default the child component does not perform the enter transition when
@@ -60426,17 +60438,17 @@ Transition.propTypes =  true ? {
    * > additional `.appear-*` classes, that way you can choose to style it
    * > differently.
    */
-  appear: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  appear: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * Enable or disable enter transitions.
    */
-  enter: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * Enable or disable exit transitions.
    */
-  exit: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
 
   /**
    * The duration of the transition, in milliseconds.
@@ -60465,7 +60477,7 @@ Transition.propTypes =  true ? {
    * @type {number | { enter?: number, exit?: number, appear?: number }}
    */
   timeout: function timeout(props) {
-    var pt = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_7__.timeoutsShape;
+    var pt = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_8__.timeoutsShape;
     if (!props.addEndListener) pt = pt.isRequired;
 
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -60489,7 +60501,7 @@ Transition.propTypes =  true ? {
    * }}
    * ```
    */
-  addEndListener: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  addEndListener: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired before the "entering" status is applied. An extra parameter
@@ -60499,7 +60511,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement, isAppearing: bool) -> void
    */
-  onEnter: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  onEnter: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired after the "entering" status is applied. An extra parameter
@@ -60509,7 +60521,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement, isAppearing: bool)
    */
-  onEntering: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  onEntering: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired after the "entered" status is applied. An extra parameter
@@ -60519,7 +60531,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement, isAppearing: bool) -> void
    */
-  onEntered: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  onEntered: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired before the "exiting" status is applied.
@@ -60528,7 +60540,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement) -> void
    */
-  onExit: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  onExit: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired after the "exiting" status is applied.
@@ -60537,7 +60549,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement) -> void
    */
-  onExiting: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
+  onExiting: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func),
 
   /**
    * Callback fired after the "exited" status is applied.
@@ -60546,7 +60558,7 @@ Transition.propTypes =  true ? {
    *
    * @type Function(node: HtmlElement) -> void
    */
-  onExited: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func)
+  onExited: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func)
 } : 0; // Name the function so it is clearer in the documentation
 
 function noop() {}
@@ -60640,6 +60652,23 @@ var classNamesShape =  true ? prop_types__WEBPACK_IMPORTED_MODULE_0___default().
   exitDone: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
   exitActive: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string)
 })]) : 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/utils/reflow.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/utils/reflow.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "forceReflow": () => (/* binding */ forceReflow)
+/* harmony export */ });
+var forceReflow = function forceReflow(node) {
+  return node.scrollTop;
+};
 
 /***/ }),
 
