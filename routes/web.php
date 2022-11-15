@@ -16,6 +16,4 @@ Route::get('{path?}', function () {
     return view('welcome');
 })->where('path', '[a-zA-Z0-9-/]+');
 
-Route::get('/admin', function () {
-    return view('welcomeAdmin');
-});
+

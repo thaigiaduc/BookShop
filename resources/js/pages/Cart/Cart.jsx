@@ -185,7 +185,7 @@ function Cart(){
                                 <Row key={index}>
                                     <Col xs={12} md={12} lg={5}>
                                         <div className="cart__booktitle d-flex">
-                                            <img onClick={() => handleClick(item.book)} style={{width:150}} className="cart__image" src={item.book.book_cover_photo ? Image[item.book.book_cover_photo]: Image['bookDefault']} alt="book" />
+                                            <img onClick={() => handleClick(item.book)} style={{width:150}} className="cart__image" src={item.book.book_cover_photo ? Image[item.book.book_cover_photo]: Image['defaultBook']} alt="book" />
                                             <div className='ms-3 d-flex justify-content-center flex-column'>
                                                 <h6>{item.book.book_title}</h6>
                                                 <p>{item.book.book_author_name}</p>

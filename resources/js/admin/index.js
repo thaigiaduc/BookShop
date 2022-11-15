@@ -14,12 +14,13 @@ import Header from './components/layout/Header/Header';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
 import {Routes, Route } from 'react-router-dom';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 // JS: window.location.pathname ex: /, /shop, /about
 const pathname = window.location.pathname;
 
-function App() {
+function Admin() {
   return (
+    
       <div className="d-flex flex-column m-height-100">
       
         <Header />
@@ -43,4 +44,4 @@ function App() {
   );
 }
 
-export default App;
+export default Admin;
