@@ -18,6 +18,12 @@ const serviceForShop = {
         const url = "/api/author";
         return api.get(url);
     },
+
+
+    getPublisher: () => {
+        const url = "/api/publisher";
+        return api.get(url);
+    },
 }
 
 export default serviceForShop;

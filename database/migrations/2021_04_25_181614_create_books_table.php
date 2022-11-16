@@ -17,8 +17,10 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('category');
             $table->foreignId('author_id')->constrained('author');
+            $table->foreignId('publisher_id')->constrained('publisher');
             $table->tinyText('book_title');
             $table->text('book_summary');
+            $table->unsignedTinyInteger('quantity')->default(25);
             $table->decimal('book_price', 5, 2, true);
             $table->string('book_cover_photo', 20)->nullable();
         });
