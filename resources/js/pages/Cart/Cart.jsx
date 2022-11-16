@@ -93,8 +93,8 @@ function Cart(){
                 const order = async () => {
                     try {
                         const response = await serviceForCart.createOrder({itemOrder: itemOrder});
-                        sessionStorage.removeItem('item_cart');
-                        setCart([]);
+                        // sessionStorage.removeItem('item_cart');
+                        // setCart([]);
                         toast.success("Success", {
                             position: "top-right",
                             autoClose: 10000,
@@ -107,34 +107,43 @@ function Cart(){
                           setTimeout(function(){
                             window.location.reload();
                          }, 10000);
+                        console.log(response);
                     } catch (error) {
                         if(error.response.status === 422){
+                            console.log(error.response);
                             let listIdBook = [];
                             if(error.response.data.errors.book_id){
                                 error.response.data.errors.book_id.forEach((item) => {
                                     if(item[0].includes('book_id')){
                                         const itemId = item[0].split(".")[1];
-                                        // console.log(itemId);
+                                        // 
                                         listIdBook.push(itemId);
                                     }
                                 });
+
+                            }
+                            else {
+                                        const itemId = error.response.data.errors.split(".")[1];
+                                        listIdBook.push(itemId);
+                                        console.log(itemId);
                             }
                             // console.log(error.response);
                             if(listIdBook){
                                 listIdBook.map((id)=>{
                                      removebook(id);
                                 })
+                                toast.error("error", {
+                                    position: "top-right",
+                                    autoClose: 10000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: false,
+                                    draggable: true,
+                                    progress: undefined,
+                                  });
+                            }
                              }
-                             toast.error("Has undefined book in your cart", {
-                                position: "top-right",
-                                autoClose: 10000,
-                                hideProgressBar: false,
-                                closeOnClick: true,
-                                pauseOnHover: false,
-                                draggable: true,
-                                progress: undefined,
-                              });
-                        }
+                             
                     }
                 }
                 order();

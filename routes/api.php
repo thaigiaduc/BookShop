@@ -27,6 +27,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
+    Route::get('/order',[OrderController::class,'showOrder']);
+    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
 });
 
     //login routing

@@ -12767,7 +12767,7 @@ function Cart() {
 
           var order = /*#__PURE__*/function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-              var response, listIdBook;
+              var response, listIdBook, itemId;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
@@ -12780,8 +12780,8 @@ function Cart() {
 
                     case 3:
                       response = _context.sent;
-                      sessionStorage.removeItem('item_cart');
-                      setCart([]);
+                      // sessionStorage.removeItem('item_cart');
+                      // setCart([]);
                       react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.success("Success", {
                         position: "top-right",
                         autoClose: 10000,
@@ -12794,24 +12794,30 @@ function Cart() {
                       setTimeout(function () {
                         window.location.reload();
                       }, 10000);
-                      _context.next = 13;
+                      console.log(response);
+                      _context.next = 12;
                       break;
 
-                    case 10:
-                      _context.prev = 10;
+                    case 9:
+                      _context.prev = 9;
                       _context.t0 = _context["catch"](0);
 
                       if (_context.t0.response.status === 422) {
+                        console.log(_context.t0.response);
                         listIdBook = [];
 
                         if (_context.t0.response.data.errors.book_id) {
                           _context.t0.response.data.errors.book_id.forEach(function (item) {
                             if (item[0].includes('book_id')) {
-                              var itemId = item[0].split(".")[1]; // console.log(itemId);
+                              var itemId = item[0].split(".")[1]; // 
 
                               listIdBook.push(itemId);
                             }
                           });
+                        } else {
+                          itemId = _context.t0.response.data.errors.split(".")[1];
+                          listIdBook.push(itemId);
+                          console.log(itemId);
                         } // console.log(error.response);
 
 
@@ -12819,25 +12825,24 @@ function Cart() {
                           listIdBook.map(function (id) {
                             removebook(id);
                           });
+                          react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("error", {
+                            position: "top-right",
+                            autoClose: 10000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            draggable: true,
+                            progress: undefined
+                          });
                         }
-
-                        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Has undefined book in your cart", {
-                          position: "top-right",
-                          autoClose: 10000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: false,
-                          draggable: true,
-                          progress: undefined
-                        });
                       }
 
-                    case 13:
+                    case 12:
                     case "end":
                       return _context.stop();
                   }
                 }
-              }, _callee, null, [[0, 10]]);
+              }, _callee, null, [[0, 9]]);
             }));
 
             return function order() {
