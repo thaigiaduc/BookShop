@@ -104,8 +104,11 @@ class BookRepository
     // admin -----------------------------------------------------------------------------------------------
     public function showBook() 
     {
-        $books = Book::orderBy('id','desc');
-        return $books->paginate(15);
+        $books = Book::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->orderBy('id','asc');
+        return $books->get();
     }
 
     // thêm sách mới

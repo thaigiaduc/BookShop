@@ -21,7 +21,8 @@ function App() {
   // sessionStorage.setItem('test');
   // const test = sessionStorage.getItem('test');
   const location = useLocation();
-  const test = location.pathname;
+  const test = window.location.href;
+  
   const RouteClient = () => {
     return (
       <>
@@ -53,7 +54,7 @@ function App() {
   return (
       <div className="d-flex flex-column m-height-100"> 
         {
-          test == "/admin" ? <RouteAdmin /> : <RouteClient />
+          test.indexOf('admin', 0) != -1 ? <RouteAdmin /> : <RouteClient />
         }
       </div>
   );

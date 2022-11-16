@@ -50,3 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/review',[ReviewController::class,'getReviewByBook']);
     Route::post('/review/create',[ReviewController::class,'createReview']);
     Route::get('/review/rating', [ReviewController::class, 'getRating']);
+
+    // admin ----------------------------------------------------------------------------------------
+    // Manage book routing
+    Route::get('/admin/ManageBook',[BookController::class,'showBookAdmin']);
