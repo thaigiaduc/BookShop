@@ -5,23 +5,49 @@ import {Link} from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import servicesForManageBook from '../../../Services/servicesForManageBook';
-import { Table, Image, Modal } from 'antd';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { 
+    Table, 
+    Image, 
+    Modal, 
+    Form,
+    Input,
+    Button,
+    Radio,
+    Select,
+    Cascader,
+    DatePicker,
+    InputNumber,
+    TreeSelect,
+    Switch,
+    Checkbox,
+    Upload, } from 'antd';
+import { Container, Row, Col } from 'react-bootstrap';
 import {
     SettingOutlined,
     CloseOutlined,
-  } from '@ant-design/icons';
-
+    PlusOutlined,
+} from '@ant-design/icons';
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 const ManageBook = () => {
     const [bookListData, setBookListData] = useState([]);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
+    const [allAuthor, setAllAuthor] = useState([]);
+    const [allCategory, setAllCategory] = useState([]);
+    const [allPublisher, setAllPublisher] = useState([]);
+    const [defaultAuthor, setDefaultAuthor] = useState("");
+    const [defaultCategory, setDefaultCategory] = useState("");
+    const [defaultPublisher, setDefaultPublisher] = useState("");
     const [modalText, setModalText] = useState('Content of the modal');
+    const [componentDisabled, setComponentDisabled] = useState(false);
+    const onFormLayoutChange = ({ disabled }) => {
+        setComponentDisabled(disabled);
+    };
     const showModal = () => {
         setOpen(true);
     };
     const handleOk = () => {
-        setModalText('The modal will be closed after two seconds');
         setConfirmLoading(true);
         setTimeout(() => {
         setOpen(false);
@@ -35,7 +61,16 @@ const ManageBook = () => {
     useEffect(() => {
         const fetchProductList = async () => {
             const bookList = await servicesForManageBook.getBookAdmin();
+            const resultAuthors = await servicesForManageBook.getAuthor();
+            const resultCategories = await servicesForManageBook.getCategory();
+            const resultPublishers = await servicesForManageBook.getPublisher();
             setBookListData(bookList);
+            setAllAuthor(resultAuthors.data);
+            setAllCategory(resultCategories.data);
+            setAllPublisher(resultPublishers.data);
+            setDefaultAuthor(resultAuthors.data[0].author_name);
+            setDefaultCategory(resultCategories.data[0].category_name);
+            setDefaultPublisher(resultPublishers.data[0].publisher_name);
         };
       fetchProductList();
     }, []);
@@ -198,8 +233,12 @@ const ManageBook = () => {
                 width={200}
                 src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
             />,   
-            update: <SettingOutlined />,
-            delete: <CloseOutlined />,
+            update: 
+                <Button type="text" icon={<SettingOutlined />}>
+                </Button>,
+            delete: 
+                <Button type="text" icon={<CloseOutlined />}>
+                </Button>,
         }
         data.push(dataItem);
     }); 
@@ -208,6 +247,8 @@ const ManageBook = () => {
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
+
+    
     return (
       <Container fluid>
         <Row>
@@ -215,15 +256,87 @@ const ManageBook = () => {
                 <h2>Manage Book</h2>
             </Col>
             <Col xs lg={2}>
-                <Button variant="secondary" onClick={showModal}>Create new Book</Button>
+                <Button color="secondary" onClick={showModal}>Create new Book</Button>
                 <Modal
-                    title="Title"
-                    open={open}
-                    onOk={handleOk}
+                    title="Create New Book"
+                    open={open}               
+                    footer={null}
                     confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
                 >
-                    <p>{modalText}</p>
+                    <Form
+                        labelCol={{
+                            span: 8,
+                          }}
+                          wrapperCol={{
+                            span: 14,
+                          }}
+                          layout="horizontal"
+                          onValuesChange={onFormLayoutChange}
+                          disabled={componentDisabled}
+                    >
+                        <Form.Item label="Book_title">
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item label="Book_summary">
+                            <TextArea rows={3} />
+                        </Form.Item>
+
+                        <Form.Item label="Quantity">
+                            <InputNumber min={1} max={50} defaultValue={1} />
+                        </Form.Item>
+
+                        <Form.Item label="Book_price">
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item label="Author">
+                            <Select defaultValue={defaultAuthor}>
+                            {
+                                allAuthor.map((item,index) => (                                
+                                    <Select.Option key={index} value={item.author_name}>{item.author_name}</Select.Option>  
+                                ))
+                            }
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label="Category">
+                            <Select defaultValue={defaultCategory}>
+                            {
+                                allCategory.map((item,index) => (                                
+                                    <Select.Option key={index} value={item.category_name}>{item.category_name}</Select.Option>  
+                                ))
+                            }
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label="Publisher">
+                            <Select defaultValue={defaultPublisher}>
+                            {
+                                allPublisher.map((item,index) => (                                
+                                    <Select.Option key={index} value={item.publisher_name}>{item.publisher_name}</Select.Option>  
+                                ))
+                            }
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label="Book_cover_photo" valuePropName="fileList">
+                            <Upload action="/upload.do" listType="picture-card">
+                                <div>
+                                <PlusOutlined />
+                                <div
+                                    style={{
+                                    marginTop: 8,
+                                    }}
+                                >
+                                    Upload
+                                </div>
+                                </div>
+                            </Upload>
+                        </Form.Item>
+                        <Button type="primary" onClick={handleCancel}>Cancle</Button>
+                        <Button type="submit" >Submit</Button>
+                    </Form>
                 </Modal>
             </Col>
         </Row>

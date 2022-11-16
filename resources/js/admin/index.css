@@ -14,6 +14,10 @@ code {
 
 @import '~antd/dist/antd.css';
 
+#contentAdmin {
+  width: auto;
+}
+
 .trigger {
   padding: 0 24px;
   font-size: 18px;

@@ -68,7 +68,7 @@ function Admin() {
     };
     
   return (
-    <Layout>
+    <Layout >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu
@@ -128,7 +128,7 @@ function Admin() {
           ]}
         />
       </Sider>
-      <Layout className="site-layout" style={{padding: "60px 20px 0px 20px"}}>
+      <Layout id="contentAdmin" className="site-layout" style={{padding: "60px 20px 0px 20px"}}>
         <Header
           className="site-layout-background"
           style={{

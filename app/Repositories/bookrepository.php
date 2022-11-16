@@ -121,6 +121,7 @@ class BookRepository
         $books = Book::create([
             'category_id' => $request->category_id,
             'author_id' => $request->author_id,
+            'publisher_id' => $request->publisher_id,
             'book_title' => $request->book_title,
             'book_summary' => $request->book_summary,
             'book_price' => $request->book_price,
