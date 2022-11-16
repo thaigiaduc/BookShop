@@ -84,7 +84,13 @@ const ManageBook = () => {
             dataIndex: 'author',
           //   defaultSortOrder: 'descend',
           //   sorter: (a, b) => a.age - b.age,
-          },
+        },
+        {
+            title: 'Publisher',
+            dataIndex: 'publisher',
+          //   defaultSortOrder: 'descend',
+          //   sorter: (a, b) => a.age - b.age,
+        },
         {
             title: 'Book_title',
             dataIndex: 'book_title',
@@ -183,6 +189,7 @@ const ManageBook = () => {
             id: book.id,
             category: book.category_name,
             author: book.author_name,
+            publisher: book.publisher_name,
             book_title: book.book_title,
             book_summary: book.book_summary,
             book_price: book.book_price,
