@@ -12535,9 +12535,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Error404() {
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    document.title = "Bookworm - 404";
-  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     className: "bookworm__404",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
