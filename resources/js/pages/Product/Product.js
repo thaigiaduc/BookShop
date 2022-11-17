@@ -13,7 +13,7 @@ const Product = () =>{
     const {id} = useParams();
     const [bookDetail, setBookDetail] = useState([]);
     const [quantity, setQuantity] = useState(1);
-    
+    const [showAddToCart,setShowAddToCart] = useState(true);    
     const [minMaxQuantity,setminMaxQuantity] = useState({
         min: 1,
         max: 8,
@@ -52,7 +52,8 @@ const Product = () =>{
             max: bookDetail['quantity'],
           })
         
-      
+      if(bookDetail.quantity>0)setShowAddToCart(true);
+      else setShowAddToCart(false);
       setBookDetail(bookDetail);
     }
     fetchBookDetail();
@@ -171,9 +172,16 @@ const Product = () =>{
                             <button className="detail__card__body__quantity__button" onClick={() => setQuantity(quantity + 1)}>+</button>
                         )}
                     </div>
-                    <div className="detail__card__body__addtocart">
-                        <button onClick={() => handleAddToCart()}>Add to cart</button>
-                    </div>
+                        {showAddToCart ?
+                        (
+                            <div className="detail__card__body__addtocart">
+                            <button onClick={() => handleAddToCart()}>Add to cart</button>
+                            </div>
+                        ) : (
+                            <div className="detail__card__body__addtocart">
+                            <button>Sold Out</button>
+                            </div>
+                        ) }
                 </Card.Body>
             </Card>
           </Col>
