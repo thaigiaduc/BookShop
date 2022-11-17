@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\Book;
 class StoreOrderRequest extends FormRequest
 {
     /**
@@ -22,11 +22,12 @@ class StoreOrderRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    {
+    {   
+
         return [
             'itemOrder' => 'required|array',
             'itemOrder.*.book_id' => 'required|integer|exists:book,id',
-            'itemOrder.*.quantity' => 'required|integer|between:1,8',
+            'itemOrder.*.quantity' => 'required|integer',
         ];
     }
     public function failedValidation($validator)

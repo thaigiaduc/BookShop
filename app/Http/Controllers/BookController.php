@@ -36,4 +36,11 @@ class BookController extends Controller
         $res = $this->bookrepo->getHomeBookByPopular();
         return response()->json($res,200);
     }
+
+    // admin -----------------------------------------------
+    public function showBookAdmin()
+    {
+        $res = $this->bookrepo->showBook();
+        return response()->json($res,200);
+    }
 }   

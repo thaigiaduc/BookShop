@@ -9,8 +9,8 @@ header {
 .activeClass {
     border-bottom: 1px solid black;
     color: black;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
     list-style: none;
-    padding: 2px;
     text-decoration: none;
     transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;
 }

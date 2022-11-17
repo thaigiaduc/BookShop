@@ -5,7 +5,7 @@ import './index.css';
 import App from './index.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {HashRouter} from 'react-router-dom';
-
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
   <React.StrictMode>

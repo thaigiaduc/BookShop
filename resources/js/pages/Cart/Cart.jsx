@@ -38,7 +38,7 @@ function Cart(){
   const handleAddQuantity = (id) => {
     cart.map((item)=>{
       if(item.id==id){
-          if(item.quantity<8)item.quantity++;
+          if(item.quantity<item.book.quantity)item.quantity++;
           sessionStorage.setItem("item_cart",JSON.stringify(cart));
           
       }
@@ -93,8 +93,8 @@ function Cart(){
                 const order = async () => {
                     try {
                         const response = await serviceForCart.createOrder({itemOrder: itemOrder});
-                        sessionStorage.removeItem('item_cart');
-                        setCart([]);
+                        // sessionStorage.removeItem('item_cart');
+                        // setCart([]);
                         toast.success("Success", {
                             position: "top-right",
                             autoClose: 10000,
@@ -107,34 +107,43 @@ function Cart(){
                           setTimeout(function(){
                             window.location.reload();
                          }, 10000);
+                        console.log(response);
                     } catch (error) {
                         if(error.response.status === 422){
+                            console.log(error.response);
                             let listIdBook = [];
                             if(error.response.data.errors.book_id){
                                 error.response.data.errors.book_id.forEach((item) => {
                                     if(item[0].includes('book_id')){
                                         const itemId = item[0].split(".")[1];
-                                        // console.log(itemId);
+                                        // 
                                         listIdBook.push(itemId);
                                     }
                                 });
+
+                            }
+                            else {
+                                        const itemId = error.response.data.errors.split(".")[1];
+                                        listIdBook.push(itemId);
+                                        console.log(itemId);
                             }
                             // console.log(error.response);
                             if(listIdBook){
                                 listIdBook.map((id)=>{
                                      removebook(id);
                                 })
+                                toast.error("error", {
+                                    position: "top-right",
+                                    autoClose: 10000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: false,
+                                    draggable: true,
+                                    progress: undefined,
+                                  });
+                            }
                              }
-                             toast.error("Has undefined book in your cart", {
-                                position: "top-right",
-                                autoClose: 10000,
-                                hideProgressBar: false,
-                                closeOnClick: true,
-                                pauseOnHover: false,
-                                draggable: true,
-                                progress: undefined,
-                              });
-                        }
+                             
                     }
                 }
                 order();
@@ -185,7 +194,7 @@ function Cart(){
                                 <Row key={index}>
                                     <Col xs={12} md={12} lg={5}>
                                         <div className="cart__booktitle d-flex">
-                                            <img onClick={() => handleClick(item.book)} style={{width:150}} className="cart__image" src={item.book.book_cover_photo ? Image[item.book.book_cover_photo]: Image['bookDefault']} alt="book" />
+                                            <img onClick={() => handleClick(item.book)} style={{width:150}} className="cart__image" src={item.book.book_cover_photo ? Image[item.book.book_cover_photo]: Image['defaultBook']} alt="book" />
                                             <div className='ms-3 d-flex justify-content-center flex-column'>
                                                 <h6>{item.book.book_title}</h6>
                                                 <p>{item.book.book_author_name}</p>

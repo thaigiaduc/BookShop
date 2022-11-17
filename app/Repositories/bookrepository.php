@@ -29,6 +29,9 @@ class BookRepository
                 ->when($request->has('category'),function($listing) use($request){
                         return $listing->where('category_id', $request->category);
                 })
+                ->when($request->has('publisher'),function($listing) use($request){
+                    return $listing->where('publisher_id', $request->publisher);
+                })
                 ->when($request->has('rating'),function($listing)use($request){
                         return $listing->havingraw('avg(rating_start)>='.$request->rating);      
                 });
@@ -104,8 +107,12 @@ class BookRepository
     // admin -----------------------------------------------------------------------------------------------
     public function showBook() 
     {
-        $books = Book::orderBy('id','desc');
-        return $books->paginate(15);
+        $books = Book::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+        ->orderBy('id','asc');
+        return $books->get();
     }
 
     // thêm sách mới
@@ -114,6 +121,7 @@ class BookRepository
         $books = Book::create([
             'category_id' => $request->category_id,
             'author_id' => $request->author_id,
+            'publisher_id' => $request->publisher_id,
             'book_title' => $request->book_title,
             'book_summary' => $request->book_summary,
             'book_price' => $request->book_price,

@@ -4,6 +4,10 @@ import Login from "../../../pages/Login/Login";
 import serviceForLogin from "../../../Services/serviceForLogin";
 import {useEffect, useState} from 'react';
 import {NavDropdown} from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
 function Header(){
     const [isLogin, setIsLogin] = useState(false);
     const [fullname, setFullname] = useState('');
@@ -35,53 +39,43 @@ function Header(){
         }
         signOut();
     }
-    return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top px-5">
-            <Link className="navbar-brand" to="/">Logo</Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
+    return (
+        <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Container fluid>
+                <NavLink className="navbar-brand" to="/">Logo</NavLink>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                    <NavLink className={({ isActive }) =>
+                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
+                    } to="/">Home</NavLink>
 
-            <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-                <ul className="navbar-nav">
-                    <li className="nav-item active">
-                        <NavLink className={({ isActive }) =>
+                    <NavLink className={({ isActive }) =>
                         isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
-                        } to="/">Home</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={({ isActive }) =>
+                    } to="/shop">Shop</NavLink>
+
+                    <NavLink className={({ isActive }) =>
                         isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
-                        } to="/shop">Shop</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={({ isActive }) =>
+                    } to="/about">About</NavLink>
+
+                    <NavLink className={({ isActive }) =>
                         isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
-                        } to="/about">About</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={({ isActive }) =>
-                        isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link'
-                        } to="/cart">Cart({cartAmount})</NavLink>
-                    </li>
-                    <li className="nav-item">
+                    } to="/cart">Cart({cartAmount})</NavLink>
+
                     {
-                                isLogin ?
-                                <>
-                                    <NavDropdown title={fullname} id="collasible-nav-dropdown">
-                                        <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>
-                                    </NavDropdown>
-                                </>
-                                :
-                                <NavLink className="nav-link"><Login  text={'SignIn'}/></NavLink>
+                        isLogin ?
+                        <>
+                            <NavDropdown title={fullname} id="collasible-nav-dropdown">
+                                <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </>
+                            :
+                            <NavLink className="nav-link"><Login text={'SignIn'}/></NavLink>
                     }
-                       
-                    </li>
-
-                </ul>
-
-            </div>
-        </nav>
+                </Nav>         
+                </Navbar.Collapse>
+            </Container>
+        </Navbar> 
     );
 }
 

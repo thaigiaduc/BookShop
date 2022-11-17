@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\PublisherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
+    Route::get('/order',[OrderController::class,'showOrder']);
+    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
 });
 
     //login routing
@@ -45,8 +48,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // category routing
     Route::get('/category',[CategoryController::class,'index']);
 
+    // publisher routing
+    Route::get('/publisher',[PublisherController::class,'getPublisher']);
 
     // review routing
     Route::get('/review',[ReviewController::class,'getReviewByBook']);
     Route::post('/review/create',[ReviewController::class,'createReview']);
     Route::get('/review/rating', [ReviewController::class, 'getRating']);
+
+    // admin ----------------------------------------------------------------------------------------
+    // Manage book routing
+    Route::get('/admin/ManageBook',[BookController::class,'showBookAdmin']);
