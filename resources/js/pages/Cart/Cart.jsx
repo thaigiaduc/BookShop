@@ -84,6 +84,7 @@ function Cart(){
         }else{
             let confirm = window.confirm("Are you sure to place order?");
             if(confirm){
+
                 const itemOrder = cart.map((item) => {
                     return {
                         book_id: item.id,
@@ -92,9 +93,10 @@ function Cart(){
                 });
                 const order = async () => {
                     try {
+
                         const response = await serviceForCart.createOrder({itemOrder: itemOrder});
-                        // sessionStorage.removeItem('item_cart');
-                        // setCart([]);
+                        sessionStorage.removeItem('item_cart');
+                        setCart([]);
                         toast.success("Success", {
                             position: "top-right",
                             autoClose: 10000,

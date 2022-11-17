@@ -13,6 +13,7 @@ class BookRepository
 
 
                 $listing = Book::select('book.*')
+                ->where('quantity','>',0)
                 ->leftjoin('discount','book.id','=','discount.book_id')
                 ->leftjoin('review','book.id','=','review.book_id')
                 ->groupBy('book.id','discount.discount_price',
