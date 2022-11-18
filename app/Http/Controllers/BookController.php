@@ -43,4 +43,10 @@ class BookController extends Controller
         $res = $this->bookrepo->showBook();
         return response()->json($res,200);
     }
+
+    public function insertBookAdmin(Request $request)
+    {
+        $res = $this->bookrepo->insertBook($request);
+        return response()->json($res,200);
+    }
 }   

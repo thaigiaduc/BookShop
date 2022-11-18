@@ -115,9 +115,28 @@ class BookRepository
         return $books->get();
     }
 
+    // public showBookById()
+    // {
+    //     $books::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name')
+    //     ->leftJoin('category','book.category_id','=','category.id')
+    //     ->leftJoin('author','book.author_id','=','author.id')
+    //     ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+    //     ->where('id',$id)
+    // }
     // thêm sách mới
-    public function insertBook(BookRequest $request)
+    public function insertBook(Request $request)
     {
+        if($request->category_id == null) {
+            $request->category_id = 1;
+        }
+
+        if($request->author_id == null) {
+            $request->author_id = 1;
+        }
+
+        if($request->publisher_id == null) {
+            $request->publisher_id = 1;
+        }
         $books = Book::create([
             'category_id' => $request->category_id,
             'author_id' => $request->author_id,
@@ -142,7 +161,6 @@ class BookRepository
             'book_price' => $request->book_price,
             'book_cover_photo' => $request->book_cover_photo
         ]);
-
         return $books;
     }
 

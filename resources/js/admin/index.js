@@ -158,8 +158,8 @@ function Admin() {
           }}
         >
           <Routes>
-            {/* <Route index path="admin" element={<HomePage />} /> */}
-            <Route index path="/" element={<ManageBook />} />
+            <Route index path="/" element={<HomePage />} />
+            {/* <Route index path="/" element={<ManageBook />} /> */}
             {/* <Route path="shop">
                       <Route path=":id" element={<Product />} />
                       <Route index element={<Shop />} />

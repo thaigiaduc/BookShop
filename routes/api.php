@@ -59,3 +59,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // admin ----------------------------------------------------------------------------------------
     // Manage book routing
     Route::get('/admin/ManageBook',[BookController::class,'showBookAdmin']);
+    Route::post('/admin/ManageBook/create',[BookController::class,'insertBookAdmin']);
+
+    // Manage author routing
+    Route::get('/admin/ManageAuthor', [AuthorController::class,'getAuthorAdmin']);
+    Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
+    // Manage category routing
+    Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
+    Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);

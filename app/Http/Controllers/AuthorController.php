@@ -17,18 +17,6 @@ class AuthorController extends Controller
         $this->authorRepo = $authorRepo;
     }
 
-
-    // public function getAuthorByBook($book_id){
-    //     try {
-    //         $authorres = $this->authorRepo->getAuthorByBook($book_id);
-    //         return response()->json(new AuthorResource($authorres),200);
-    //     } catch (\Exception $e) {
-    //         return response()->json('Uncessfully',500);
-    //     }
-        
-    // }
-
-
     public function getAuthor(){
         try {
             $authorres = $this->authorRepo->index();
@@ -38,7 +26,24 @@ class AuthorController extends Controller
         }
     }
 
+    // admin ---------------------------------------------------------------------------------
+    public function getAuthorAdmin()
+    {
+        try {
+            $authors = $this->authorRepo->showAuthor();
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 
-  
-
+    public function insertAuthorAdmin(Request $request)
+    {
+        try {
+            $authors = $this->authorRepo->insertAuthor($request);
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

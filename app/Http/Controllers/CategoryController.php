@@ -15,12 +15,33 @@ class CategoryController extends Controller
         $this->categoryRepo = $categoryRepo;
     }
 
-    function index(){
+    public function index(){
         try {
             $cateRes = $this->categoryRepo->index();
             return response()->json(new categoryCollection($cateRes),200);
         } catch (\Exception $e) {
             return response()->json('Uncessfully',500);
+        }
+    }
+
+    //admin ------------------------------------------------------------------------------
+    public function getCategoryAdmin()
+    {
+        try {
+            $cate = $this->categoryRepo->showCategory();
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function insertCategoryAdmin(Request $request)
+    {
+        try {
+            $cate = $this->categoryRepo->insertCategory($request);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
         }
     }
 }

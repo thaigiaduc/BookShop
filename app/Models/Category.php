@@ -9,7 +9,14 @@ class Category extends Model
     use HasFactory;
 
     public $timestamps = false;
-
     protected $table = 'category';
+    protected $fillable = [
+        'category_name',
+        'category_desc',
+    ];
 
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
 }
