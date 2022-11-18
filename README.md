@@ -2,7 +2,11 @@
 Project by Team 14
 - Backend by php, laravel framework
 - Frontend by reactjs
-
+How to use
+- clone code về, sửa file .env.example thành .env và sửa database, xài gì thì sửa đó, composer install để cài đặt file vendor, npm install.
+- Dùng lệnh php artisan migrate:seeder để tạo các table, sau đó dùng lệnh php artisan db:seed để thêm data cho các bảng.
+- dùng lệnh php artisan serve để khởi động serve và chạy song song với lệnh npm run watch để mix frontend vào.
+- lên trình duyệt search localhost:8000 để xem.
 ---------------------------------------------------------- laravel ----------------------------------------------------------
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
