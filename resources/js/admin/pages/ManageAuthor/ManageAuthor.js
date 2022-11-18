@@ -262,7 +262,6 @@ const ManageAuthor = () => {
                                 </small> : ""
                             }
                         </Form.Item>
-                        <input required="" type="text" class="form-control" placeholder="Date" onfocus="(this.type='date')"/>
                         <Button type="primary" onClick={handleCancel}>Cancle</Button>
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
                     </Form>
