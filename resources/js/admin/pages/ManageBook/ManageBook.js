@@ -4,6 +4,7 @@ import defaultBookCover from '../../../../assets/bookcover/defaultbook.png';
 import {Link} from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 import servicesForManageBook from '../../../Services/servicesForManageBook';
 import { 
     Table, 
@@ -38,15 +39,25 @@ const ManageBook = () => {
     const [allAuthor, setAllAuthor] = useState([]);
     const [allCategory, setAllCategory] = useState([]);
     const [allPublisher, setAllPublisher] = useState([]);
-    const [defaultAuthor, setDefaultAuthor] = useState("");
-    const [defaultCategory, setDefaultCategory] = useState("");
-    const [defaultPublisher, setDefaultPublisher] = useState("");
-    const [modalText, setModalText] = useState('Content of the modal');
     const [componentDisabled, setComponentDisabled] = useState(false);
+    const [checkCategoryIS, setCheckCategoryIS] = useState(false);
+    const [messageCategoryIS, setMessageCategoryIS] = useState("");
+    const [checkAuthorIS, setCheckAuthorIS] = useState(false);
+    const [messageAuthorIS, setMessageAuthorIS] = useState("");
+    const [checkPublisherIS, setCheckPublisherIS] = useState(false);
+    const [messagePublisherIS, setMessagePublisherIS] = useState("");
+    const [checkBookTitleIS, setCheckBookTitleIS] = useState(false);
+    const [messageBookTitleIS, setMessageBookTitleIS] = useState("");
+    const [checkBookSummaryIS, setCheckBookSummaryIS] = useState(false);
+    const [messageBookSummaryIS, setMessageBookSummaryIS] = useState("");
+    const [checkQuantityIS, setCheckQuantityIS] = useState(false);
+    const [messageQuantityIS, setMessageQuantityIS] = useState("");
+    const [checkBookPriceIS, setCheckBookPriceIS] = useState(false);
+    const [messageBookPriceIS, setMessageBookPriceIS] = useState("");
     const [dataInsert, setDataInsert] = useState({
-        category: "",
-        author: "",
-        publisher: "",
+        category: 1,
+        author: 1,
+        publisher: 1,
         book_title: "",
         book_summary: "",
         quantity: "",
@@ -84,9 +95,6 @@ const ManageBook = () => {
             setAllAuthor(resultAuthors.data);
             setAllCategory(resultCategories.data);
             setAllPublisher(resultPublishers.data);
-            setDefaultAuthor(resultAuthors.data[0].author_name);
-            setDefaultCategory(resultCategories.data[0].category_name);
-            setDefaultPublisher(resultPublishers.data[0].publisher_name);
         };
       fetchProductList();
     }, []);
@@ -282,8 +290,61 @@ const ManageBook = () => {
                 if(c.status_code !== 422) {
                     alert('success');
                 } else {
-                    alert('failed');
+                    if(typeof c.data.category_id !== "undefined") {
+                        setCheckCategoryIS(true);
+                        setMessageCategoryIS(c.data.category_id[0]);        
+                    } else {
+                        setCheckCategoryIS(false);
+                        setMessageCategoryIS("");     
+                    }
+
+                    if(typeof c.data.author_id !== "undefined") {
+                        setCheckAuthorIS(true);
+                        setMessageAuthorIS(c.data.author_id[0]); 
+                    } else {
+                        setCheckCategoryIS(false);
+                        setMessageCategoryIS(""); 
+                    }
+
+                    if(typeof c.data.publisher_id !== "undefined") {
+                        setCheckPublisherIS(true);
+                        setMessagePublisherIS(c.data.publisher_id[0]);        
+                    } else {
+                        setCheckPublisherIS(false);
+                        setMessagePublisherIS(""); 
+                    }
                     
+                    if(typeof c.data.book_title !== "undefined") {
+                        setCheckBookTitleIS(true);
+                        setMessageBookTitleIS(c.data.book_title[0]);        
+                    } else {
+                        setCheckBookTitleIS(false);
+                        setMessageBookTitleIS("");     
+                    }
+
+                    if(typeof c.data.book_summary !== "undefined") {
+                        setCheckBookSummaryIS(true);
+                        setMessageBookSummaryIS(c.data.book_summary[0]);        
+                    } else {
+                        setCheckBookSummaryIS(false);
+                        setMessageBookSummaryIS("");     
+                    }
+
+                    if(typeof c.data.quantity !== "undefined") {
+                        setCheckQuantityIS(true);
+                        setMessageQuantityIS(c.data.quantity[0]);        
+                    } else {
+                        setCheckQuantityIS(false);
+                        setMessageQuantityIS("");     
+                    }
+
+                    if(typeof c.data.book_price !== "undefined") {
+                        setCheckBookPriceIS(true);
+                        setMessageBookPriceIS(c.data.book_price[0]);        
+                    } else {
+                        setCheckBookPriceIS(false);
+                        setMessageBookPriceIS("");     
+                    }
                 }        
             } catch (error) {
                 console.log(error);
@@ -353,18 +414,49 @@ const ManageBook = () => {
                     >
                         <Form.Item label="Book_title">
                             <Input id="book_title" onChange={(e) => handle(e)} value={dataInsert.book_title} />
+                            {
+                                checkBookTitleIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookTitleIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
-
                         <Form.Item label="Book_summary">
                             <TextArea rows={3} id="book_summary" onChange={(e) => handle(e)} value={dataInsert.book_summary} />
+                            {
+                                checkBookSummaryIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookSummaryIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Quantity">
                             <Input id="quantity" onChange={(e) => handle(e)} value={dataInsert.quantity} />
+                            {
+                                checkQuantityIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageQuantityIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Book_price">
                             <Input id="book_price" onChange={(e) => handle(e)} value={dataInsert.book_price} />
+                            {
+                                checkBookPriceIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookPriceIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Author"> 
@@ -375,6 +467,14 @@ const ManageBook = () => {
                                 ))
                             }                    
                             </select>
+                            {
+                                checkAuthorIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Category"> 
@@ -384,7 +484,15 @@ const ManageBook = () => {
                                     <option key={index} value={item.category_id}>{item.category_name}</option> 
                                 ))
                             }                    
-                            </select>       
+                            </select>  
+                            {
+                                checkCategoryIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageCategoryIS}
+                                    </Alert> 
+                                </small> : ""
+                            }     
                         </Form.Item>
 
                         <Form.Item label="Publisher">
@@ -395,6 +503,14 @@ const ManageBook = () => {
                                 ))
                             }                    
                             </select> 
+                            {
+                                checkPublisherIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messagePublisherIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Book_cover_photo" valuePropName="fileList">

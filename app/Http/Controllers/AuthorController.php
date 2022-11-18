@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\http\Resources\AuthorResource;
 use App\http\Resources\AuthorCollection;
 use App\Repositories\authorRepository;
-
+use App\Http\Requests\StoreAuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -37,7 +37,7 @@ class AuthorController extends Controller
         }
     }
 
-    public function insertAuthorAdmin(Request $request)
+    public function insertAuthorAdmin(StoreAuthorRequest $request)
     {
         try {
             $authors = $this->authorRepo->insertAuthor($request);

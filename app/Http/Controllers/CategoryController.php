@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\categoryRepository;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
+use App\Http\Requests\StoreCategoryRequest;
+
 class CategoryController extends Controller
 {
     protected $categoryRepo;
@@ -35,7 +37,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function insertCategoryAdmin(Request $request)
+    public function insertCategoryAdmin(StoreCategoryRequest $request)
     {
         try {
             $cate = $this->categoryRepo->insertCategory($request);

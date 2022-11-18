@@ -4,6 +4,7 @@ import defaultBookCover from '../../../../assets/bookcover/defaultbook.png';
 import {Link} from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 import servicesForManageAuthor from '../../../Services/servicesForManageAuthor';
 import { 
     Table, 
@@ -41,6 +42,10 @@ const ManageAuthor = () => {
         author_name: "",
         author_bio: "",
     });
+    const [checkAuthorNameIS, setCheckAuthorNameIS] = useState(false);
+    const [messageAuthorNameIS, setMessageAuthorNameIS] = useState("");
+    const [checkAuthorBioIS, setCheckAuthorBioIS] = useState(false);
+    const [messageAuthorBioIS, setMessageAuthorBioIS] = useState("");
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -179,7 +184,21 @@ const ManageAuthor = () => {
                     alert('success');
                     window.location.reload();
                 } else {
-                    alert('failed'); 
+                    if(typeof c.data.author_name !== "undefined") {
+                        setCheckAuthorNameIS(true);
+                        setMessageAuthorNameIS(c.data.author_name[0]);        
+                    } else {
+                        setCheckAuthorNameIS(false);
+                        setMessageAuthorNameIS("");     
+                    }
+
+                    if(typeof c.data.author_bio !== "undefined") {
+                        setCheckAuthorBioIS(true);
+                        setMessageAuthorBioIS(c.data.author_bio[0]);        
+                    } else {
+                        setCheckAuthorBioIS(false);
+                        setMessageAuthorBioIS("");     
+                    }
                 }        
             } catch (error) {
                 console.log(error);
@@ -222,11 +241,28 @@ const ManageAuthor = () => {
                     >
                         <Form.Item label="Author_name">
                             <Input id="author_name" onChange={(e) => handle(e)} value={dataInsert.author_name} />
+                            {
+                                checkAuthorNameIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorNameIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Author_bio">
                             <TextArea rows={3} id="author_bio" onChange={(e) => handle(e)} value={dataInsert.author_bio} />
+                            {
+                                checkAuthorBioIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorBioIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
+                        <input required="" type="text" class="form-control" placeholder="Date" onfocus="(this.type='date')"/>
                         <Button type="primary" onClick={handleCancel}>Cancle</Button>
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
                     </Form>

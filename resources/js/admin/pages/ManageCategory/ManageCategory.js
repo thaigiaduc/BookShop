@@ -4,6 +4,7 @@ import defaultBookCover from '../../../../assets/bookcover/defaultbook.png';
 import {Link} from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 import servicesForManageCategory from '../../../Services/servicesForManageCategory';
 import { 
     Table, 
@@ -41,6 +42,10 @@ const ManageCategory = () => {
         category_name: "",
         category_desc: "",
     });
+    const [checkCategoryNameIS, setCheckCategoryNameIS] = useState(false);
+    const [messageCategoryNameIS, setMessageCategoryNameIS] = useState("");
+    const [checkCategoryDescIS, setCheckCategoryDescIS] = useState(false);
+    const [messageCategoryDescIS, setMessageCategoryDescIS] = useState("");
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -179,7 +184,21 @@ const ManageCategory = () => {
                     alert('success');
                     window.location.reload();
                 } else {
-                    alert('failed');
+                    if(typeof c.data.category_name !== "undefined") {
+                        setCheckCategoryNameIS(true);
+                        setMessageCategoryNameIS(c.data.category_name[0]);        
+                    } else {
+                        setCheckCategoryNameIS(false);
+                        setMessageCategoryNameIS("");     
+                    }
+
+                    if(typeof c.data.category_desc !== "undefined") {
+                        setCheckCategoryDescIS(true);
+                        setMessageCategoryDescIS(c.data.category_desc[0]);        
+                    } else {
+                        setCheckCategoryDescIS(false);
+                        setMessageCategoryDescIS("");     
+                    }
                     
                 }        
             } catch (error) {
@@ -223,10 +242,26 @@ const ManageCategory = () => {
                     >
                         <Form.Item label="Category_name">
                             <Input id="category_name" onChange={(e) => handle(e)} value={dataInsert.category_name} />
+                            {
+                                checkCategoryNameIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageCategoryNameIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Category_desc">
                             <TextArea rows={3} id="category_desc" onChange={(e) => handle(e)} value={dataInsert.category_desc} />
+                            {
+                                checkCategoryDescIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageCategoryDescIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
                         <Button type="primary" onClick={handleCancel}>Cancle</Button>
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>

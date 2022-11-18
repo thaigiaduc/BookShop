@@ -17,6 +17,7 @@ import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
 import ManageAuthor from './admin/pages/ManageAuthor/ManageAuthor';
 import ManageCategory from './admin/pages/ManageCategory/ManageCategory';
+import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {

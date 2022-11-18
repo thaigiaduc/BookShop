@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\models\Book;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookRequest;
+use App\Http\Requests\StoreProductRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 class BookRepository
 {
@@ -115,16 +116,17 @@ class BookRepository
         return $books->get();
     }
 
-    // public showBookById()
-    // {
-    //     $books::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name')
-    //     ->leftJoin('category','book.category_id','=','category.id')
-    //     ->leftJoin('author','book.author_id','=','author.id')
-    //     ->leftJoin('publisher','book.publisher_id','=','publisher.id')
-    //     ->where('id',$id)
-    // }
+    public function showBookById($id)
+    {
+        $books = Book::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+        ->where('id',$id)->get();
+        return $books;
+    }
     // thêm sách mới
-    public function insertBook(Request $request)
+    public function insertBook($request)
     {
         if($request->category_id == null) {
             $request->category_id = 1;
@@ -143,6 +145,7 @@ class BookRepository
             'publisher_id' => $request->publisher_id,
             'book_title' => $request->book_title,
             'book_summary' => $request->book_summary,
+            'quantity' => $request->quantity,
             'book_price' => $request->book_price,
             'book_cover_photo' => $request->book_cover_photo
         ]);

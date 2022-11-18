@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\StoreCategoryRequest;
 
 class CategoryRepository
 {
@@ -25,7 +26,7 @@ class CategoryRepository
         return $category;
     }
     // thêm danh mục sản phẩm
-    public function insertCategory(Request $request)
+    public function insertCategory(StoreCategoryRequest $request)
     {
         $category = Category::create([
             'category_name' => $request->category_name,
