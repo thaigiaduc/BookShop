@@ -2,7 +2,7 @@
 Project by Team 14
 - Backend by php, laravel framework
 - Frontend by reactjs
-How to use
+# How to use
 - clone code về, sửa file .env.example thành .env và sửa database, xài gì thì sửa đó, composer install để cài đặt file vendor, npm install.
 - Dùng lệnh php artisan migrate:seeder để tạo các table, sau đó dùng lệnh php artisan db:seed để thêm data cho các bảng.
 - dùng lệnh php artisan serve để khởi động serve và chạy song song với lệnh npm run watch để mix frontend vào.
