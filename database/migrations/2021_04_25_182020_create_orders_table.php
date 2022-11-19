@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->integer('user_id', false, true);
             $table->timestamp('order_date');
             $table->decimal('order_amount', 8, 2, true);
+            $table->integer('order_status')->default(0);
         });
     }
 
