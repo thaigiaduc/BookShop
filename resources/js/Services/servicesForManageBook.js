@@ -16,7 +16,6 @@ const serviceForManageBook = {
         return api.get(url);
     },
 
-
     getPublisher: () => {
         const url = "/api/publisher";
         return api.get(url);
@@ -24,6 +23,16 @@ const serviceForManageBook = {
 
     insertBook: (object) => {
         const url ="api/admin/ManageBook/create";
+        return api.post(url,object);
+    },
+
+    getDetails: (id) => {
+        const url = `api/admin/ManageBook/details/${id}`;
+        return api.get(url);
+    },
+
+    updateBook: (object,id) => {
+        const url = `api/admin/ManageBook/update/${id}`;
         return api.post(url,object);
     }
 }

@@ -55,4 +55,24 @@ class BookController extends Controller
             return response()->json($e->getMessage(),404);
         }
     }
+
+    public function getDetailsBookAdmin($id)
+    {
+        try {
+            $res = $this->bookrepo->getDetailBookAdmin($id);
+            return response()->json($res,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),500);
+        }
+    }
+
+    public function updateBookAdmin(StoreProductRequest $request ,$id)
+    {
+        try {
+            $res = $this->bookrepo->getDetailBookAdmin($request,$id);
+            return response()->json($res,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),500);
+        }
+    }
 }   
