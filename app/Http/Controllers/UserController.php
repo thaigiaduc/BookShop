@@ -30,5 +30,8 @@ class UserController extends Controller
         }
     }
 
+    function getUserDetail(Request $request){
+        return response()->json($request->user(),200);
+    }
     
 }

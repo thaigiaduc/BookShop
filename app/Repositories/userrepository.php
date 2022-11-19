@@ -28,8 +28,9 @@ class UserRepository
     public function editPassword(Request $request){
         DB::beginTransaction();
         try {
-            if($request->user()->password!=Hash::make($request->newPassword))
-                throw new \Exception("wrong password");
+            
+            if(!Hash::check($request->oldPassword,$request->user()->password))
+                throw new \Exception($request->oldPassword);
             $user = User::where('id',$request->user()->id)->update([
                 'password' => Hash::make($request->newPassword),
             ]);          

@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //user routing
     Route::patch('user/update/profile',[UserController::class,'editUserProfile']);
     Route::patch('user/update/password',[UserController::class,'editPassword']);
-
+    Route::get('user/detail',[UserController::class,'getUserDetail']);
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
