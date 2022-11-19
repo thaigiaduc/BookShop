@@ -17,6 +17,7 @@ class CreatePublishersTable extends Migration
             $table->id();
             $table->string('publisher_name', 120);
             $table->string('publisher_desc', 255)->nullable();
+            
         });
     }
 
