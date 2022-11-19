@@ -12,4 +12,8 @@ class Publisher extends Model
     public $timestamps = false;
     protected $table = 'publisher';
 
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

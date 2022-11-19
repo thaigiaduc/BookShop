@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\models\Author;
+use Illuminate\Http\Request;
 use App\Http\Requests\AuthorRequest;
 
 class AuthorRepository
@@ -19,7 +20,13 @@ class AuthorRepository
 
     // admin ---------------------------------------------------------
     // thêm tác giả
-    public function insertAuthor(AuthorRequest $request)
+    public function showAuthor()
+    {
+        $author = Author::orderBy('id','asc')->get();
+        return $author;
+    }
+
+    public function insertAuthor(Request $request)
     {
         $author = Author::create([
             'author_name' => $request->author_name,

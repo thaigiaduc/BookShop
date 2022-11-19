@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\StoreProductRequest;
+use Validator;
 use App\Http\Resources\DetailResource;
 
 class BookController extends Controller
@@ -42,5 +44,15 @@ class BookController extends Controller
     {
         $res = $this->bookrepo->showBook();
         return response()->json($res,200);
+    }
+
+    public function insertBookAdmin(StoreProductRequest $request)
+    {
+        try {
+            $res = $this->bookrepo->insertBook($request);
+            return response()->json($res,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
     }
 }   
