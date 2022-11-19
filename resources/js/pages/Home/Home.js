@@ -1,6 +1,6 @@
 import './home.css';
 import serviceForHome from '../../Services/serviceForHome';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import Image from "../../../assets";
 import defaultBookCover from '../../../assets/bookcover/defaultbook.png';
 import {Link} from 'react-router-dom';
@@ -10,9 +10,6 @@ import { Navigation, Autoplay } from 'swiper';
 import { useNavigate } from "react-router-dom";
 import 'swiper/css/navigation';
 import 'swiper/css';
-
-import axios from 'axios';
-
 
 const Home = () => {
   const Navigate = useNavigate();

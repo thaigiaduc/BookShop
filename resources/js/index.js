@@ -13,33 +13,51 @@ import Error404 from './pages/404/404';
 import Profile from './pages/Profile/Profile';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
-import {Routes, Route } from 'react-router-dom';
-
+import {Routes, Route, useLocation} from 'react-router-dom';
+import Admin from './admin/index';
 // JS: window.location.pathname ex: /, /shop, /about
 const pathname = window.location.pathname;
 
 function App() {
-  return (
-      <div className="d-flex flex-column m-height-100">
-      
-        <Header />
-
+  // sessionStorage.setItem('test');
+  // const test = sessionStorage.getItem('test');
+  const location = useLocation();
+  const test = window.location.href;
+  
+  const RouteClient = () => {
+    return (
+      <>
+      <Header />
         {/* Config Routes pages */}
-       
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="shop">
-                    <Route path=":id" element={<Product />} />
-                    <Route index element={<Shop />} />
+            <Route path=":id" element={<Product />} />
+            <Route index element={<Shop />} />
           </Route>
           <Route path="cart" element={<Cart />} />
           <Route path="about" element={<About />} />
           <Route path="profile" element={<Profile/>}/>
           <Route path="*" element={<Error404 />} />
         </Routes>
-        <Footer />
-        
+      <Footer />
+      </>
+    );
+  }
+
+  const RouteAdmin = () => {
+    return (
+      <Routes>
+        <Route path="admin" element={<Admin />} />
+      </Routes>
+    );
+  }
+  return (
+      <div className="d-flex flex-column m-height-100"> 
+        {
+          test.indexOf('admin', 0) != -1 ? <RouteAdmin /> : <RouteClient />
+        }
       </div>
   );
 }

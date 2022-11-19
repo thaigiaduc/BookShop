@@ -24,7 +24,14 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@fontsource/roboto": "^4.5.8",
         "@hookform/resolvers": "^2.9.10",
+        "@mui/icons-material": "^5.10.14",
+        "@mui/material": "^5.10.14",
+        "@mui/styled-engine-sc": "^5.10.14",
+        "antd": "^4.24.2",
         "node-sass": "^6.0.1",
         "query-string": "^7.1.1",
         "react-dropdown": "^1.11.0",
@@ -33,6 +40,7 @@
         "react-router-dom": "^6.4.3",
         "react-toastify": "^9.1.1",
         "reactstrap": "^9.1.5",
+        "styled-components": "^5.3.6",
         "swiper": "^8.4.4",
         "yup": "^0.32.11"
     }

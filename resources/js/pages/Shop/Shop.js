@@ -63,7 +63,7 @@ const limit = {
         setTo(to);
         setTotal(total);
     } catch (error) {
-      
+      console.log(error);
     }
       
   }
@@ -82,7 +82,7 @@ useEffect(() => {
         setAllAuthors(allAuthors);
         setAllPublishers(allPublishers);
       } catch (error) {
-        
+        console.log(error);
       }
     }
     fetchFilterList();
@@ -92,7 +92,7 @@ const handleshowing = () => {
     let string = "";
     let flag = 0;
     Object.keys(showing).forEach((key) => {
-          if(flag==1)string+="| ";
+          if(flag==1) string+="| ";
           string+=key+":"+showing[key]+"  ";
           flag = 1; 
     });
@@ -217,12 +217,12 @@ const handleFilter = (value,name,key) => {
                 <Accordion>
                   {/*
                         <!-- Category --> */}
-                  <Accordion.Item eventKey="0" c>
+                  <Accordion.Item eventKey="0">
                     <Accordion.Header>Category</Accordion.Header>
                     <Accordion.Body>
                       {allCategories.map((category) =>{
                         return(
-                          <div className={showing['category']== category.category_name ? "filter__body__active":"filter__body"} onClick={() => handleFilter(category.id,category.category_name,1)}>{category.category_name}</div>
+                          <div key={category.id} className={showing['category']== category.category_name ? "filter__body__active":"filter__body"} onClick={() => handleFilter(category.id,category.category_name,1)}>{category.category_name}</div>
                         );
                       })}
                     </Accordion.Body>
@@ -235,7 +235,7 @@ const handleFilter = (value,name,key) => {
                     <Accordion.Body>
                     {allAuthors.map((author) =>{
                         return(
-                          <div className={showing['author']==author.author_name ? "filter__body__active":"filter__body"} onClick={() => handleFilter(author.id,author.author_name,2)}>{author.author_name}</div>
+                          <div key={author.id} className={showing['author']==author.author_name ? "filter__body__active":"filter__body"} onClick={() => handleFilter(author.id,author.author_name,2)}>{author.author_name}</div>
                         );
                       })}
                     </Accordion.Body>

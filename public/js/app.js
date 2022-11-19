@@ -1766,106 +1766,6 @@ var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, 
 
 /***/ }),
 
-/***/ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@popperjs/core/lib/modifiers/applyStyles.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-
- // This modifier takes the styles prepared by the `computeStyles` modifier
-// and applies them to the HTMLElements such as popper and arrow
-
-function applyStyles(_ref) {
-  var state = _ref.state;
-  Object.keys(state.elements).forEach(function (name) {
-    var style = state.styles[name] || {};
-    var attributes = state.attributes[name] || {};
-    var element = state.elements[name]; // arrow is optional + virtual elements
-
-    if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__.default)(element)) {
-      return;
-    } // Flow doesn't support to extend this property, but it's the most
-    // effective way to apply styles to an HTMLElement
-    // $FlowFixMe[cannot-write]
-
-
-    Object.assign(element.style, style);
-    Object.keys(attributes).forEach(function (name) {
-      var value = attributes[name];
-
-      if (value === false) {
-        element.removeAttribute(name);
-      } else {
-        element.setAttribute(name, value === true ? '' : value);
-      }
-    });
-  });
-}
-
-function effect(_ref2) {
-  var state = _ref2.state;
-  var initialStyles = {
-    popper: {
-      position: state.options.strategy,
-      left: '0',
-      top: '0',
-      margin: '0'
-    },
-    arrow: {
-      position: 'absolute'
-    },
-    reference: {}
-  };
-  Object.assign(state.elements.popper.style, initialStyles.popper);
-  state.styles = initialStyles;
-
-  if (state.elements.arrow) {
-    Object.assign(state.elements.arrow.style, initialStyles.arrow);
-  }
-
-  return function () {
-    Object.keys(state.elements).forEach(function (name) {
-      var element = state.elements[name];
-      var attributes = state.attributes[name] || {};
-      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
-
-      var style = styleProperties.reduce(function (style, property) {
-        style[property] = '';
-        return style;
-      }, {}); // arrow is optional + virtual elements
-
-      if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__.default)(element)) {
-        return;
-      }
-
-      Object.assign(element.style, style);
-      Object.keys(attributes).forEach(function (attribute) {
-        element.removeAttribute(attribute);
-      });
-    });
-  };
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'applyStyles',
-  enabled: true,
-  phase: 'write',
-  fn: applyStyles,
-  effect: effect,
-  requires: ['computeStyles']
-});
-
-/***/ }),
-
 /***/ "./node_modules/@popperjs/core/lib/modifiers/arrow.js":
 /*!************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/modifiers/arrow.js ***!
@@ -2504,46 +2404,6 @@ function hide(_ref) {
 
 /***/ }),
 
-/***/ "./node_modules/@popperjs/core/lib/modifiers/index.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@popperjs/core/lib/modifiers/index.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "applyStyles": () => (/* reexport safe */ _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__.default),
-/* harmony export */   "arrow": () => (/* reexport safe */ _arrow_js__WEBPACK_IMPORTED_MODULE_1__.default),
-/* harmony export */   "computeStyles": () => (/* reexport safe */ _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__.default),
-/* harmony export */   "eventListeners": () => (/* reexport safe */ _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__.default),
-/* harmony export */   "flip": () => (/* reexport safe */ _flip_js__WEBPACK_IMPORTED_MODULE_4__.default),
-/* harmony export */   "hide": () => (/* reexport safe */ _hide_js__WEBPACK_IMPORTED_MODULE_5__.default),
-/* harmony export */   "offset": () => (/* reexport safe */ _offset_js__WEBPACK_IMPORTED_MODULE_6__.default),
-/* harmony export */   "popperOffsets": () => (/* reexport safe */ _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__.default),
-/* harmony export */   "preventOverflow": () => (/* reexport safe */ _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__.default)
-/* harmony export */ });
-/* harmony import */ var _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-/* harmony import */ var _arrow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
-/* harmony import */ var _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _flip_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
-/* harmony import */ var _hide_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
-/* harmony import */ var _offset_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
-/* harmony import */ var _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/@popperjs/core/lib/modifiers/offset.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/modifiers/offset.js ***!
@@ -2819,100 +2679,6 @@ function preventOverflow(_ref) {
   fn: preventOverflow,
   requiresIfExists: ['offset']
 });
-
-/***/ }),
-
-/***/ "./node_modules/@popperjs/core/lib/popper-lite.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@popperjs/core/lib/popper-lite.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createPopper": () => (/* binding */ createPopper),
-/* harmony export */   "popperGenerator": () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator),
-/* harmony export */   "defaultModifiers": () => (/* binding */ defaultModifiers),
-/* harmony export */   "detectOverflow": () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_5__.default)
-/* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-
-
-
-
-
-var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__.default, _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__.default, _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__.default, _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__.default];
-var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator)({
-  defaultModifiers: defaultModifiers
-}); // eslint-disable-next-line import/no-unused-modules
-
-
-
-/***/ }),
-
-/***/ "./node_modules/@popperjs/core/lib/popper.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@popperjs/core/lib/popper.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createPopper": () => (/* binding */ createPopper),
-/* harmony export */   "popperGenerator": () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator),
-/* harmony export */   "defaultModifiers": () => (/* binding */ defaultModifiers),
-/* harmony export */   "detectOverflow": () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_10__.default),
-/* harmony export */   "createPopperLite": () => (/* reexport safe */ _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__.createPopper),
-/* harmony export */   "applyStyles": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.applyStyles),
-/* harmony export */   "arrow": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.arrow),
-/* harmony export */   "computeStyles": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.computeStyles),
-/* harmony export */   "eventListeners": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.eventListeners),
-/* harmony export */   "flip": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.flip),
-/* harmony export */   "hide": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.hide),
-/* harmony export */   "offset": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.offset),
-/* harmony export */   "popperOffsets": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.popperOffsets),
-/* harmony export */   "preventOverflow": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.preventOverflow)
-/* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
-/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
-/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
-/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
-/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
-/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popper-lite.js */ "./node_modules/@popperjs/core/lib/popper-lite.js");
-/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modifiers/index.js */ "./node_modules/@popperjs/core/lib/modifiers/index.js");
-
-
-
-
-
-
-
-
-
-
-var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__.default, _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__.default, _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__.default, _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__.default, _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__.default, _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__.default, _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__.default, _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__.default, _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__.default];
-var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator)({
-  defaultModifiers: defaultModifiers
-}); // eslint-disable-next-line import/no-unused-modules
-
- // eslint-disable-next-line import/no-unused-modules
-
- // eslint-disable-next-line import/no-unused-modules
-
-
 
 /***/ }),
 
@@ -7207,6 +6973,140 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/@restart/hooks/esm/useBreakpoint.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@restart/hooks/esm/useBreakpoint.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createBreakpointHook": () => (/* binding */ createBreakpointHook),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _useMediaQuery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./useMediaQuery */ "./node_modules/@restart/hooks/esm/useMediaQuery.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+
+/**
+ * Create a responsive hook we a set of breakpoint names and widths.
+ * You can use any valid css units as well as a numbers (for pixels).
+ *
+ * **NOTE:** The object key order is important! it's assumed to be in order from smallest to largest
+ *
+ * ```ts
+ * const useBreakpoint = createBreakpointHook({
+ *  xs: 0,
+ *  sm: 576,
+ *  md: 768,
+ *  lg: 992,
+ *  xl: 1200,
+ * })
+ * ```
+ *
+ * **Watch out!** using string values will sometimes construct media queries using css `calc()` which
+ * is NOT supported in media queries by all browsers at the moment. use numbers for
+ * the widest range of browser support.
+ *
+ * @param breakpointValues A object hash of names to breakpoint dimensions
+ */
+function createBreakpointHook(breakpointValues) {
+  var names = Object.keys(breakpointValues);
+
+  function and(query, next) {
+    if (query === next) {
+      return next;
+    }
+
+    return query ? query + " and " + next : next;
+  }
+
+  function getNext(breakpoint) {
+    return names[Math.min(names.indexOf(breakpoint) + 1, names.length - 1)];
+  }
+
+  function getMaxQuery(breakpoint) {
+    var next = getNext(breakpoint);
+    var value = breakpointValues[next];
+    if (typeof value === 'number') value = value - 0.2 + "px";else value = "calc(" + value + " - 0.2px)";
+    return "(max-width: " + value + ")";
+  }
+
+  function getMinQuery(breakpoint) {
+    var value = breakpointValues[breakpoint];
+
+    if (typeof value === 'number') {
+      value = value + "px";
+    }
+
+    return "(min-width: " + value + ")";
+  }
+  /**
+   * Match a set of breakpoints
+   *
+   * ```tsx
+   * const MidSizeOnly = () => {
+   *   const isMid = useBreakpoint({ lg: 'down', sm: 'up' });
+   *
+   *   if (isMid) return <div>On a Reasonable sized Screen!</div>
+   *   return null;
+   * }
+   * ```
+   * @param breakpointMap An object map of breakpoints and directions, queries are constructed using "and" to join
+   * breakpoints together
+   * @param window Optionally specify the target window to match against (useful when rendering into iframes)
+   */
+
+
+  function useBreakpoint(breakpointOrMap, direction, window) {
+    var breakpointMap;
+
+    if (typeof breakpointOrMap === 'object') {
+      breakpointMap = breakpointOrMap;
+      window = direction;
+      direction = true;
+    } else {
+      var _breakpointMap;
+
+      direction = direction || true;
+      breakpointMap = (_breakpointMap = {}, _breakpointMap[breakpointOrMap] = direction, _breakpointMap);
+    }
+
+    var query = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(function () {
+      return Object.entries(breakpointMap).reduce(function (query, _ref) {
+        var key = _ref[0],
+            direction = _ref[1];
+
+        if (direction === 'up' || direction === true) {
+          query = and(query, getMinQuery(key));
+        }
+
+        if (direction === 'down' || direction === true) {
+          query = and(query, getMaxQuery(key));
+        }
+
+        return query;
+      }, '');
+    }, [JSON.stringify(breakpointMap)]);
+    return (0,_useMediaQuery__WEBPACK_IMPORTED_MODULE_0__.default)(query, window);
+  }
+
+  return useBreakpoint;
+}
+var useBreakpoint = createBreakpointHook({
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+  xxl: 1400
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useBreakpoint);
+
+/***/ }),
+
 /***/ "./node_modules/@restart/hooks/esm/useCallbackRef.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@restart/hooks/esm/useCallbackRef.js ***!
@@ -7632,6 +7532,103 @@ var isDOM = typeof document !== 'undefined';
  */
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (isDOM || isReactNative ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect);
+
+/***/ }),
+
+/***/ "./node_modules/@restart/hooks/esm/useMediaQuery.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@restart/hooks/esm/useMediaQuery.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useMediaQuery)
+/* harmony export */ });
+/* harmony import */ var _useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./useIsomorphicEffect */ "./node_modules/@restart/hooks/esm/useIsomorphicEffect.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+var matchersByWindow = new WeakMap();
+
+var getMatcher = function getMatcher(query, targetWindow) {
+  if (!query || !targetWindow) return undefined;
+  var matchers = matchersByWindow.get(targetWindow) || new Map();
+  matchersByWindow.set(targetWindow, matchers);
+  var mql = matchers.get(query);
+
+  if (!mql) {
+    mql = targetWindow.matchMedia(query);
+    mql.refCount = 0;
+    matchers.set(mql.media, mql);
+  }
+
+  return mql;
+};
+/**
+ * Match a media query and get updates as the match changes. The media string is
+ * passed directly to `window.matchMedia` and run as a Layout Effect, so initial
+ * matches are returned before the browser has a chance to paint.
+ *
+ * ```tsx
+ * function Page() {
+ *   const isWide = useMediaQuery('min-width: 1000px')
+ *
+ *   return isWide ? "very wide" : 'not so wide'
+ * }
+ * ```
+ *
+ * Media query lists are also reused globally, hook calls for the same query
+ * will only create a matcher once under the hood.
+ *
+ * @param query A media query
+ * @param targetWindow The window to match against, uses the globally available one as a default.
+ */
+
+
+function useMediaQuery(query, targetWindow) {
+  if (targetWindow === void 0) {
+    targetWindow = typeof window === 'undefined' ? undefined : window;
+  }
+
+  var mql = getMatcher(query, targetWindow);
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(function () {
+    return mql ? mql.matches : false;
+  }),
+      matches = _useState[0],
+      setMatches = _useState[1];
+
+  (0,_useIsomorphicEffect__WEBPACK_IMPORTED_MODULE_0__.default)(function () {
+    var mql = getMatcher(query, targetWindow);
+
+    if (!mql) {
+      return setMatches(false);
+    }
+
+    var matchers = matchersByWindow.get(targetWindow);
+
+    var handleChange = function handleChange() {
+      setMatches(mql.matches);
+    };
+
+    mql.refCount++;
+    mql.addListener(handleChange);
+    handleChange();
+    return function () {
+      mql.removeListener(handleChange);
+      mql.refCount--;
+
+      if (mql.refCount <= 0) {
+        matchers == null ? void 0 : matchers.delete(mql.media);
+      }
+
+      mql = undefined;
+    };
+  }, [query]);
+  return matches;
+}
 
 /***/ }),
 
@@ -9295,6 +9292,161 @@ class ModalManager {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalManager);
+
+/***/ }),
+
+/***/ "./node_modules/@restart/ui/esm/Nav.js":
+/*!*********************************************!*\
+  !*** ./node_modules/@restart/ui/esm/Nav.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var dom_helpers_querySelectorAll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dom-helpers/querySelectorAll */ "./node_modules/dom-helpers/esm/querySelectorAll.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _restart_hooks_useForceUpdate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useForceUpdate */ "./node_modules/@restart/hooks/esm/useForceUpdate.js");
+/* harmony import */ var _restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @restart/hooks/useMergedRefs */ "./node_modules/@restart/hooks/esm/useMergedRefs.js");
+/* harmony import */ var _NavContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./NavContext */ "./node_modules/@restart/ui/esm/NavContext.js");
+/* harmony import */ var _SelectableContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SelectableContext */ "./node_modules/@restart/ui/esm/SelectableContext.js");
+/* harmony import */ var _TabContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TabContext */ "./node_modules/@restart/ui/esm/TabContext.js");
+/* harmony import */ var _DataKey__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./DataKey */ "./node_modules/@restart/ui/esm/DataKey.js");
+/* harmony import */ var _NavItem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./NavItem */ "./node_modules/@restart/ui/esm/NavItem.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const _excluded = ["as", "onSelect", "activeKey", "role", "onKeyDown"];
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
+const EVENT_KEY_ATTR = (0,_DataKey__WEBPACK_IMPORTED_MODULE_5__.dataAttr)('event-key');
+const Nav = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef((_ref, ref) => {
+  let {
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    as: Component = 'div',
+    onSelect,
+    activeKey,
+    role,
+    onKeyDown
+  } = _ref,
+      props = _objectWithoutPropertiesLoose(_ref, _excluded);
+
+  // A ref and forceUpdate for refocus, b/c we only want to trigger when needed
+  // and don't want to reset the set in the effect
+  const forceUpdate = (0,_restart_hooks_useForceUpdate__WEBPACK_IMPORTED_MODULE_2__.default)();
+  const needsRefocusRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
+  const parentOnSelect = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_SelectableContext__WEBPACK_IMPORTED_MODULE_6__.default);
+  const tabContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_TabContext__WEBPACK_IMPORTED_MODULE_7__.default);
+  let getControlledId, getControllerId;
+
+  if (tabContext) {
+    role = role || 'tablist';
+    activeKey = tabContext.activeKey; // TODO: do we need to duplicate these?
+
+    getControlledId = tabContext.getControlledId;
+    getControllerId = tabContext.getControllerId;
+  }
+
+  const listNode = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+
+  const getNextActiveTab = offset => {
+    const currentListNode = listNode.current;
+    if (!currentListNode) return null;
+    const items = (0,dom_helpers_querySelectorAll__WEBPACK_IMPORTED_MODULE_0__.default)(currentListNode, `[${EVENT_KEY_ATTR}]:not([aria-disabled=true])`);
+    const activeChild = currentListNode.querySelector('[aria-selected=true]');
+    if (!activeChild || activeChild !== document.activeElement) return null;
+    const index = items.indexOf(activeChild);
+    if (index === -1) return null;
+    let nextIndex = index + offset;
+    if (nextIndex >= items.length) nextIndex = 0;
+    if (nextIndex < 0) nextIndex = items.length - 1;
+    return items[nextIndex];
+  };
+
+  const handleSelect = (key, event) => {
+    if (key == null) return;
+    onSelect == null ? void 0 : onSelect(key, event);
+    parentOnSelect == null ? void 0 : parentOnSelect(key, event);
+  };
+
+  const handleKeyDown = event => {
+    onKeyDown == null ? void 0 : onKeyDown(event);
+
+    if (!tabContext) {
+      return;
+    }
+
+    let nextActiveChild;
+
+    switch (event.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextActiveChild = getNextActiveTab(-1);
+        break;
+
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextActiveChild = getNextActiveTab(1);
+        break;
+
+      default:
+        return;
+    }
+
+    if (!nextActiveChild) return;
+    event.preventDefault();
+    handleSelect(nextActiveChild.dataset[(0,_DataKey__WEBPACK_IMPORTED_MODULE_5__.dataProp)('EventKey')] || null, event);
+    needsRefocusRef.current = true;
+    forceUpdate();
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (listNode.current && needsRefocusRef.current) {
+      const activeChild = listNode.current.querySelector(`[${EVENT_KEY_ATTR}][aria-selected=true]`);
+      activeChild == null ? void 0 : activeChild.focus();
+    }
+
+    needsRefocusRef.current = false;
+  });
+  const mergedRef = (0,_restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_3__.default)(ref, listNode);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectableContext__WEBPACK_IMPORTED_MODULE_6__.default.Provider, {
+    value: handleSelect,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NavContext__WEBPACK_IMPORTED_MODULE_8__.default.Provider, {
+      value: {
+        role,
+        // used by NavLink to determine it's role
+        activeKey: (0,_SelectableContext__WEBPACK_IMPORTED_MODULE_6__.makeEventKey)(activeKey),
+        getControlledId: getControlledId || noop,
+        getControllerId: getControllerId || noop
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Component, Object.assign({}, props, {
+        onKeyDown: handleKeyDown,
+        ref: mergedRef,
+        role: role
+      }))
+    })
+  });
+});
+Nav.displayName = 'Nav';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Object.assign(Nav, {
+  Item: _NavItem__WEBPACK_IMPORTED_MODULE_9__.default
+}));
 
 /***/ }),
 
@@ -12100,6 +12252,794 @@ var serviceForShop = {
 
 /***/ }),
 
+/***/ "./resources/js/Services/servicesForManageBook.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Services/servicesForManageBook.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./resources/js/Services/api.js");
+
+var serviceForManageBook = {
+  getBookAdmin: function getBookAdmin() {
+    var url = "api/admin/ManageBook";
+    return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
+  },
+  getCategory: function getCategory() {
+    var url = "/api/category";
+    return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
+  },
+  getAuthor: function getAuthor() {
+    var url = "/api/author";
+    return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
+  },
+  getPublisher: function getPublisher() {
+    var url = "/api/publisher";
+    return _api__WEBPACK_IMPORTED_MODULE_0__.default.get(url);
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (serviceForManageBook);
+
+/***/ }),
+
+/***/ "./resources/js/admin/index.js":
+/*!*************************************!*\
+  !*** ./resources/js/admin/index.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _pages_Home_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pages/Home/Home */ "./resources/js/admin/pages/Home/Home.js");
+/* harmony import */ var _pages_ManageBook_ManageBook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/ManageBook/ManageBook */ "./resources/js/admin/pages/ManageBook/ManageBook.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd/dist/antd.css'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index.css */ "./resources/js/admin/index.css");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Header = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+    Sider = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
+    Content = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+
+function Admin() {
+  document.title = "welcome to admin";
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      collapsed = _useState2[0],
+      setCollapsed = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)('dark'),
+      _useState4 = _slicedToArray(_useState3, 2),
+      theme = _useState4[0],
+      setTheme = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)('1'),
+      _useState6 = _slicedToArray(_useState5, 2),
+      current = _useState6[0],
+      setCurrent = _useState6[1];
+
+  var changeTheme = function changeTheme(value) {
+    setTheme(value ? 'dark' : 'light');
+  };
+
+  var onClick = function onClick(e) {
+    console.log('click ', e);
+    var i = e.key;
+
+    switch (i) {
+      case '1':
+        navigate('/admin');
+        break;
+
+      case '2':
+        console.log('2');
+        break;
+
+      case '3':
+        navigate('/ManageBook');
+        break;
+
+      case 4:
+        break;
+
+      case 5:
+        break;
+
+      case 6:
+        break;
+
+      case 7:
+        break;
+
+      case 8:
+        break;
+
+      case 9:
+        break;
+
+      default:
+        break;
+    }
+
+    setCurrent(e.key);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(Sider, {
+      trigger: null,
+      collapsible: true,
+      collapsed: collapsed,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "logo"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        theme: theme,
+        mode: "inline",
+        defaultSelectedKeys: ['1'],
+        onClick: onClick,
+        selectedKeys: [current],
+        style: {
+          height: "900px"
+        },
+        items: [{
+          key: '1',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Home'
+        }, {
+          key: '2',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage User'
+        }, {
+          key: '3',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Book'
+        }, {
+          key: '4',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Statistic'
+        }, {
+          key: '5',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Order'
+        }, {
+          key: '6',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Category'
+        }, {
+          key: '7',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Author'
+        }, {
+          key: '8',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Publisher'
+        }, {
+          key: '9',
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}),
+          label: 'Manage Promotion'
+        }]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      id: "contentAdmin",
+      className: "site-layout",
+      style: {
+        padding: "60px 20px 0px 20px"
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(Header, {
+        className: "site-layout-background",
+        style: {
+          padding: 0
+        },
+        children: [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(collapsed ? Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()) : Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+          className: 'trigger',
+          onClick: function onClick() {
+            return setCollapsed(!collapsed);
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+          checked: theme === 'dark',
+          onChange: changeTheme,
+          checkedChildren: "Dark",
+          unCheckedChildren: "Light"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__.default, {
+          variant: "light",
+          style: {
+            marginLeft: "1500px"
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}), "Log in"]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Content, {
+        className: "site-layout-background",
+        style: {
+          margin: '24px 16px',
+          padding: 24,
+          minHeight: 280
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Routes, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
+            index: true,
+            path: "/",
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_pages_ManageBook_ManageBook__WEBPACK_IMPORTED_MODULE_1__.default, {})
+          })
+        })
+      })]
+    })]
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Admin);
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/Home/Home.js":
+/*!***********************************************!*\
+  !*** ./resources/js/admin/pages/Home/Home.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _home_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home.css */ "./resources/js/admin/pages/Home/home.css");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var swiper_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! swiper/react */ "./node_modules/swiper/react/swiper-react.js");
+/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+
+
+
+
+var Home = function Home() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+    mode: "alternate",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      children: "Create a services site 2015-09-01"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      color: "green",
+      children: "Solve initial network problems 2015-09-01"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      dot: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        style: {
+          fontSize: '16px'
+        }
+      }),
+      children: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      color: "red",
+      children: "Network problems being solved 2015-09-01"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      children: "Create a services site 2015-09-01"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      dot: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        style: {
+          fontSize: '16px'
+        }
+      }),
+      children: "Technical testing 2015-09-01"
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/ManageBook/ManageBook.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/admin/pages/ManageBook/ManageBook.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _managebook_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./managebook.css */ "./resources/js/admin/pages/ManageBook/managebook.css");
+/* harmony import */ var _assets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../assets */ "./resources/assets/index.js");
+/* harmony import */ var _assets_bookcover_defaultbook_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../assets/bookcover/defaultbook.png */ "./resources/assets/bookcover/defaultbook.png");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Services_servicesForManageBook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Services/servicesForManageBook */ "./resources/js/Services/servicesForManageBook.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Row.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Col.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+var RangePicker = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+var TextArea = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+
+var ManageBook = function ManageBook() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      bookListData = _useState2[0],
+      setBookListData = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      open = _useState4[0],
+      setOpen = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      confirmLoading = _useState6[0],
+      setConfirmLoading = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      allAuthor = _useState8[0],
+      setAllAuthor = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+      _useState10 = _slicedToArray(_useState9, 2),
+      allCategory = _useState10[0],
+      setAllCategory = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      allPublisher = _useState12[0],
+      setAllPublisher = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+      _useState14 = _slicedToArray(_useState13, 2),
+      defaultAuthor = _useState14[0],
+      setDefaultAuthor = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+      _useState16 = _slicedToArray(_useState15, 2),
+      defaultCategory = _useState16[0],
+      setDefaultCategory = _useState16[1];
+
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+      _useState18 = _slicedToArray(_useState17, 2),
+      defaultPublisher = _useState18[0],
+      setDefaultPublisher = _useState18[1];
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)('Content of the modal'),
+      _useState20 = _slicedToArray(_useState19, 2),
+      modalText = _useState20[0],
+      setModalText = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+      _useState22 = _slicedToArray(_useState21, 2),
+      componentDisabled = _useState22[0],
+      setComponentDisabled = _useState22[1];
+
+  var onFormLayoutChange = function onFormLayoutChange(_ref) {
+    var disabled = _ref.disabled;
+    setComponentDisabled(disabled);
+  };
+
+  var showModal = function showModal() {
+    setOpen(true);
+  };
+
+  var handleOk = function handleOk() {
+    setConfirmLoading(true);
+    setTimeout(function () {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  var handleCancel = function handleCancel() {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
+    var fetchProductList = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var bookList, resultAuthors, resultCategories, resultPublishers;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _Services_servicesForManageBook__WEBPACK_IMPORTED_MODULE_5__.default.getBookAdmin();
+
+              case 2:
+                bookList = _context.sent;
+                _context.next = 5;
+                return _Services_servicesForManageBook__WEBPACK_IMPORTED_MODULE_5__.default.getAuthor();
+
+              case 5:
+                resultAuthors = _context.sent;
+                _context.next = 8;
+                return _Services_servicesForManageBook__WEBPACK_IMPORTED_MODULE_5__.default.getCategory();
+
+              case 8:
+                resultCategories = _context.sent;
+                _context.next = 11;
+                return _Services_servicesForManageBook__WEBPACK_IMPORTED_MODULE_5__.default.getPublisher();
+
+              case 11:
+                resultPublishers = _context.sent;
+                setBookListData(bookList);
+                setAllAuthor(resultAuthors.data);
+                setAllCategory(resultCategories.data);
+                setAllPublisher(resultPublishers.data);
+                setDefaultAuthor(resultAuthors.data[0].author_name);
+                setDefaultCategory(resultCategories.data[0].category_name);
+                setDefaultPublisher(resultPublishers.data[0].publisher_name);
+
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function fetchProductList() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    fetchProductList();
+  }, []);
+  var columns = [{
+    title: 'Id',
+    dataIndex: 'id' //   filters: [
+    //     {
+    //       text: 'Joe',
+    //       value: 'Joe',
+    //     },
+    //     {
+    //       text: 'Jim',
+    //       value: 'Jim',
+    //     },
+    //     {
+    //       text: 'Submenu',
+    //       value: 'Submenu',
+    //       children: [
+    //         {
+    //           text: 'Green',
+    //           value: 'Green',
+    //         },
+    //         {
+    //           text: 'Black',
+    //           value: 'Black',
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    //   onFilter: (value, record) => record.name.indexOf(value) === 0,
+    //   sorter: (a, b) => a.name.length - b.name.length,
+    //   sortDirections: ['descend'],
+
+  }, {
+    title: 'Category',
+    dataIndex: 'category' //   defaultSortOrder: 'descend',
+    //   sorter: (a, b) => a.age - b.age,
+
+  }, {
+    title: 'Author',
+    dataIndex: 'author' //   defaultSortOrder: 'descend',
+    //   sorter: (a, b) => a.age - b.age,
+
+  }, {
+    title: 'Publisher',
+    dataIndex: 'publisher' //   defaultSortOrder: 'descend',
+    //   sorter: (a, b) => a.age - b.age,
+
+  }, {
+    title: 'Book_title',
+    dataIndex: 'book_title' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }, {
+    title: 'Book_summary',
+    dataIndex: 'book_summary' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }, {
+    title: 'Book_price',
+    dataIndex: 'book_price' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }, {
+    title: 'Book_cover_photo',
+    dataIndex: 'book_cover_photo' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }, {
+    title: 'Update',
+    dataIndex: 'update' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }, {
+    title: 'Delete',
+    dataIndex: 'delete' //   filters: [
+    //     {
+    //       text: 'London',
+    //       value: 'London',
+    //     },
+    //     {
+    //       text: 'New York',
+    //       value: 'New York',
+    //     },
+    //   ],
+    //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+
+  }];
+  var data = [];
+  bookListData.map(function (book) {
+    var dataItem = {
+      key: book.id,
+      id: book.id,
+      category: book.category_name,
+      author: book.author_name,
+      publisher: book.publisher_name,
+      book_title: book.book_title,
+      book_summary: book.book_summary,
+      book_price: book.book_price,
+      book_cover_photo: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        width: 200,
+        src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.defaultBook
+      }),
+      update: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        type: "text",
+        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {})
+      }),
+      "delete": /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+        type: "text",
+        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {})
+      })
+    };
+    data.push(dataItem);
+  });
+
+  var onChange = function onChange(pagination, filters, sorter, extra) {
+    console.log('params', pagination, filters, sorter, extra);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__.default, {
+    fluid: true,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__.default, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default, {
+        xs: true,
+        lg: 10,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
+          children: "Manage Book"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default, {
+        xs: true,
+        lg: 2,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+          color: "secondary",
+          onClick: showModal,
+          children: "Create new Book"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+          title: "Create New Book",
+          open: open,
+          footer: null,
+          confirmLoading: confirmLoading,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+            labelCol: {
+              span: 8
+            },
+            wrapperCol: {
+              span: 14
+            },
+            layout: "horizontal",
+            onValuesChange: onFormLayoutChange,
+            disabled: componentDisabled,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Book_title",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Book_summary",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(TextArea, {
+                rows: 3
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Quantity",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                min: 1,
+                max: 50,
+                defaultValue: 1
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Book_price",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Author",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                defaultValue: defaultAuthor,
+                children: allAuthor.map(function (item, index) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                    value: item.author_name,
+                    children: item.author_name
+                  }, index);
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Category",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                defaultValue: defaultCategory,
+                children: allCategory.map(function (item, index) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                    value: item.category_name,
+                    children: item.category_name
+                  }, index);
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Publisher",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                defaultValue: defaultPublisher,
+                children: allPublisher.map(function (item, index) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                    value: item.publisher_name,
+                    children: item.publisher_name
+                  }, index);
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              label: "Book_cover_photo",
+              valuePropName: "fileList",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+                action: "/upload.do",
+                listType: "picture-card",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@ant-design/icons'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                    style: {
+                      marginTop: 8
+                    },
+                    children: "Upload"
+                  })]
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              type: "primary",
+              onClick: handleCancel,
+              children: "Cancle"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+              type: "submit",
+              children: "Submit"
+            })]
+          })
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+      columns: columns,
+      dataSource: data,
+      onChange: onChange
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ManageBook);
+
+/***/ }),
+
 /***/ "./resources/js/app.jsx":
 /*!******************************!*\
   !*** ./resources/js/app.jsx ***!
@@ -12110,11 +13050,12 @@ var serviceForShop = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./resources/js/index.css");
 /* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.js */ "./resources/js/index.js");
 /* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'antd/dist/antd.css'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -12123,9 +13064,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_index_js__WEBPACK_IMPORTED_MODULE_3__.default, {})
+
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.BrowserRouter, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_index_js__WEBPACK_IMPORTED_MODULE_3__.default, {})
   })
 }), document.getElementById('root')); // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
@@ -12224,11 +13166,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _header_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./header.css */ "./resources/js/components/layout/Header/header.css");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _pages_Login_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../pages/Login/Login */ "./resources/js/pages/Login/Login.js");
 /* harmony import */ var _Services_serviceForLogin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Services/serviceForLogin */ "./resources/js/Services/serviceForLogin.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/NavDropdown.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/NavDropdown.js");
+/* harmony import */ var react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap/Container */ "./node_modules/react-bootstrap/esm/Container.js");
+/* harmony import */ var react_bootstrap_Nav__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap/Nav */ "./node_modules/react-bootstrap/esm/Nav.js");
+/* harmony import */ var react_bootstrap_Navbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap/Navbar */ "./node_modules/react-bootstrap/esm/Navbar.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -12247,6 +13192,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
 
 
 
@@ -12330,81 +13278,67 @@ function Header() {
     signOut();
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("nav", {
-    className: "navbar navbar-expand-lg navbar-light bg-light sticky-top px-5",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
-      className: "navbar-brand",
-      to: "/",
-      children: "Logo"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-      className: "navbar-toggler",
-      type: "button",
-      "data-toggle": "collapse",
-      "data-target": "#navbarSupportedContent",
-      "aria-controls": "navbarSupportedContent",
-      "aria-expanded": "false",
-      "aria-label": "Toggle navigation",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-        className: "navbar-toggler-icon"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      className: "collapse navbar-collapse d-flex justify-content-end",
-      id: "navbarSupportedContent",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
-        className: "navbar-nav",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          className: "nav-item active",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap_Navbar__WEBPACK_IMPORTED_MODULE_6__.default, {
+    collapseOnSelect: true,
+    expand: "lg",
+    bg: "light",
+    variant: "light",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_7__.default, {
+      fluid: true,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
+        className: "navbar-brand",
+        to: "/",
+        children: "Logo"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap_Navbar__WEBPACK_IMPORTED_MODULE_6__.default.Toggle, {
+        "aria-controls": "responsive-navbar-nav"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap_Navbar__WEBPACK_IMPORTED_MODULE_6__.default.Collapse, {
+        id: "responsive-navbar-nav",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap_Nav__WEBPACK_IMPORTED_MODULE_9__.default, {
+          className: "justify-content-end flex-grow-1 pe-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
             className: function className(_ref2) {
               var isActive = _ref2.isActive;
               return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
             },
             to: "/",
             children: "Home"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          className: "nav-item",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
             className: function className(_ref3) {
               var isActive = _ref3.isActive;
               return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
             },
             to: "/shop",
             children: "Shop"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          className: "nav-item",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
             className: function className(_ref4) {
               var isActive = _ref4.isActive;
               return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
             },
             to: "/about",
             children: "About"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          className: "nav-item",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
             className: function className(_ref5) {
               var isActive = _ref5.isActive;
               return isActive ? 'activeClass' : 'bg-red-500 font-thin nav-link';
             },
             to: "/cart",
             children: ["Cart(", cartAmount, ")"]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          className: "nav-item",
-          children: isLogin ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__.default, {
+          }), isLogin ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default, {
               title: fullname,
               id: "collasible-nav-dropdown",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__.default.Item, {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
-                  to: "/profile",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default.Item, {
+                onClick: function onClick() {
+                  return handleLogout();
+                },
+                children: "Logout"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default.Item, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
                   className: 'text-center nav-link',
+                  to: "/profile",
                   children: "Profile"
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__.default.Item, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__.default.Item, {
                 onClick: function onClick() {
                   return handleLogout();
                 },
@@ -12412,15 +13346,15 @@ function Header() {
                 children: "Logout"
               })]
             })
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.NavLink, {
             className: "nav-link",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_pages_Login_Login__WEBPACK_IMPORTED_MODULE_2__.default, {
               text: 'SignIn'
             })
-          })
-        })]
-      })
-    })]
+          })]
+        })
+      })]
+    })
   });
 }
 
@@ -12451,8 +13385,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Product_Product__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Product/Product */ "./resources/js/pages/Product/Product.js");
 /* harmony import */ var _pages_404_404__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/404/404 */ "./resources/js/pages/404/404.js");
 /* harmony import */ var _pages_Profile_Profile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Profile/Profile */ "./resources/js/pages/Profile/Profile.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _admin_index__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin/index */ "./resources/js/admin/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
  // import ReactDOM from 'react-dom';
 
 
@@ -12468,46 +13403,68 @@ __webpack_require__.r(__webpack_exports__);
  // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
 
+
  // JS: window.location.pathname ex: /, /shop, /about
+
 
 
 
 var pathname = window.location.pathname;
 
 function App() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-    className: "d-flex flex-column m-height-100",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components_layout_Header_Header__WEBPACK_IMPORTED_MODULE_2__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Routes, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        index: true,
-        path: "/",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Home_Home__WEBPACK_IMPORTED_MODULE_1__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "home",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Home_Home__WEBPACK_IMPORTED_MODULE_1__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "shop",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-          path: ":id",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Product_Product__WEBPACK_IMPORTED_MODULE_9__.default, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  // sessionStorage.setItem('test');
+  // const test = sessionStorage.getItem('test');
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useLocation)();
+  var test = window.location.href;
+
+  var RouteClient = function RouteClient() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_components_layout_Header_Header__WEBPACK_IMPORTED_MODULE_2__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           index: true,
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Shop_Shop__WEBPACK_IMPORTED_MODULE_4__.default, {})
+          path: "/",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Home_Home__WEBPACK_IMPORTED_MODULE_1__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "home",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Home_Home__WEBPACK_IMPORTED_MODULE_1__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "shop",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            path: ":id",
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Product_Product__WEBPACK_IMPORTED_MODULE_9__.default, {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            index: true,
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Shop_Shop__WEBPACK_IMPORTED_MODULE_4__.default, {})
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "cart",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Cart_Cart__WEBPACK_IMPORTED_MODULE_6__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "about",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_About_About__WEBPACK_IMPORTED_MODULE_5__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "profile",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Profile_Profile__WEBPACK_IMPORTED_MODULE_11__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          path: "*",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_404_404__WEBPACK_IMPORTED_MODULE_10__.default, {})
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "cart",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Cart_Cart__WEBPACK_IMPORTED_MODULE_6__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "about",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_About_About__WEBPACK_IMPORTED_MODULE_5__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "profile",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_Profile_Profile__WEBPACK_IMPORTED_MODULE_11__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
-        path: "*",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_pages_404_404__WEBPACK_IMPORTED_MODULE_10__.default, {})
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_components_layout_Footer_Footer__WEBPACK_IMPORTED_MODULE_3__.default, {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_components_layout_Footer_Footer__WEBPACK_IMPORTED_MODULE_3__.default, {})]
+    });
+  };
+
+  var RouteAdmin = function RouteAdmin() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+        path: "admin",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_admin_index__WEBPACK_IMPORTED_MODULE_12__.default, {})
+      })
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+    className: "d-flex flex-column m-height-100",
+    children: test.indexOf('admin', 0) != -1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(RouteAdmin, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(RouteClient, {})
   });
 }
 
@@ -13047,19 +14004,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _home_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home.css */ "./resources/js/pages/Home/home.css");
 /* harmony import */ var _Services_serviceForHome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Services/serviceForHome */ "./resources/js/Services/serviceForHome.js");
-/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/dist/reactstrap.modern.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
 /* harmony import */ var _assets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../assets */ "./resources/assets/index.js");
 /* harmony import */ var _assets_bookcover_defaultbook_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../assets/bookcover/defaultbook.png */ "./resources/assets/bookcover/defaultbook.png");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var swiper_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swiper/react */ "./node_modules/swiper/react/swiper-react.js");
 /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var swiper_css_navigation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! swiper/css/navigation */ "./node_modules/swiper/modules/navigation/navigation.min.css");
 /* harmony import */ var swiper_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! swiper/css */ "./node_modules/swiper/swiper.min.css");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -13093,9 +14048,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var Home = function Home() {
-  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useNavigate)();
+  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -13176,31 +14130,31 @@ var Home = function Home() {
     setRecommended(false);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("section", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("section", {
     className: "home-page flex-grow-1",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       className: "container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "row align-items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "col-lg-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             children: "On Sale"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "col-lg-6 d-flex justify-content-end",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_13__.Button, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_12__.default, {
             color: "secondary",
             size: "sm",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Link, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
               to: "/shop",
-              children: ["View All \xA0 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
+              children: ["View All \xA0 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("i", {
                 className: "fas fa-angle-right"
               })]
             })
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(swiper_react__WEBPACK_IMPORTED_MODULE_6__.Swiper, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(swiper_react__WEBPACK_IMPORTED_MODULE_6__.Swiper, {
         spaceBetween: 50,
         slidesPerView: 4,
         navigation: true,
@@ -13212,81 +14166,81 @@ var Home = function Home() {
           disableOnInteraction: false
         },
         children: onSaleBooks.map(function (book, idx) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(swiper_react__WEBPACK_IMPORTED_MODULE_6__.SwiperSlide, {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(swiper_react__WEBPACK_IMPORTED_MODULE_6__.SwiperSlide, {
             className: "carousel",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "card h-100",
               onClick: function onClick() {
                 Navigate("/shop/".concat(book.id));
               },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("img", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
                 className: "card-img-top img-fluid",
                 src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.defaultBook,
                 alt: "Books"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 className: "card-body d-flex flex-column",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                   className: "book-title font-18px flex-grow-1",
                   children: book.book_title
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                   className: "book-author font-14px mt-3",
                   children: book.author_name
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 className: "card-footer text-muted font-14px",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("strike", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("strike", {
                   children: book.book_price != book.finalprice ? "$" + book.book_price : ""
-                }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("strong", {
+                }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("strong", {
                   children: ["$", book.finalprice]
                 })]
               })]
             })
           }, idx);
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "book-list",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "text-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             className: "section-title font-20px mb-3",
             children: "Featured Books"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "mb-4",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_13__.Button, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_12__.default, {
               color: recommended ? 'secondary' : 'link',
               onClick: recommendedBookClick,
               children: "Recommended"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_13__.Button, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_12__.default, {
               color: recommended ? 'link' : 'secondary',
               onClick: popularBookClick,
               children: "Popular"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           id: "mainRow",
           className: "row",
           children: defaultBooks.map(function (book) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               className: "col-lg-3 col-md-4 col-sm-6 mb-4 align-items-stretch",
               onClick: function onClick() {
                 Navigate("/shop/".concat(book.id));
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 className: "card h-100",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("img", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
                   className: "card-img-top img-fluid",
                   src: book.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_3__.default[book.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_3__.default.defaultBook,
                   alt: "Books"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                   className: "card-body d-flex flex-column",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                     className: "book-title font-18px flex-grow-1",
                     children: book.book_title
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                     className: "book-author font-14px mt-3",
                     children: book.author_name
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                   className: "card-footer text-muted font-14px",
                   children: ["$", book.finalprice]
                 })]
@@ -13758,11 +14712,9 @@ var Product = function Product() {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                       className: "detail__image__imd",
-                      style: {
-                        height: 450,
-                        width: 300
-                      },
-                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.defaultBook
+                      src: bookDetail.book_cover_photo ? _assets__WEBPACK_IMPORTED_MODULE_2__.default[bookDetail.book_cover_photo] : _assets__WEBPACK_IMPORTED_MODULE_2__.default.defaultBook,
+                      height: "450px",
+                      width: "300px"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "detail__author",
@@ -14620,14 +15572,15 @@ var Shop = function Shop() {
                 setFrom(_from);
                 setTo(_to);
                 setTotal(_total);
-                _context.next = 19;
+                _context.next = 20;
                 break;
 
               case 17:
                 _context.prev = 17;
                 _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
 
-              case 19:
+              case 20:
               case "end":
                 return _context.stop();
             }
@@ -14673,14 +15626,15 @@ var Shop = function Shop() {
                 setAllCategories(_allCategories);
                 setAllAuthors(_allAuthors);
                 setAllPublishers(_allPublishers);
-                _context2.next = 20;
+                _context2.next = 21;
                 break;
 
               case 18:
                 _context2.prev = 18;
                 _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
 
-              case 20:
+              case 21:
               case "end":
                 return _context2.stop();
             }
@@ -14832,7 +15786,6 @@ var Shop = function Shop() {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default, {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Item, {
                   eventKey: "0",
-                  c: true,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Header, {
                     children: "Category"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Body, {
@@ -14843,7 +15796,7 @@ var Shop = function Shop() {
                           return handleFilter(category.id, category.category_name, 1);
                         },
                         children: category.category_name
-                      });
+                      }, category.id);
                     })
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Item, {
@@ -14858,7 +15811,7 @@ var Shop = function Shop() {
                           return handleFilter(author.id, author.author_name, 2);
                         },
                         children: author.author_name
-                      });
+                      }, author.id);
                     })
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_9__.default.Item, {
@@ -15263,6 +16216,64 @@ ___CSS_LOADER_EXPORT___.push([module.id, "/**\n * Swiper 8.4.4\n * Most modern m
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/index.css":
+/*!************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/index.css ***!
+  \************************************************************************************************************************************************************************************************/
+/***/ (() => {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/dist/cjs.js):\nError: Can't resolve '~antd/dist/antd.css' in 'C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\resources\\js\\admin'\n    at finishWithoutResolve (C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:293:18)\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:362:15\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:410:5\n    at eval (eval at create (C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:16:1)\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:410:5\n    at eval (eval at create (C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:27:1)\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\DescriptionFilePlugin.js:87:43\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:410:5\n    at eval (eval at create (C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:15:1)\n    at C:\\Users\\MyPC\\Documents\\GitHub\\BookShop\\node_modules\\enhanced-resolve\\lib\\Resolver.js:410:5");
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/Home/home.css":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/Home/home.css ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/ManageBook/managebook.css":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/ManageBook/managebook.css ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/Page-Title/page-title.css":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/Page-Title/page-title.css ***!
@@ -15328,7 +16339,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "header {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    z-index: 100;\r\n}\r\n\r\n.activeClass {\r\n    border-bottom: 1px solid black;\r\n    color: black;\r\n    list-style: none;\r\n    padding: 2px;\r\n    text-decoration: none;\r\n    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "header {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    z-index: 100;\r\n}\r\n\r\n.activeClass {\r\n    border-bottom: 1px solid black;\r\n    color: black;\r\n    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);\r\n    list-style: none;\r\n    text-decoration: none;\r\n    transition: all 0.1s cubic-bezier(0.42, 0.02, 0.06, 0.05) 0.1s;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23997,6 +25008,111 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/prop-types-extra/lib/all.js":
+/*!**************************************************!*\
+  !*** ./node_modules/prop-types-extra/lib/all.js ***!
+  \**************************************************/
+/***/ ((module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.default = all;
+
+var _createChainableTypeChecker = __webpack_require__(/*! ./utils/createChainableTypeChecker */ "./node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js");
+
+var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function all() {
+  for (var _len = arguments.length, validators = Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  function allPropTypes() {
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    var error = null;
+
+    validators.forEach(function (validator) {
+      if (error != null) {
+        return;
+      }
+
+      var result = validator.apply(undefined, args);
+      if (result != null) {
+        error = result;
+      }
+    });
+
+    return error;
+  }
+
+  return (0, _createChainableTypeChecker2.default)(allPropTypes);
+}
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js ***!
+  \*******************************************************************************/
+/***/ ((module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.default = createChainableTypeChecker;
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+// Mostly taken from ReactPropTypes.
+
+function createChainableTypeChecker(validate) {
+  function checkType(isRequired, props, propName, componentName, location, propFullName) {
+    var componentNameSafe = componentName || '<<anonymous>>';
+    var propFullNameSafe = propFullName || propName;
+
+    if (props[propName] == null) {
+      if (isRequired) {
+        return new Error('Required ' + location + ' `' + propFullNameSafe + '` was not specified ' + ('in `' + componentNameSafe + '`.'));
+      }
+
+      return null;
+    }
+
+    for (var _len = arguments.length, args = Array(_len > 6 ? _len - 6 : 0), _key = 6; _key < _len; _key++) {
+      args[_key - 6] = arguments[_key];
+    }
+
+    return validate.apply(undefined, [props, propName, componentNameSafe, location, propFullNameSafe].concat(args));
+  }
+
+  var chainedCheckType = checkType.bind(null, false);
+  chainedCheckType.isRequired = checkType.bind(null, true);
+
+  return chainedCheckType;
+}
+module.exports = exports['default'];
+
+/***/ }),
+
 /***/ "./node_modules/prop-types/checkPropTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
@@ -26502,6 +27618,51 @@ Collapse.defaultProps = defaultProps;
 
 /***/ }),
 
+/***/ "./node_modules/react-bootstrap/esm/Container.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Container.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+const defaultProps = {
+  fluid: false
+};
+const Container = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  fluid,
+  // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+  as: Component = 'div',
+  className,
+  ...props
+}, ref) => {
+  const prefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_3__.useBootstrapPrefix)(bsPrefix, 'container');
+  const suffix = typeof fluid === 'string' ? `-${fluid}` : '-fluid';
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, {
+    ref: ref,
+    ...props,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, fluid ? `${prefix}${suffix}` : prefix)
+  });
+});
+Container.displayName = 'Container';
+Container.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Container);
+
+/***/ }),
+
 /***/ "./node_modules/react-bootstrap/esm/Dropdown.js":
 /*!******************************************************!*\
   !*** ./node_modules/react-bootstrap/esm/Dropdown.js ***!
@@ -27496,6 +28657,102 @@ const DivStyledAsH4 = (0,_divWithClassName__WEBPACK_IMPORTED_MODULE_0__.default)
 
 /***/ }),
 
+/***/ "./node_modules/react-bootstrap/esm/Nav.js":
+/*!*************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Nav.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types_extra_lib_all__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types-extra/lib/all */ "./node_modules/prop-types-extra/lib/all.js");
+/* harmony import */ var prop_types_extra_lib_all__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types_extra_lib_all__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var uncontrollable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uncontrollable */ "./node_modules/uncontrollable/lib/esm/index.js");
+/* harmony import */ var _restart_ui_Nav__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @restart/ui/Nav */ "./node_modules/@restart/ui/esm/Nav.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var _CardHeaderContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CardHeaderContext */ "./node_modules/react-bootstrap/esm/CardHeaderContext.js");
+/* harmony import */ var _NavItem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./NavItem */ "./node_modules/react-bootstrap/esm/NavItem.js");
+/* harmony import */ var _NavLink__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./NavLink */ "./node_modules/react-bootstrap/esm/NavLink.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {
+  justify: false,
+  fill: false
+};
+const Nav = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef((uncontrolledProps, ref) => {
+  const {
+    as = 'div',
+    bsPrefix: initialBsPrefix,
+    variant,
+    fill,
+    justify,
+    navbar,
+    navbarScroll,
+    className,
+    activeKey,
+    ...props
+  } = (0,uncontrollable__WEBPACK_IMPORTED_MODULE_3__.useUncontrolled)(uncontrolledProps, {
+    activeKey: 'onSelect'
+  });
+  const bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_5__.useBootstrapPrefix)(initialBsPrefix, 'nav');
+  let navbarBsPrefix;
+  let cardHeaderBsPrefix;
+  let isNavbar = false;
+  const navbarContext = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_NavbarContext__WEBPACK_IMPORTED_MODULE_6__.default);
+  const cardHeaderContext = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_CardHeaderContext__WEBPACK_IMPORTED_MODULE_7__.default);
+
+  if (navbarContext) {
+    navbarBsPrefix = navbarContext.bsPrefix;
+    isNavbar = navbar == null ? true : navbar;
+  } else if (cardHeaderContext) {
+    ({
+      cardHeaderBsPrefix
+    } = cardHeaderContext);
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_restart_ui_Nav__WEBPACK_IMPORTED_MODULE_8__.default, {
+    as: as,
+    ref: ref,
+    activeKey: activeKey,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, {
+      [bsPrefix]: !isNavbar,
+      [`${navbarBsPrefix}-nav`]: isNavbar,
+      [`${navbarBsPrefix}-nav-scroll`]: isNavbar && navbarScroll,
+      [`${cardHeaderBsPrefix}-${variant}`]: !!cardHeaderBsPrefix,
+      [`${bsPrefix}-${variant}`]: !!variant,
+      [`${bsPrefix}-fill`]: fill,
+      [`${bsPrefix}-justified`]: justify
+    }),
+    ...props
+  });
+});
+Nav.displayName = 'Nav';
+Nav.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Object.assign(Nav, {
+  Item: _NavItem__WEBPACK_IMPORTED_MODULE_9__.default,
+  Link: _NavLink__WEBPACK_IMPORTED_MODULE_10__.default
+}));
+
+/***/ }),
+
 /***/ "./node_modules/react-bootstrap/esm/NavDropdown.js":
 /*!*********************************************************!*\
   !*** ./node_modules/react-bootstrap/esm/NavDropdown.js ***!
@@ -27568,6 +28825,23 @@ NavDropdown.displayName = 'NavDropdown';
 
 /***/ }),
 
+/***/ "./node_modules/react-bootstrap/esm/NavItem.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/NavItem.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createWithBsPrefix */ "./node_modules/react-bootstrap/esm/createWithBsPrefix.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__.default)('nav-item'));
+
+/***/ }),
+
 /***/ "./node_modules/react-bootstrap/esm/NavLink.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react-bootstrap/esm/NavLink.js ***!
@@ -27623,6 +28897,199 @@ NavLink.defaultProps = defaultProps;
 
 /***/ }),
 
+/***/ "./node_modules/react-bootstrap/esm/Navbar.js":
+/*!****************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Navbar.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _restart_ui_SelectableContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @restart/ui/SelectableContext */ "./node_modules/@restart/ui/esm/SelectableContext.js");
+/* harmony import */ var uncontrollable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uncontrollable */ "./node_modules/uncontrollable/lib/esm/index.js");
+/* harmony import */ var _createWithBsPrefix__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createWithBsPrefix */ "./node_modules/react-bootstrap/esm/createWithBsPrefix.js");
+/* harmony import */ var _NavbarBrand__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./NavbarBrand */ "./node_modules/react-bootstrap/esm/NavbarBrand.js");
+/* harmony import */ var _NavbarCollapse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./NavbarCollapse */ "./node_modules/react-bootstrap/esm/NavbarCollapse.js");
+/* harmony import */ var _NavbarToggle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./NavbarToggle */ "./node_modules/react-bootstrap/esm/NavbarToggle.js");
+/* harmony import */ var _NavbarOffcanvas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./NavbarOffcanvas */ "./node_modules/react-bootstrap/esm/NavbarOffcanvas.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+const NavbarText = (0,_createWithBsPrefix__WEBPACK_IMPORTED_MODULE_4__.default)('navbar-text', {
+  Component: 'span'
+});
+const defaultProps = {
+  expand: true,
+  variant: 'light',
+  collapseOnSelect: false
+};
+const Navbar = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef((props, ref) => {
+  const {
+    bsPrefix: initialBsPrefix,
+    expand,
+    variant,
+    bg,
+    fixed,
+    sticky,
+    className,
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    as: Component = 'nav',
+    expanded,
+    onToggle,
+    onSelect,
+    collapseOnSelect,
+    ...controlledProps
+  } = (0,uncontrollable__WEBPACK_IMPORTED_MODULE_2__.useUncontrolled)(props, {
+    expanded: 'onToggle'
+  });
+  const bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_5__.useBootstrapPrefix)(initialBsPrefix, 'navbar');
+  const handleCollapse = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)((...args) => {
+    onSelect == null ? void 0 : onSelect(...args);
+
+    if (collapseOnSelect && expanded) {
+      onToggle == null ? void 0 : onToggle(false);
+    }
+  }, [onSelect, collapseOnSelect, expanded, onToggle]); // will result in some false positives but that seems better
+  // than false negatives. strict `undefined` check allows explicit
+  // "nulling" of the role if the user really doesn't want one
+
+  if (controlledProps.role === undefined && Component !== 'nav') {
+    controlledProps.role = 'navigation';
+  }
+
+  let expandClass = `${bsPrefix}-expand`;
+  if (typeof expand === 'string') expandClass = `${expandClass}-${expand}`;
+  const navbarContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => ({
+    onToggle: () => onToggle == null ? void 0 : onToggle(!expanded),
+    bsPrefix,
+    expanded: !!expanded,
+    expand
+  }), [bsPrefix, expanded, expand, onToggle]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_NavbarContext__WEBPACK_IMPORTED_MODULE_6__.default.Provider, {
+    value: navbarContext,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_restart_ui_SelectableContext__WEBPACK_IMPORTED_MODULE_7__.default.Provider, {
+      value: handleCollapse,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Component, {
+        ref: ref,
+        ...controlledProps,
+        className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, bsPrefix, expand && expandClass, variant && `${bsPrefix}-${variant}`, bg && `bg-${bg}`, sticky && `sticky-${sticky}`, fixed && `fixed-${fixed}`)
+      })
+    })
+  });
+});
+Navbar.defaultProps = defaultProps;
+Navbar.displayName = 'Navbar';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Object.assign(Navbar, {
+  Brand: _NavbarBrand__WEBPACK_IMPORTED_MODULE_8__.default,
+  Collapse: _NavbarCollapse__WEBPACK_IMPORTED_MODULE_9__.default,
+  Offcanvas: _NavbarOffcanvas__WEBPACK_IMPORTED_MODULE_10__.default,
+  Text: NavbarText,
+  Toggle: _NavbarToggle__WEBPACK_IMPORTED_MODULE_11__.default
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/NavbarBrand.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/NavbarBrand.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+const NavbarBrand = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  className,
+  as,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_3__.useBootstrapPrefix)(bsPrefix, 'navbar-brand');
+  const Component = as || (props.href ? 'a' : 'span');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, { ...props,
+    ref: ref,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, bsPrefix)
+  });
+});
+NavbarBrand.displayName = 'NavbarBrand';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavbarBrand);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/NavbarCollapse.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/NavbarCollapse.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Collapse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Collapse */ "./node_modules/react-bootstrap/esm/Collapse.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+const NavbarCollapse = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(({
+  children,
+  bsPrefix,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_2__.useBootstrapPrefix)(bsPrefix, 'navbar-collapse');
+  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_NavbarContext__WEBPACK_IMPORTED_MODULE_3__.default);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Collapse__WEBPACK_IMPORTED_MODULE_4__.default, {
+    in: !!(context && context.expanded),
+    ...props,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      ref: ref,
+      className: bsPrefix,
+      children: children
+    })
+  });
+});
+NavbarCollapse.displayName = 'NavbarCollapse';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavbarCollapse);
+
+/***/ }),
+
 /***/ "./node_modules/react-bootstrap/esm/NavbarContext.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-bootstrap/esm/NavbarContext.js ***!
@@ -27640,6 +29107,446 @@ __webpack_require__.r(__webpack_exports__);
 const context = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
 context.displayName = 'NavbarContext';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (context);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/NavbarOffcanvas.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/NavbarOffcanvas.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Offcanvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Offcanvas */ "./node_modules/react-bootstrap/esm/Offcanvas.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+const NavbarOffcanvas = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((props, ref) => {
+  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_NavbarContext__WEBPACK_IMPORTED_MODULE_2__.default);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Offcanvas__WEBPACK_IMPORTED_MODULE_3__.default, {
+    ref: ref,
+    show: !!(context != null && context.expanded),
+    ...props,
+    renderStaticNode: true
+  });
+});
+NavbarOffcanvas.displayName = 'NavbarOffcanvas';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavbarOffcanvas);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/NavbarToggle.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/NavbarToggle.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useEventCallback */ "./node_modules/@restart/hooks/esm/useEventCallback.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+const defaultProps = {
+  label: 'Toggle navigation'
+};
+const NavbarToggle = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  className,
+  children,
+  label,
+  // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+  as: Component = 'button',
+  onClick,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_4__.useBootstrapPrefix)(bsPrefix, 'navbar-toggler');
+  const {
+    onToggle,
+    expanded
+  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_NavbarContext__WEBPACK_IMPORTED_MODULE_5__.default) || {};
+  const handleClick = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_2__.default)(e => {
+    if (onClick) onClick(e);
+    if (onToggle) onToggle();
+  });
+
+  if (Component === 'button') {
+    props.type = 'button';
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Component, { ...props,
+    ref: ref,
+    onClick: handleClick,
+    "aria-label": label,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, bsPrefix, !expanded && 'collapsed'),
+    children: children || /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+      className: `${bsPrefix}-icon`
+    })
+  });
+});
+NavbarToggle.displayName = 'NavbarToggle';
+NavbarToggle.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavbarToggle);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/Offcanvas.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/Offcanvas.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _restart_hooks_useBreakpoint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @restart/hooks/useBreakpoint */ "./node_modules/@restart/hooks/esm/useBreakpoint.js");
+/* harmony import */ var _restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useEventCallback */ "./node_modules/@restart/hooks/esm/useEventCallback.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _restart_ui_Modal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @restart/ui/Modal */ "./node_modules/@restart/ui/esm/Modal.js");
+/* harmony import */ var _Fade__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Fade */ "./node_modules/react-bootstrap/esm/Fade.js");
+/* harmony import */ var _OffcanvasBody__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./OffcanvasBody */ "./node_modules/react-bootstrap/esm/OffcanvasBody.js");
+/* harmony import */ var _OffcanvasToggling__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OffcanvasToggling */ "./node_modules/react-bootstrap/esm/OffcanvasToggling.js");
+/* harmony import */ var _ModalContext__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ModalContext */ "./node_modules/react-bootstrap/esm/ModalContext.js");
+/* harmony import */ var _NavbarContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./NavbarContext */ "./node_modules/react-bootstrap/esm/NavbarContext.js");
+/* harmony import */ var _OffcanvasHeader__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./OffcanvasHeader */ "./node_modules/react-bootstrap/esm/OffcanvasHeader.js");
+/* harmony import */ var _OffcanvasTitle__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./OffcanvasTitle */ "./node_modules/react-bootstrap/esm/OffcanvasTitle.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _BootstrapModalManager__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./BootstrapModalManager */ "./node_modules/react-bootstrap/esm/BootstrapModalManager.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {
+  show: false,
+  backdrop: true,
+  keyboard: true,
+  scroll: false,
+  autoFocus: true,
+  enforceFocus: true,
+  restoreFocus: true,
+  placement: 'start',
+  renderStaticNode: false
+};
+
+function DialogTransition(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_OffcanvasToggling__WEBPACK_IMPORTED_MODULE_5__.default, { ...props
+  });
+}
+
+function BackdropTransition(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Fade__WEBPACK_IMPORTED_MODULE_6__.default, { ...props
+  });
+}
+
+const Offcanvas = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3__.forwardRef(({
+  bsPrefix,
+  className,
+  children,
+  'aria-labelledby': ariaLabelledby,
+  placement,
+  responsive,
+
+  /* BaseModal props */
+  show,
+  backdrop,
+  keyboard,
+  scroll,
+  onEscapeKeyDown,
+  onShow,
+  onHide,
+  container,
+  autoFocus,
+  enforceFocus,
+  restoreFocus,
+  restoreFocusOptions,
+  onEntered,
+  onExit,
+  onExiting,
+  onEnter,
+  onEntering,
+  onExited,
+  backdropClassName,
+  manager: propsManager,
+  renderStaticNode,
+  ...props
+}, ref) => {
+  const modalManager = (0,react__WEBPACK_IMPORTED_MODULE_3__.useRef)();
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_7__.useBootstrapPrefix)(bsPrefix, 'offcanvas');
+  const {
+    onToggle
+  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useContext)(_NavbarContext__WEBPACK_IMPORTED_MODULE_8__.default) || {};
+  const [showOffcanvas, setShowOffcanvas] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
+  const hideResponsiveOffcanvas = (0,_restart_hooks_useBreakpoint__WEBPACK_IMPORTED_MODULE_1__.default)(responsive || 'xs', 'up');
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+    // Handles the case where screen is resized while the responsive
+    // offcanvas is shown. If `responsive` not provided, just use `show`.
+    setShowOffcanvas(responsive ? show && !hideResponsiveOffcanvas : show);
+  }, [show, responsive, hideResponsiveOffcanvas]);
+  const handleHide = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_2__.default)(() => {
+    onToggle == null ? void 0 : onToggle();
+    onHide == null ? void 0 : onHide();
+  });
+  const modalContext = (0,react__WEBPACK_IMPORTED_MODULE_3__.useMemo)(() => ({
+    onHide: handleHide
+  }), [handleHide]);
+
+  function getModalManager() {
+    if (propsManager) return propsManager;
+
+    if (scroll) {
+      // Have to use a different modal manager since the shared
+      // one handles overflow.
+      if (!modalManager.current) modalManager.current = new _BootstrapModalManager__WEBPACK_IMPORTED_MODULE_9__.default({
+        handleContainerOverflow: false
+      });
+      return modalManager.current;
+    }
+
+    return (0,_BootstrapModalManager__WEBPACK_IMPORTED_MODULE_9__.getSharedManager)();
+  }
+
+  const handleEnter = (node, ...args) => {
+    if (node) node.style.visibility = 'visible';
+    onEnter == null ? void 0 : onEnter(node, ...args);
+  };
+
+  const handleExited = (node, ...args) => {
+    if (node) node.style.visibility = '';
+    onExited == null ? void 0 : onExited(...args);
+  };
+
+  const renderBackdrop = (0,react__WEBPACK_IMPORTED_MODULE_3__.useCallback)(backdropProps => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", { ...backdropProps,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(`${bsPrefix}-backdrop`, backdropClassName)
+  }), [backdropClassName, bsPrefix]);
+
+  const renderDialog = dialogProps => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", { ...dialogProps,
+    ...props,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, responsive ? `${bsPrefix}-${responsive}` : bsPrefix, `${bsPrefix}-${placement}`),
+    "aria-labelledby": ariaLabelledby,
+    children: children
+  });
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [!showOffcanvas && (responsive || renderStaticNode) && renderDialog({}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ModalContext__WEBPACK_IMPORTED_MODULE_10__.default.Provider, {
+      value: modalContext,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_restart_ui_Modal__WEBPACK_IMPORTED_MODULE_11__.default, {
+        show: showOffcanvas,
+        ref: ref,
+        backdrop: backdrop,
+        container: container,
+        keyboard: keyboard,
+        autoFocus: autoFocus,
+        enforceFocus: enforceFocus && !scroll,
+        restoreFocus: restoreFocus,
+        restoreFocusOptions: restoreFocusOptions,
+        onEscapeKeyDown: onEscapeKeyDown,
+        onShow: onShow,
+        onHide: handleHide,
+        onEnter: handleEnter,
+        onEntering: onEntering,
+        onEntered: onEntered,
+        onExit: onExit,
+        onExiting: onExiting,
+        onExited: handleExited,
+        manager: getModalManager(),
+        transition: DialogTransition,
+        backdropTransition: BackdropTransition,
+        renderBackdrop: renderBackdrop,
+        renderDialog: renderDialog
+      })
+    })]
+  });
+});
+Offcanvas.displayName = 'Offcanvas';
+Offcanvas.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Object.assign(Offcanvas, {
+  Body: _OffcanvasBody__WEBPACK_IMPORTED_MODULE_12__.default,
+  Header: _OffcanvasHeader__WEBPACK_IMPORTED_MODULE_13__.default,
+  Title: _OffcanvasTitle__WEBPACK_IMPORTED_MODULE_14__.default
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/OffcanvasBody.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/OffcanvasBody.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createWithBsPrefix */ "./node_modules/react-bootstrap/esm/createWithBsPrefix.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_createWithBsPrefix__WEBPACK_IMPORTED_MODULE_0__.default)('offcanvas-body'));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/OffcanvasHeader.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/OffcanvasHeader.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var _AbstractModalHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AbstractModalHeader */ "./node_modules/react-bootstrap/esm/AbstractModalHeader.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+const defaultProps = {
+  closeLabel: 'Close',
+  closeButton: false
+};
+const OffcanvasHeader = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  className,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_3__.useBootstrapPrefix)(bsPrefix, 'offcanvas-header');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_AbstractModalHeader__WEBPACK_IMPORTED_MODULE_4__.default, {
+    ref: ref,
+    ...props,
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, bsPrefix)
+  });
+});
+OffcanvasHeader.displayName = 'OffcanvasHeader';
+OffcanvasHeader.defaultProps = defaultProps;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OffcanvasHeader);
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/OffcanvasTitle.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/OffcanvasTitle.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _createWithBsPrefix__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createWithBsPrefix */ "./node_modules/react-bootstrap/esm/createWithBsPrefix.js");
+/* harmony import */ var _divWithClassName__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./divWithClassName */ "./node_modules/react-bootstrap/esm/divWithClassName.js");
+
+
+const DivStyledAsH5 = (0,_divWithClassName__WEBPACK_IMPORTED_MODULE_0__.default)('h5');
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_createWithBsPrefix__WEBPACK_IMPORTED_MODULE_1__.default)('offcanvas-title', {
+  Component: DivStyledAsH5
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-bootstrap/esm/OffcanvasToggling.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-bootstrap/esm/OffcanvasToggling.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_transition_group_Transition__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-transition-group/Transition */ "./node_modules/react-transition-group/esm/Transition.js");
+/* harmony import */ var _transitionEndListener__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./transitionEndListener */ "./node_modules/react-bootstrap/esm/transitionEndListener.js");
+/* harmony import */ var _TransitionWrapper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TransitionWrapper */ "./node_modules/react-bootstrap/esm/TransitionWrapper.js");
+/* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ThemeProvider */ "./node_modules/react-bootstrap/esm/ThemeProvider.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+const defaultProps = {
+  in: false,
+  mountOnEnter: false,
+  unmountOnExit: false,
+  appear: false
+};
+const transitionStyles = {
+  [react_transition_group_Transition__WEBPACK_IMPORTED_MODULE_3__.ENTERING]: 'show',
+  [react_transition_group_Transition__WEBPACK_IMPORTED_MODULE_3__.ENTERED]: 'show'
+};
+const OffcanvasToggling = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.forwardRef(({
+  bsPrefix,
+  className,
+  children,
+  ...props
+}, ref) => {
+  bsPrefix = (0,_ThemeProvider__WEBPACK_IMPORTED_MODULE_4__.useBootstrapPrefix)(bsPrefix, 'offcanvas');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_TransitionWrapper__WEBPACK_IMPORTED_MODULE_5__.default, {
+    ref: ref,
+    addEndListener: _transitionEndListener__WEBPACK_IMPORTED_MODULE_6__.default,
+    ...props,
+    childRef: children.ref,
+    children: (status, innerProps) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.cloneElement(children, { ...innerProps,
+      className: classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, children.props.className, (status === react_transition_group_Transition__WEBPACK_IMPORTED_MODULE_3__.ENTERING || status === react_transition_group_Transition__WEBPACK_IMPORTED_MODULE_3__.EXITING) && `${bsPrefix}-toggling`, transitionStyles[status])
+    })
+  });
+});
+OffcanvasToggling.defaultProps = defaultProps;
+OffcanvasToggling.displayName = 'OffcanvasToggling';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OffcanvasToggling);
 
 /***/ }),
 
@@ -54427,150 +56334,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/react-fast-compare/index.js":
-/*!**************************************************!*\
-  !*** ./node_modules/react-fast-compare/index.js ***!
-  \**************************************************/
-/***/ ((module) => {
-
-/* global Map:readonly, Set:readonly, ArrayBuffer:readonly */
-
-var hasElementType = typeof Element !== 'undefined';
-var hasMap = typeof Map === 'function';
-var hasSet = typeof Set === 'function';
-var hasArrayBuffer = typeof ArrayBuffer === 'function' && !!ArrayBuffer.isView;
-
-// Note: We **don't** need `envHasBigInt64Array` in fde es6/index.js
-
-function equal(a, b) {
-  // START: fast-deep-equal es6/index.js 3.1.1
-  if (a === b) return true;
-
-  if (a && b && typeof a == 'object' && typeof b == 'object') {
-    if (a.constructor !== b.constructor) return false;
-
-    var length, i, keys;
-    if (Array.isArray(a)) {
-      length = a.length;
-      if (length != b.length) return false;
-      for (i = length; i-- !== 0;)
-        if (!equal(a[i], b[i])) return false;
-      return true;
-    }
-
-    // START: Modifications:
-    // 1. Extra `has<Type> &&` helpers in initial condition allow es6 code
-    //    to co-exist with es5.
-    // 2. Replace `for of` with es5 compliant iteration using `for`.
-    //    Basically, take:
-    //
-    //    ```js
-    //    for (i of a.entries())
-    //      if (!b.has(i[0])) return false;
-    //    ```
-    //
-    //    ... and convert to:
-    //
-    //    ```js
-    //    it = a.entries();
-    //    while (!(i = it.next()).done)
-    //      if (!b.has(i.value[0])) return false;
-    //    ```
-    //
-    //    **Note**: `i` access switches to `i.value`.
-    var it;
-    if (hasMap && (a instanceof Map) && (b instanceof Map)) {
-      if (a.size !== b.size) return false;
-      it = a.entries();
-      while (!(i = it.next()).done)
-        if (!b.has(i.value[0])) return false;
-      it = a.entries();
-      while (!(i = it.next()).done)
-        if (!equal(i.value[1], b.get(i.value[0]))) return false;
-      return true;
-    }
-
-    if (hasSet && (a instanceof Set) && (b instanceof Set)) {
-      if (a.size !== b.size) return false;
-      it = a.entries();
-      while (!(i = it.next()).done)
-        if (!b.has(i.value[0])) return false;
-      return true;
-    }
-    // END: Modifications
-
-    if (hasArrayBuffer && ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
-      length = a.length;
-      if (length != b.length) return false;
-      for (i = length; i-- !== 0;)
-        if (a[i] !== b[i]) return false;
-      return true;
-    }
-
-    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
-    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
-    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
-
-    keys = Object.keys(a);
-    length = keys.length;
-    if (length !== Object.keys(b).length) return false;
-
-    for (i = length; i-- !== 0;)
-      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
-    // END: fast-deep-equal
-
-    // START: react-fast-compare
-    // custom handling for DOM elements
-    if (hasElementType && a instanceof Element) return false;
-
-    // custom handling for React/Preact
-    for (i = length; i-- !== 0;) {
-      if ((keys[i] === '_owner' || keys[i] === '__v' || keys[i] === '__o') && a.$$typeof) {
-        // React-specific: avoid traversing React elements' _owner
-        // Preact-specific: avoid traversing Preact elements' __v and __o
-        //    __v = $_original / $_vnode
-        //    __o = $_owner
-        // These properties contain circular references and are not needed when
-        // comparing the actual elements (and not their owners)
-        // .$$typeof and ._store on just reasonable markers of elements
-
-        continue;
-      }
-
-      // all other properties should be traversed as usual
-      if (!equal(a[keys[i]], b[keys[i]])) return false;
-    }
-    // END: react-fast-compare
-
-    // START: fast-deep-equal
-    return true;
-  }
-
-  return a !== a && b !== b;
-}
-// end fast-deep-equal
-
-module.exports = function isEqual(a, b) {
-  try {
-    return equal(a, b);
-  } catch (error) {
-    if (((error.message || '').match(/stack|recursion/i))) {
-      // warn on circular references, don't crash
-      // browsers give this different errors name and messages:
-      // chrome/safari: "RangeError", "Maximum call stack size exceeded"
-      // firefox: "InternalError", too much recursion"
-      // edge: "Error", "Out of stack space"
-      console.warn('react-fast-compare cannot handle circular refs');
-      return false;
-    }
-    // some other error. we should definitely know about these
-    throw error;
-  }
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/react-hook-form/dist/index.esm.mjs":
 /*!*********************************************************!*\
   !*** ./node_modules/react-hook-form/dist/index.esm.mjs ***!
@@ -57308,383 +59071,6 @@ function polyfill(Component) {
 
 !function(e,t){ true?module.exports=t(__webpack_require__(/*! react */ "./node_modules/react/index.js")):0}(this,(function(__WEBPACK_EXTERNAL_MODULE__98__){return(()=>{var __webpack_modules__={759:(e,t,a)=>{"use strict";a.d(t,{Z:()=>c});var r,o=a(98),_=a.n(o),n=a(697),i=a.n(n);function s(){return s=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var r in a)Object.prototype.hasOwnProperty.call(a,r)&&(e[r]=a[r])}return e},s.apply(this,arguments)}e=a.hmd(e),(r="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.enterModule:void 0)&&r(e),"undefined"!=typeof reactHotLoaderGlobal&&reactHotLoaderGlobal.default.signature;var l=function(e){var t=e.breakLabel,a=e.breakClassName,r=e.breakLinkClassName,o=e.breakHandler,n=e.getEventListener,i=a||"break";return _().createElement("li",{className:i},_().createElement("a",s({className:r,role:"button",tabIndex:"0",onKeyPress:o},n(o)),t))};l.propTypes={breakLabel:i().oneOfType([i().string,i().node]),breakClassName:i().string,breakLinkClassName:i().string,breakHandler:i().func.isRequired,getEventListener:i().func.isRequired};var p=l;const c=p;var d,u;(d="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0)&&(d.register(l,"BreakView","/home/yoan/work/oss/react-paginate/react_components/BreakView.js"),d.register(p,"default","/home/yoan/work/oss/react-paginate/react_components/BreakView.js")),(u="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.leaveModule:void 0)&&u(e)},770:(e,t,a)=>{"use strict";a.d(t,{Z:()=>c});var r,o=a(98),_=a.n(o),n=a(697),i=a.n(n);function s(){return s=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var r in a)Object.prototype.hasOwnProperty.call(a,r)&&(e[r]=a[r])}return e},s.apply(this,arguments)}e=a.hmd(e),(r="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.enterModule:void 0)&&r(e),"undefined"!=typeof reactHotLoaderGlobal&&reactHotLoaderGlobal.default.signature;var l=function(e){var t=e.pageClassName,a=e.pageLinkClassName,r=e.page,o=e.selected,n=e.activeClassName,i=e.activeLinkClassName,l=e.getEventListener,p=e.pageSelectedHandler,c=e.href,d=e.extraAriaContext,u=e.pageLabelBuilder,f=e.rel,g=e.ariaLabel||"Page "+r+(d?" "+d:""),P=null;return o&&(P="page",g=e.ariaLabel||"Page "+r+" is your current page",t=void 0!==t?t+" "+n:n,void 0!==a?void 0!==i&&(a=a+" "+i):a=i),_().createElement("li",{className:t},_().createElement("a",s({rel:f,role:c?void 0:"button",className:a,href:c,tabIndex:o?"-1":"0","aria-label":g,"aria-current":P,onKeyPress:p},l(p)),u(r)))};l.propTypes={pageSelectedHandler:i().func.isRequired,selected:i().bool.isRequired,pageClassName:i().string,pageLinkClassName:i().string,activeClassName:i().string,activeLinkClassName:i().string,extraAriaContext:i().string,href:i().string,ariaLabel:i().string,page:i().number.isRequired,getEventListener:i().func.isRequired,pageLabelBuilder:i().func.isRequired,rel:i().string};var p=l;const c=p;var d,u;(d="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0)&&(d.register(l,"PageView","/home/yoan/work/oss/react-paginate/react_components/PageView.js"),d.register(p,"default","/home/yoan/work/oss/react-paginate/react_components/PageView.js")),(u="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.leaveModule:void 0)&&u(e)},214:(module,__webpack_exports__,__nested_webpack_require_3517__)=>{"use strict";__nested_webpack_require_3517__.d(__webpack_exports__,{Z:()=>PaginationBoxView});var react__WEBPACK_IMPORTED_MODULE_0__=__nested_webpack_require_3517__(98),react__WEBPACK_IMPORTED_MODULE_0___default=__nested_webpack_require_3517__.n(react__WEBPACK_IMPORTED_MODULE_0__),prop_types__WEBPACK_IMPORTED_MODULE_1__=__nested_webpack_require_3517__(697),prop_types__WEBPACK_IMPORTED_MODULE_1___default=__nested_webpack_require_3517__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__),_PageView__WEBPACK_IMPORTED_MODULE_2__=__nested_webpack_require_3517__(770),_BreakView__WEBPACK_IMPORTED_MODULE_3__=__nested_webpack_require_3517__(759),_utils__WEBPACK_IMPORTED_MODULE_4__=__nested_webpack_require_3517__(923),enterModule;function _typeof(e){return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},_typeof(e)}function _extends(){return _extends=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var r in a)Object.prototype.hasOwnProperty.call(a,r)&&(e[r]=a[r])}return e},_extends.apply(this,arguments)}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _defineProperties(e,t){for(var a=0;a<t.length;a++){var r=t[a];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function _createClass(e,t,a){return t&&_defineProperties(e.prototype,t),a&&_defineProperties(e,a),e}function _inherits(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&_setPrototypeOf(e,t)}function _setPrototypeOf(e,t){return _setPrototypeOf=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},_setPrototypeOf(e,t)}function _createSuper(e){var t=_isNativeReflectConstruct();return function(){var a,r=_getPrototypeOf(e);if(t){var o=_getPrototypeOf(this).constructor;a=Reflect.construct(r,arguments,o)}else a=r.apply(this,arguments);return _possibleConstructorReturn(this,a)}}function _possibleConstructorReturn(e,t){if(t&&("object"===_typeof(t)||"function"==typeof t))return t;if(void 0!==t)throw new TypeError("Derived constructors may only return object or undefined");return _assertThisInitialized(e)}function _assertThisInitialized(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function _isNativeReflectConstruct(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(e){return!1}}function _getPrototypeOf(e){return _getPrototypeOf=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},_getPrototypeOf(e)}function _defineProperty(e,t,a){return t in e?Object.defineProperty(e,t,{value:a,enumerable:!0,configurable:!0,writable:!0}):e[t]=a,e}module=__nested_webpack_require_3517__.hmd(module),enterModule="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.enterModule:void 0,enterModule&&enterModule(module);var __signature__="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default.signature:function(e){return e},PaginationBoxView=function(_Component){_inherits(PaginationBoxView,_Component);var _super=_createSuper(PaginationBoxView);function PaginationBoxView(e){var t,a;return _classCallCheck(this,PaginationBoxView),_defineProperty(_assertThisInitialized(t=_super.call(this,e)),"handlePreviousPage",(function(e){var a=t.state.selected;t.handleClick(e,null,a>0?a-1:void 0,{isPrevious:!0})})),_defineProperty(_assertThisInitialized(t),"handleNextPage",(function(e){var a=t.state.selected,r=t.props.pageCount;t.handleClick(e,null,a<r-1?a+1:void 0,{isNext:!0})})),_defineProperty(_assertThisInitialized(t),"handlePageSelected",(function(e,a){if(t.state.selected===e)return t.callActiveCallback(e),void t.handleClick(a,null,void 0,{isActive:!0});t.handleClick(a,null,e)})),_defineProperty(_assertThisInitialized(t),"handlePageChange",(function(e){t.state.selected!==e&&(t.setState({selected:e}),t.callCallback(e))})),_defineProperty(_assertThisInitialized(t),"getEventListener",(function(e){return _defineProperty({},t.props.eventListener,e)})),_defineProperty(_assertThisInitialized(t),"handleClick",(function(e,a,r){var o=arguments.length>3&&void 0!==arguments[3]?arguments[3]:{},_=o.isPrevious,n=void 0!==_&&_,i=o.isNext,s=void 0!==i&&i,l=o.isBreak,p=void 0!==l&&l,c=o.isActive,d=void 0!==c&&c;e.preventDefault?e.preventDefault():e.returnValue=!1;var u=t.state.selected,f=t.props.onClick,g=r;if(f){var P=f({index:a,selected:u,nextSelectedPage:r,event:e,isPrevious:n,isNext:s,isBreak:p,isActive:d});if(!1===P)return;Number.isInteger(P)&&(g=P)}void 0!==g&&t.handlePageChange(g)})),_defineProperty(_assertThisInitialized(t),"handleBreakClick",(function(e,a){var r=t.state.selected;t.handleClick(a,e,r<e?t.getForwardJump():t.getBackwardJump(),{isBreak:!0})})),_defineProperty(_assertThisInitialized(t),"callCallback",(function(e){void 0!==t.props.onPageChange&&"function"==typeof t.props.onPageChange&&t.props.onPageChange({selected:e})})),_defineProperty(_assertThisInitialized(t),"callActiveCallback",(function(e){void 0!==t.props.onPageActive&&"function"==typeof t.props.onPageActive&&t.props.onPageActive({selected:e})})),_defineProperty(_assertThisInitialized(t),"getElementPageRel",(function(e){var a=t.state.selected,r=t.props,o=r.nextPageRel,_=r.prevPageRel,n=r.selectedPageRel;return a-1===e?_:a===e?n:a+1===e?o:void 0})),_defineProperty(_assertThisInitialized(t),"pagination",(function(){var e=[],a=t.props,r=a.pageRangeDisplayed,o=a.pageCount,_=a.marginPagesDisplayed,n=a.breakLabel,i=a.breakClassName,s=a.breakLinkClassName,l=t.state.selected;if(o<=r)for(var p=0;p<o;p++)e.push(t.getPageElement(p));else{var c=r/2,d=r-c;l>o-r/2?c=r-(d=o-l):l<r/2&&(d=r-(c=l));var u,f,g=function(e){return t.getPageElement(e)},P=[];for(u=0;u<o;u++){var E=u+1;E<=_||E>o-_||u>=l-c&&u<=l+(0===l&&r>1?d-1:d)?P.push({type:"page",index:u,display:g(u)}):n&&P.length>0&&P[P.length-1].display!==f&&(r>0||_>0)&&(f=react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BreakView__WEBPACK_IMPORTED_MODULE_3__.Z,{key:u,breakLabel:n,breakClassName:i,breakLinkClassName:s,breakHandler:t.handleBreakClick.bind(null,u),getEventListener:t.getEventListener}),P.push({type:"break",index:u,display:f}))}P.forEach((function(t,a){var r=t;"break"===t.type&&P[a-1]&&"page"===P[a-1].type&&P[a+1]&&"page"===P[a+1].type&&P[a+1].index-P[a-1].index<=2&&(r={type:"page",index:t.index,display:g(t.index)}),e.push(r.display)}))}return e})),void 0!==e.initialPage&&void 0!==e.forcePage&&console.warn("(react-paginate): Both initialPage (".concat(e.initialPage,") and forcePage (").concat(e.forcePage,") props are provided, which is discouraged.")+" Use exclusively forcePage prop for a controlled component.\nSee https://reactjs.org/docs/forms.html#controlled-components"),a=e.initialPage?e.initialPage:e.forcePage?e.forcePage:0,t.state={selected:a},t}return _createClass(PaginationBoxView,[{key:"componentDidMount",value:function(){var e=this.props,t=e.initialPage,a=e.disableInitialCallback,r=e.extraAriaContext,o=e.pageCount,_=e.forcePage;void 0===t||a||this.callCallback(t),r&&console.warn("DEPRECATED (react-paginate): The extraAriaContext prop is deprecated. You should now use the ariaLabelBuilder instead."),Number.isInteger(o)||console.warn("(react-paginate): The pageCount prop value provided is not an integer (".concat(o,"). Did you forget a Math.ceil()?")),void 0!==t&&t>o-1&&console.warn("(react-paginate): The initialPage prop provided is greater than the maximum page index from pageCount prop (".concat(t," > ").concat(o-1,").")),void 0!==_&&_>o-1&&console.warn("(react-paginate): The forcePage prop provided is greater than the maximum page index from pageCount prop (".concat(_," > ").concat(o-1,")."))}},{key:"componentDidUpdate",value:function(e){void 0!==this.props.forcePage&&this.props.forcePage!==e.forcePage&&(this.props.forcePage>this.props.pageCount-1&&console.warn("(react-paginate): The forcePage prop provided is greater than the maximum page index from pageCount prop (".concat(this.props.forcePage," > ").concat(this.props.pageCount-1,").")),this.setState({selected:this.props.forcePage})),Number.isInteger(e.pageCount)&&!Number.isInteger(this.props.pageCount)&&console.warn("(react-paginate): The pageCount prop value provided is not an integer (".concat(this.props.pageCount,"). Did you forget a Math.ceil()?"))}},{key:"getForwardJump",value:function(){var e=this.state.selected,t=this.props,a=t.pageCount,r=e+t.pageRangeDisplayed;return r>=a?a-1:r}},{key:"getBackwardJump",value:function(){var e=this.state.selected-this.props.pageRangeDisplayed;return e<0?0:e}},{key:"getElementHref",value:function(e){var t=this.props,a=t.hrefBuilder,r=t.pageCount,o=t.hrefAllControls;if(a)return o||e>=0&&e<r?a(e+1,r,this.state.selected):void 0}},{key:"ariaLabelBuilder",value:function(e){var t=e===this.state.selected;if(this.props.ariaLabelBuilder&&e>=0&&e<this.props.pageCount){var a=this.props.ariaLabelBuilder(e+1,t);return this.props.extraAriaContext&&!t&&(a=a+" "+this.props.extraAriaContext),a}}},{key:"getPageElement",value:function(e){var t=this.state.selected,a=this.props,r=a.pageClassName,o=a.pageLinkClassName,_=a.activeClassName,n=a.activeLinkClassName,i=a.extraAriaContext,s=a.pageLabelBuilder;return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_PageView__WEBPACK_IMPORTED_MODULE_2__.Z,{key:e,pageSelectedHandler:this.handlePageSelected.bind(null,e),selected:t===e,rel:this.getElementPageRel(e),pageClassName:r,pageLinkClassName:o,activeClassName:_,activeLinkClassName:n,extraAriaContext:i,href:this.getElementHref(e),ariaLabel:this.ariaLabelBuilder(e),page:e+1,pageLabelBuilder:s,getEventListener:this.getEventListener})}},{key:"render",value:function(){var e=this.props.renderOnZeroPageCount;if(0===this.props.pageCount&&void 0!==e)return e?e(this.props):e;var t=this.props,a=t.disabledClassName,r=t.disabledLinkClassName,o=t.pageCount,_=t.className,n=t.containerClassName,i=t.previousLabel,s=t.previousClassName,l=t.previousLinkClassName,p=t.previousAriaLabel,c=t.prevRel,d=t.nextLabel,u=t.nextClassName,f=t.nextLinkClassName,g=t.nextAriaLabel,P=t.nextRel,E=this.state.selected,b=0===E,y=E===o-1,v="".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(s)).concat(b?" ".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(a)):""),C="".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(u)).concat(y?" ".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(a)):""),O="".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(l)).concat(b?" ".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(r)):""),m="".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(f)).concat(y?" ".concat((0,_utils__WEBPACK_IMPORTED_MODULE_4__.m)(r)):""),L=b?"true":"false",h=y?"true":"false";return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul",{className:_||n},react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li",{className:v},react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a",_extends({className:O,href:this.getElementHref(E-1),tabIndex:b?"-1":"0",role:"button",onKeyPress:this.handlePreviousPage,"aria-disabled":L,"aria-label":p,rel:c},this.getEventListener(this.handlePreviousPage)),i)),this.pagination(),react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li",{className:C},react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a",_extends({className:m,href:this.getElementHref(E+1),tabIndex:y?"-1":"0",role:"button",onKeyPress:this.handleNextPage,"aria-disabled":h,"aria-label":g,rel:P},this.getEventListener(this.handleNextPage)),d)))}},{key:"__reactstandin__regenerateByEval",value:function __reactstandin__regenerateByEval(key,code){this[key]=eval(code)}}]),PaginationBoxView}(react__WEBPACK_IMPORTED_MODULE_0__.Component),reactHotLoader,leaveModule;_defineProperty(PaginationBoxView,"propTypes",{pageCount:prop_types__WEBPACK_IMPORTED_MODULE_1___default().number.isRequired,pageRangeDisplayed:prop_types__WEBPACK_IMPORTED_MODULE_1___default().number,marginPagesDisplayed:prop_types__WEBPACK_IMPORTED_MODULE_1___default().number,previousLabel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().node,previousAriaLabel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,prevPageRel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,prevRel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,nextLabel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().node,nextAriaLabel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,nextPageRel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,nextRel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,breakLabel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,prop_types__WEBPACK_IMPORTED_MODULE_1___default().node]),hrefBuilder:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,hrefAllControls:prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool,onPageChange:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,onPageActive:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,onClick:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,initialPage:prop_types__WEBPACK_IMPORTED_MODULE_1___default().number,forcePage:prop_types__WEBPACK_IMPORTED_MODULE_1___default().number,disableInitialCallback:prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool,containerClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,className:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,pageClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,pageLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,pageLabelBuilder:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,activeClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,activeLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,previousClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,nextClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,previousLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,nextLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,disabledClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,disabledLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,breakClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,breakLinkClassName:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,extraAriaContext:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,ariaLabelBuilder:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,eventListener:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string,renderOnZeroPageCount:prop_types__WEBPACK_IMPORTED_MODULE_1___default().func,selectedPageRel:prop_types__WEBPACK_IMPORTED_MODULE_1___default().string}),_defineProperty(PaginationBoxView,"defaultProps",{pageRangeDisplayed:2,marginPagesDisplayed:3,activeClassName:"selected",previousLabel:"Previous",previousClassName:"previous",previousAriaLabel:"Previous page",prevPageRel:"prev",prevRel:"prev",nextLabel:"Next",nextClassName:"next",nextAriaLabel:"Next page",nextPageRel:"next",nextRel:"next",breakLabel:"...",disabledClassName:"disabled",disableInitialCallback:!1,pageLabelBuilder:function(e){return e},eventListener:"onClick",renderOnZeroPageCount:void 0,selectedPageRel:"canonical",hrefAllControls:!1}),reactHotLoader="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0,reactHotLoader&&reactHotLoader.register(PaginationBoxView,"PaginationBoxView","/home/yoan/work/oss/react-paginate/react_components/PaginationBoxView.js"),leaveModule="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.leaveModule:void 0,leaveModule&&leaveModule(module)},351:(e,t,a)=>{"use strict";a.r(t),a.d(t,{default:()=>n});var r,o=a(214);e=a.hmd(e),(r="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.enterModule:void 0)&&r(e),"undefined"!=typeof reactHotLoaderGlobal&&reactHotLoaderGlobal.default.signature;var _=o.Z;const n=_;var i,s;(i="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0)&&i.register(_,"default","/home/yoan/work/oss/react-paginate/react_components/index.js"),(s="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.leaveModule:void 0)&&s(e)},923:(e,t,a)=>{"use strict";var r,o,_;function n(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"";return null!=e?e:t}a.d(t,{m:()=>n}),e=a.hmd(e),(r="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.enterModule:void 0)&&r(e),"undefined"!=typeof reactHotLoaderGlobal&&reactHotLoaderGlobal.default.signature,(o="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0)&&o.register(n,"classNameIfDefined","/home/yoan/work/oss/react-paginate/react_components/utils.js"),(_="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.leaveModule:void 0)&&_(e)},703:(e,t,a)=>{"use strict";var r=a(414);function o(){}function _(){}_.resetWarningCache=o,e.exports=function(){function e(e,t,a,o,_,n){if(n!==r){var i=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw i.name="Invariant Violation",i}}function t(){return e}e.isRequired=e;var a={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,elementType:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t,checkPropTypes:_,resetWarningCache:o};return a.PropTypes=a,a}},697:(e,t,a)=>{e.exports=a(703)()},414:e=>{"use strict";e.exports="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED"},98:e=>{"use strict";e.exports=__WEBPACK_EXTERNAL_MODULE__98__}},__webpack_module_cache__={};function __nested_webpack_require_21573__(e){var t=__webpack_module_cache__[e];if(void 0!==t)return t.exports;var a=__webpack_module_cache__[e]={id:e,loaded:!1,exports:{}};return __webpack_modules__[e](a,a.exports,__nested_webpack_require_21573__),a.loaded=!0,a.exports}__nested_webpack_require_21573__.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return __nested_webpack_require_21573__.d(t,{a:t}),t},__nested_webpack_require_21573__.d=(e,t)=>{for(var a in t)__nested_webpack_require_21573__.o(t,a)&&!__nested_webpack_require_21573__.o(e,a)&&Object.defineProperty(e,a,{enumerable:!0,get:t[a]})},__nested_webpack_require_21573__.hmd=e=>((e=Object.create(e)).children||(e.children=[]),Object.defineProperty(e,"exports",{enumerable:!0,set:()=>{throw new Error("ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: "+e.id)}}),e),__nested_webpack_require_21573__.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),__nested_webpack_require_21573__.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var __webpack_exports__=__nested_webpack_require_21573__(351);return __webpack_exports__})()}));
 //# sourceMappingURL=react-paginate.js.map
-
-/***/ }),
-
-/***/ "./node_modules/react-popper/lib/esm/Manager.js":
-/*!******************************************************!*\
-  !*** ./node_modules/react-popper/lib/esm/Manager.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ManagerReferenceNodeContext": () => (/* binding */ ManagerReferenceNodeContext),
-/* harmony export */   "ManagerReferenceNodeSetterContext": () => (/* binding */ ManagerReferenceNodeSetterContext),
-/* harmony export */   "Manager": () => (/* binding */ Manager)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var ManagerReferenceNodeContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext();
-var ManagerReferenceNodeSetterContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext();
-function Manager(_ref) {
-  var children = _ref.children;
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
-      referenceNode = _React$useState[0],
-      setReferenceNode = _React$useState[1];
-
-  var hasUnmounted = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    return function () {
-      hasUnmounted.current = true;
-    };
-  }, []);
-  var handleSetReferenceNode = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (node) {
-    if (!hasUnmounted.current) {
-      setReferenceNode(node);
-    }
-  }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ManagerReferenceNodeContext.Provider, {
-    value: referenceNode
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ManagerReferenceNodeSetterContext.Provider, {
-    value: handleSetReferenceNode
-  }, children));
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-popper/lib/esm/Popper.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/react-popper/lib/esm/Popper.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Popper": () => (/* binding */ Popper)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Manager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Manager */ "./node_modules/react-popper/lib/esm/Manager.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./node_modules/react-popper/lib/esm/utils.js");
-/* harmony import */ var _usePopper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./usePopper */ "./node_modules/react-popper/lib/esm/usePopper.js");
-
-
-
-
-
-var NOOP = function NOOP() {
-  return void 0;
-};
-
-var NOOP_PROMISE = function NOOP_PROMISE() {
-  return Promise.resolve(null);
-};
-
-var EMPTY_MODIFIERS = [];
-function Popper(_ref) {
-  var _ref$placement = _ref.placement,
-      placement = _ref$placement === void 0 ? 'bottom' : _ref$placement,
-      _ref$strategy = _ref.strategy,
-      strategy = _ref$strategy === void 0 ? 'absolute' : _ref$strategy,
-      _ref$modifiers = _ref.modifiers,
-      modifiers = _ref$modifiers === void 0 ? EMPTY_MODIFIERS : _ref$modifiers,
-      referenceElement = _ref.referenceElement,
-      onFirstUpdate = _ref.onFirstUpdate,
-      innerRef = _ref.innerRef,
-      children = _ref.children;
-  var referenceNode = react__WEBPACK_IMPORTED_MODULE_0__.useContext(_Manager__WEBPACK_IMPORTED_MODULE_1__.ManagerReferenceNodeContext);
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
-      popperElement = _React$useState[0],
-      setPopperElement = _React$useState[1];
-
-  var _React$useState2 = react__WEBPACK_IMPORTED_MODULE_0__.useState(null),
-      arrowElement = _React$useState2[0],
-      setArrowElement = _React$useState2[1];
-
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    (0,_utils__WEBPACK_IMPORTED_MODULE_2__.setRef)(innerRef, popperElement);
-  }, [innerRef, popperElement]);
-  var options = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
-    return {
-      placement: placement,
-      strategy: strategy,
-      onFirstUpdate: onFirstUpdate,
-      modifiers: [].concat(modifiers, [{
-        name: 'arrow',
-        enabled: arrowElement != null,
-        options: {
-          element: arrowElement
-        }
-      }])
-    };
-  }, [placement, strategy, onFirstUpdate, modifiers, arrowElement]);
-
-  var _usePopper = (0,_usePopper__WEBPACK_IMPORTED_MODULE_3__.usePopper)(referenceElement || referenceNode, popperElement, options),
-      state = _usePopper.state,
-      styles = _usePopper.styles,
-      forceUpdate = _usePopper.forceUpdate,
-      update = _usePopper.update;
-
-  var childrenProps = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
-    return {
-      ref: setPopperElement,
-      style: styles.popper,
-      placement: state ? state.placement : placement,
-      hasPopperEscaped: state && state.modifiersData.hide ? state.modifiersData.hide.hasPopperEscaped : null,
-      isReferenceHidden: state && state.modifiersData.hide ? state.modifiersData.hide.isReferenceHidden : null,
-      arrowProps: {
-        style: styles.arrow,
-        ref: setArrowElement
-      },
-      forceUpdate: forceUpdate || NOOP,
-      update: update || NOOP_PROMISE
-    };
-  }, [setPopperElement, setArrowElement, placement, state, styles, update, forceUpdate]);
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_2__.unwrapArray)(children)(childrenProps);
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-popper/lib/esm/Reference.js":
-/*!********************************************************!*\
-  !*** ./node_modules/react-popper/lib/esm/Reference.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Reference": () => (/* binding */ Reference)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var warning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! warning */ "./node_modules/warning/warning.js");
-/* harmony import */ var warning__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(warning__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Manager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Manager */ "./node_modules/react-popper/lib/esm/Manager.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/react-popper/lib/esm/utils.js");
-
-
-
-
-function Reference(_ref) {
-  var children = _ref.children,
-      innerRef = _ref.innerRef;
-  var setReferenceNode = react__WEBPACK_IMPORTED_MODULE_0__.useContext(_Manager__WEBPACK_IMPORTED_MODULE_2__.ManagerReferenceNodeSetterContext);
-  var refHandler = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (node) {
-    (0,_utils__WEBPACK_IMPORTED_MODULE_3__.setRef)(innerRef, node);
-    (0,_utils__WEBPACK_IMPORTED_MODULE_3__.safeInvoke)(setReferenceNode, node);
-  }, [innerRef, setReferenceNode]); // ran on unmount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    return function () {
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.setRef)(innerRef, null);
-    };
-  }, []);
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    warning__WEBPACK_IMPORTED_MODULE_1___default()(Boolean(setReferenceNode), '`Reference` should not be used outside of a `Manager` component.');
-  }, [setReferenceNode]);
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.unwrapArray)(children)({
-    ref: refHandler
-  });
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-popper/lib/esm/usePopper.js":
-/*!********************************************************!*\
-  !*** ./node_modules/react-popper/lib/esm/usePopper.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "usePopper": () => (/* binding */ usePopper)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/popper.js");
-/* harmony import */ var react_fast_compare__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-fast-compare */ "./node_modules/react-fast-compare/index.js");
-/* harmony import */ var react_fast_compare__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/react-popper/lib/esm/utils.js");
-
-
-
-
-
-var EMPTY_MODIFIERS = [];
-var usePopper = function usePopper(referenceElement, popperElement, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var prevOptions = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
-  var optionsWithDefaults = {
-    onFirstUpdate: options.onFirstUpdate,
-    placement: options.placement || 'bottom',
-    strategy: options.strategy || 'absolute',
-    modifiers: options.modifiers || EMPTY_MODIFIERS
-  };
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState({
-    styles: {
-      popper: {
-        position: optionsWithDefaults.strategy,
-        left: '0',
-        top: '0'
-      },
-      arrow: {
-        position: 'absolute'
-      }
-    },
-    attributes: {}
-  }),
-      state = _React$useState[0],
-      setState = _React$useState[1];
-
-  var updateStateModifier = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
-    return {
-      name: 'updateState',
-      enabled: true,
-      phase: 'write',
-      fn: function fn(_ref) {
-        var state = _ref.state;
-        var elements = Object.keys(state.elements);
-        react_dom__WEBPACK_IMPORTED_MODULE_1__.flushSync(function () {
-          setState({
-            styles: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.fromEntries)(elements.map(function (element) {
-              return [element, state.styles[element] || {}];
-            })),
-            attributes: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.fromEntries)(elements.map(function (element) {
-              return [element, state.attributes[element]];
-            }))
-          });
-        });
-      },
-      requires: ['computeStyles']
-    };
-  }, []);
-  var popperOptions = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
-    var newOptions = {
-      onFirstUpdate: optionsWithDefaults.onFirstUpdate,
-      placement: optionsWithDefaults.placement,
-      strategy: optionsWithDefaults.strategy,
-      modifiers: [].concat(optionsWithDefaults.modifiers, [updateStateModifier, {
-        name: 'applyStyles',
-        enabled: false
-      }])
-    };
-
-    if (react_fast_compare__WEBPACK_IMPORTED_MODULE_2___default()(prevOptions.current, newOptions)) {
-      return prevOptions.current || newOptions;
-    } else {
-      prevOptions.current = newOptions;
-      return newOptions;
-    }
-  }, [optionsWithDefaults.onFirstUpdate, optionsWithDefaults.placement, optionsWithDefaults.strategy, optionsWithDefaults.modifiers, updateStateModifier]);
-  var popperInstanceRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
-  (0,_utils__WEBPACK_IMPORTED_MODULE_3__.useIsomorphicLayoutEffect)(function () {
-    if (popperInstanceRef.current) {
-      popperInstanceRef.current.setOptions(popperOptions);
-    }
-  }, [popperOptions]);
-  (0,_utils__WEBPACK_IMPORTED_MODULE_3__.useIsomorphicLayoutEffect)(function () {
-    if (referenceElement == null || popperElement == null) {
-      return;
-    }
-
-    var createPopper = options.createPopper || _popperjs_core__WEBPACK_IMPORTED_MODULE_4__.createPopper;
-    var popperInstance = createPopper(referenceElement, popperElement, popperOptions);
-    popperInstanceRef.current = popperInstance;
-    return function () {
-      popperInstance.destroy();
-      popperInstanceRef.current = null;
-    };
-  }, [referenceElement, popperElement, options.createPopper]);
-  return {
-    state: popperInstanceRef.current ? popperInstanceRef.current.state : null,
-    styles: state.styles,
-    attributes: state.attributes,
-    update: popperInstanceRef.current ? popperInstanceRef.current.update : null,
-    forceUpdate: popperInstanceRef.current ? popperInstanceRef.current.forceUpdate : null
-  };
-};
-
-/***/ }),
-
-/***/ "./node_modules/react-popper/lib/esm/utils.js":
-/*!****************************************************!*\
-  !*** ./node_modules/react-popper/lib/esm/utils.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "unwrapArray": () => (/* binding */ unwrapArray),
-/* harmony export */   "safeInvoke": () => (/* binding */ safeInvoke),
-/* harmony export */   "setRef": () => (/* binding */ setRef),
-/* harmony export */   "fromEntries": () => (/* binding */ fromEntries),
-/* harmony export */   "useIsomorphicLayoutEffect": () => (/* binding */ useIsomorphicLayoutEffect)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-
-/**
- * Takes an argument and if it's an array, returns the first item in the array,
- * otherwise returns the argument. Used for Preact compatibility.
- */
-var unwrapArray = function unwrapArray(arg) {
-  return Array.isArray(arg) ? arg[0] : arg;
-};
-/**
- * Takes a maybe-undefined function and arbitrary args and invokes the function
- * only if it is defined.
- */
-
-var safeInvoke = function safeInvoke(fn) {
-  if (typeof fn === 'function') {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return fn.apply(void 0, args);
-  }
-};
-/**
- * Sets a ref using either a ref callback or a ref object
- */
-
-var setRef = function setRef(ref, node) {
-  // if its a function call it
-  if (typeof ref === 'function') {
-    return safeInvoke(ref, node);
-  } // otherwise we should treat it as a ref object
-  else if (ref != null) {
-      ref.current = node;
-    }
-};
-/**
- * Simple ponyfill for Object.fromEntries
- */
-
-var fromEntries = function fromEntries(entries) {
-  return entries.reduce(function (acc, _ref) {
-    var key = _ref[0],
-        value = _ref[1];
-    acc[key] = value;
-    return acc;
-  }, {});
-};
-/**
- * Small wrapper around `useLayoutEffect` to get rid of the warning on SSR envs
- */
-
-var useIsomorphicLayoutEffect = typeof window !== 'undefined' && window.document && window.document.createElement ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect;
 
 /***/ }),
 
@@ -64433,7587 +65819,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/reactstrap/dist/reactstrap.modern.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/reactstrap/dist/reactstrap.modern.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Accordion": () => (/* binding */ Accordion),
-/* harmony export */   "AccordionBody": () => (/* binding */ AccordionBody),
-/* harmony export */   "AccordionContext": () => (/* binding */ AccordionContext),
-/* harmony export */   "AccordionHeader": () => (/* binding */ AccordionHeader),
-/* harmony export */   "AccordionItem": () => (/* binding */ AccordionItem),
-/* harmony export */   "Alert": () => (/* binding */ Alert),
-/* harmony export */   "Badge": () => (/* binding */ Badge),
-/* harmony export */   "Breadcrumb": () => (/* binding */ Breadcrumb),
-/* harmony export */   "BreadcrumbItem": () => (/* binding */ BreadcrumbItem),
-/* harmony export */   "Button": () => (/* binding */ Button),
-/* harmony export */   "ButtonDropdown": () => (/* binding */ ButtonDropdown),
-/* harmony export */   "ButtonGroup": () => (/* binding */ ButtonGroup),
-/* harmony export */   "ButtonToggle": () => (/* binding */ ButtonToggle),
-/* harmony export */   "ButtonToolbar": () => (/* binding */ ButtonToolbar),
-/* harmony export */   "Card": () => (/* binding */ Card),
-/* harmony export */   "CardBody": () => (/* binding */ CardBody),
-/* harmony export */   "CardColumns": () => (/* binding */ CardColumns),
-/* harmony export */   "CardDeck": () => (/* binding */ CardDeck),
-/* harmony export */   "CardFooter": () => (/* binding */ CardFooter),
-/* harmony export */   "CardGroup": () => (/* binding */ CardGroup),
-/* harmony export */   "CardHeader": () => (/* binding */ CardHeader),
-/* harmony export */   "CardImg": () => (/* binding */ CardImg),
-/* harmony export */   "CardImgOverlay": () => (/* binding */ CardImgOverlay),
-/* harmony export */   "CardLink": () => (/* binding */ CardLink),
-/* harmony export */   "CardSubtitle": () => (/* binding */ CardSubtitle),
-/* harmony export */   "CardText": () => (/* binding */ CardText),
-/* harmony export */   "CardTitle": () => (/* binding */ CardTitle),
-/* harmony export */   "Carousel": () => (/* binding */ Carousel$1),
-/* harmony export */   "CarouselCaption": () => (/* binding */ CarouselCaption),
-/* harmony export */   "CarouselControl": () => (/* binding */ CarouselControl),
-/* harmony export */   "CarouselIndicators": () => (/* binding */ CarouselIndicators),
-/* harmony export */   "CarouselItem": () => (/* binding */ CarouselItem$1),
-/* harmony export */   "CloseButton": () => (/* binding */ CloseButton),
-/* harmony export */   "Col": () => (/* binding */ Col),
-/* harmony export */   "Collapse": () => (/* binding */ Collapse$1),
-/* harmony export */   "Container": () => (/* binding */ Container),
-/* harmony export */   "Dropdown": () => (/* binding */ Dropdown$1),
-/* harmony export */   "DropdownContext": () => (/* binding */ DropdownContext),
-/* harmony export */   "DropdownItem": () => (/* binding */ DropdownItem$1),
-/* harmony export */   "DropdownMenu": () => (/* binding */ DropdownMenu$1),
-/* harmony export */   "DropdownToggle": () => (/* binding */ DropdownToggle$1),
-/* harmony export */   "Fade": () => (/* binding */ Fade),
-/* harmony export */   "Form": () => (/* binding */ Form$1),
-/* harmony export */   "FormFeedback": () => (/* binding */ FormFeedback),
-/* harmony export */   "FormGroup": () => (/* binding */ FormGroup),
-/* harmony export */   "FormText": () => (/* binding */ FormText),
-/* harmony export */   "Input": () => (/* binding */ Input$1),
-/* harmony export */   "InputGroup": () => (/* binding */ InputGroup),
-/* harmony export */   "InputGroupText": () => (/* binding */ InputGroupText),
-/* harmony export */   "Label": () => (/* binding */ Label),
-/* harmony export */   "List": () => (/* binding */ List$1),
-/* harmony export */   "ListGroup": () => (/* binding */ ListGroup),
-/* harmony export */   "ListGroupItem": () => (/* binding */ ListGroupItem),
-/* harmony export */   "ListGroupItemHeading": () => (/* binding */ ListGroupItemHeading),
-/* harmony export */   "ListGroupItemText": () => (/* binding */ ListGroupItemText),
-/* harmony export */   "ListInlineItem": () => (/* binding */ ListInlineItem$1),
-/* harmony export */   "Media": () => (/* binding */ Media),
-/* harmony export */   "Modal": () => (/* binding */ Modal$1),
-/* harmony export */   "ModalBody": () => (/* binding */ ModalBody),
-/* harmony export */   "ModalFooter": () => (/* binding */ ModalFooter),
-/* harmony export */   "ModalHeader": () => (/* binding */ ModalHeader),
-/* harmony export */   "Nav": () => (/* binding */ Nav),
-/* harmony export */   "NavItem": () => (/* binding */ NavItem),
-/* harmony export */   "NavLink": () => (/* binding */ NavLink$1),
-/* harmony export */   "Navbar": () => (/* binding */ Navbar),
-/* harmony export */   "NavbarBrand": () => (/* binding */ NavbarBrand),
-/* harmony export */   "NavbarText": () => (/* binding */ NavbarText),
-/* harmony export */   "NavbarToggler": () => (/* binding */ NavbarToggler),
-/* harmony export */   "Offcanvas": () => (/* binding */ Offcanvas$1),
-/* harmony export */   "OffcanvasBody": () => (/* binding */ OffcanvasBody),
-/* harmony export */   "OffcanvasHeader": () => (/* binding */ OffcanvasHeader),
-/* harmony export */   "Pagination": () => (/* binding */ Pagination),
-/* harmony export */   "PaginationItem": () => (/* binding */ PaginationItem),
-/* harmony export */   "PaginationLink": () => (/* binding */ PaginationLink),
-/* harmony export */   "Placeholder": () => (/* binding */ Placeholder),
-/* harmony export */   "PlaceholderButton": () => (/* binding */ PlaceholderButton),
-/* harmony export */   "Polyfill": () => (/* binding */ polyfill),
-/* harmony export */   "Popover": () => (/* binding */ Popover),
-/* harmony export */   "PopoverBody": () => (/* binding */ PopoverBody),
-/* harmony export */   "PopoverHeader": () => (/* binding */ PopoverHeader),
-/* harmony export */   "PopperContent": () => (/* binding */ PopperContent$1),
-/* harmony export */   "PopperTargetHelper": () => (/* binding */ PopperTargetHelper),
-/* harmony export */   "Progress": () => (/* binding */ Progress),
-/* harmony export */   "Row": () => (/* binding */ Row),
-/* harmony export */   "Spinner": () => (/* binding */ Spinner),
-/* harmony export */   "TabContent": () => (/* binding */ TabContent$1),
-/* harmony export */   "TabPane": () => (/* binding */ TabPane),
-/* harmony export */   "Table": () => (/* binding */ Table),
-/* harmony export */   "Toast": () => (/* binding */ Toast),
-/* harmony export */   "ToastBody": () => (/* binding */ ToastBody),
-/* harmony export */   "ToastHeader": () => (/* binding */ ToastHeader),
-/* harmony export */   "Tooltip": () => (/* binding */ Tooltip),
-/* harmony export */   "UncontrolledAccordion": () => (/* binding */ UncontrolledAccordion),
-/* harmony export */   "UncontrolledAlert": () => (/* binding */ UncontrolledAlert$1),
-/* harmony export */   "UncontrolledButtonDropdown": () => (/* binding */ UncontrolledButtonDropdown),
-/* harmony export */   "UncontrolledCarousel": () => (/* binding */ UncontrolledCarousel$1),
-/* harmony export */   "UncontrolledCollapse": () => (/* binding */ UncontrolledCollapse$1),
-/* harmony export */   "UncontrolledDropdown": () => (/* binding */ UncontrolledDropdown),
-/* harmony export */   "UncontrolledPopover": () => (/* binding */ UncontrolledPopover),
-/* harmony export */   "UncontrolledTooltip": () => (/* binding */ UncontrolledTooltip),
-/* harmony export */   "Util": () => (/* binding */ utils)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var react_popper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-popper */ "./node_modules/react-popper/lib/esm/Manager.js");
-/* harmony import */ var react_popper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-popper */ "./node_modules/react-popper/lib/esm/Popper.js");
-/* harmony import */ var react_popper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-popper */ "./node_modules/react-popper/lib/esm/Reference.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/Transition.js");
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-
-  var target = _objectWithoutPropertiesLoose(source, excluded);
-
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-function getScrollbarWidth() {
-  let scrollDiv = document.createElement('div'); // .modal-scrollbar-measure styles // https://github.com/twbs/bootstrap/blob/v4.0.0-alpha.4/scss/_modal.scss#L106-L113
-
-  scrollDiv.style.position = 'absolute';
-  scrollDiv.style.top = '-9999px';
-  scrollDiv.style.width = '50px';
-  scrollDiv.style.height = '50px';
-  scrollDiv.style.overflow = 'scroll';
-  document.body.appendChild(scrollDiv);
-  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-  document.body.removeChild(scrollDiv);
-  return scrollbarWidth;
-}
-function setScrollbarWidth(padding) {
-  document.body.style.paddingRight = padding > 0 ? `${padding}px` : null;
-}
-function isBodyOverflowing() {
-  return document.body.clientWidth < window.innerWidth;
-}
-function getOriginalBodyPadding() {
-  const style = window.getComputedStyle(document.body, null);
-  return parseInt(style && style.getPropertyValue('padding-right') || 0, 10);
-}
-function conditionallyUpdateScrollbar() {
-  const scrollbarWidth = getScrollbarWidth(); // https://github.com/twbs/bootstrap/blob/v4.0.0-alpha.6/js/src/modal.js#L433
-
-  const fixedContent = document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top')[0];
-  const bodyPadding = fixedContent ? parseInt(fixedContent.style.paddingRight || 0, 10) : 0;
-
-  if (isBodyOverflowing()) {
-    setScrollbarWidth(bodyPadding + scrollbarWidth);
-  }
-}
-let globalCssModule;
-function setGlobalCssModule(cssModule) {
-  globalCssModule = cssModule;
-}
-function mapToCssModules(className = '', cssModule = globalCssModule) {
-  if (!cssModule) return className;
-  return className.split(' ').map(c => cssModule[c] || c).join(' ');
-}
-/**
- * Returns a new object with the key/value pairs from `obj` that are not in the array `omitKeys`.
- */
-
-function omit(obj, omitKeys) {
-  const result = {};
-  Object.keys(obj).forEach(key => {
-    if (omitKeys.indexOf(key) === -1) {
-      result[key] = obj[key];
-    }
-  });
-  return result;
-}
-/**
- * Returns a filtered copy of an object with only the specified keys.
- */
-
-function pick(obj, keys) {
-  const pickKeys = Array.isArray(keys) ? keys : [keys];
-  let {
-    length
-  } = pickKeys;
-  let key;
-  const result = {};
-
-  while (length > 0) {
-    length -= 1;
-    key = pickKeys[length];
-    result[key] = obj[key];
-  }
-
-  return result;
-}
-let warned = {};
-function warnOnce(message) {
-  if (!warned[message]) {
-    /* istanbul ignore else */
-    if (typeof console !== 'undefined') {
-      console.error(message); // eslint-disable-line no-console
-    }
-
-    warned[message] = true;
-  }
-}
-function deprecated(propType, explanation) {
-  return function validate(props, propName, componentName, ...rest) {
-    if (props[propName] !== null && typeof props[propName] !== 'undefined') {
-      warnOnce(`"${propName}" property of "${componentName}" has been deprecated.\n${explanation}`);
-    }
-
-    return propType(props, propName, componentName, ...rest);
-  };
-} // Shim Element if needed (e.g. in Node environment)
-
-const Element = typeof window === 'object' && window.Element || function () {};
-
-function DOMElement(props, propName, componentName) {
-  if (!(props[propName] instanceof Element)) {
-    return new Error('Invalid prop `' + propName + '` supplied to `' + componentName + '`. Expected prop to be an instance of Element. Validation failed.');
-  }
-}
-const targetPropType = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, DOMElement, prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-  current: prop_types__WEBPACK_IMPORTED_MODULE_3__.any
-})]);
-const tagPropType = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-  $$typeof: prop_types__WEBPACK_IMPORTED_MODULE_3__.symbol,
-  render: prop_types__WEBPACK_IMPORTED_MODULE_3__.func
-}), prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-  $$typeof: prop_types__WEBPACK_IMPORTED_MODULE_3__.symbol,
-  render: prop_types__WEBPACK_IMPORTED_MODULE_3__.func
-})]))]); // These are all setup to match what is in the bootstrap _variables.scss
-// https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
-
-const TransitionTimeouts = {
-  Fade: 150,
-  // $transition-fade
-  Collapse: 350,
-  // $transition-collapse
-  Modal: 300,
-  // $modal-transition
-  Carousel: 600,
-  // $carousel-transition
-  Offcanvas: 300 // $offcanvas-transition
-
-}; // Duplicated Transition.propType keys to ensure that Reactstrap builds
-// for distribution properly exclude these keys for nested child HTML attributes
-// since `react-transition-group` removes propTypes in production builds.
-
-const TransitionPropTypeKeys = ['in', 'mountOnEnter', 'unmountOnExit', 'appear', 'enter', 'exit', 'timeout', 'onEnter', 'onEntering', 'onEntered', 'onExit', 'onExiting', 'onExited'];
-const TransitionStatuses = {
-  ENTERING: 'entering',
-  ENTERED: 'entered',
-  EXITING: 'exiting',
-  EXITED: 'exited'
-};
-const keyCodes = {
-  esc: 27,
-  space: 32,
-  enter: 13,
-  tab: 9,
-  up: 38,
-  down: 40,
-  home: 36,
-  end: 35,
-  n: 78,
-  p: 80
-};
-const PopperPlacements = ['auto-start', 'auto', 'auto-end', 'top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start'];
-const canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-function isReactRefObj(target) {
-  if (target && typeof target === 'object') {
-    return 'current' in target;
-  }
-
-  return false;
-}
-
-function getTag(value) {
-  if (value == null) {
-    return value === undefined ? '[object Undefined]' : '[object Null]';
-  }
-
-  return Object.prototype.toString.call(value);
-}
-
-function isObject(value) {
-  const type = typeof value;
-  return value != null && (type === 'object' || type === 'function');
-}
-function toNumber(value) {
-  const type = typeof value;
-  const NAN = 0 / 0;
-
-  if (type === 'number') {
-    return value;
-  }
-
-  if (type === 'symbol' || type === 'object' && getTag(value) === '[object Symbol]') {
-    return NAN;
-  }
-
-  if (isObject(value)) {
-    const other = typeof value.valueOf === 'function' ? value.valueOf() : value;
-    value = isObject(other) ? `${other}` : other;
-  }
-
-  if (type !== 'string') {
-    return value === 0 ? value : +value;
-  }
-
-  value = value.replace(/^\s+|\s+$/g, '');
-  const isBinary = /^0b[01]+$/i.test(value);
-  return isBinary || /^0o[0-7]+$/i.test(value) ? parseInt(value.slice(2), isBinary ? 2 : 8) : /^[-+]0x[0-9a-f]+$/i.test(value) ? NAN : +value;
-}
-function isFunction(value) {
-  if (!isObject(value)) {
-    return false;
-  }
-
-  const tag = getTag(value);
-  return tag === '[object Function]' || tag === '[object AsyncFunction]' || tag === '[object GeneratorFunction]' || tag === '[object Proxy]';
-}
-function findDOMElements(target) {
-  if (isReactRefObj(target)) {
-    return target.current;
-  }
-
-  if (isFunction(target)) {
-    return target();
-  }
-
-  if (typeof target === 'string' && canUseDOM) {
-    let selection = document.querySelectorAll(target);
-
-    if (!selection.length) {
-      selection = document.querySelectorAll(`#${target}`);
-    }
-
-    if (!selection.length) {
-      throw new Error(`The target '${target}' could not be identified in the dom, tip: check spelling`);
-    }
-
-    return selection;
-  }
-
-  return target;
-}
-function isArrayOrNodeList(els) {
-  if (els === null) {
-    return false;
-  }
-
-  return Array.isArray(els) || canUseDOM && typeof els.length === 'number';
-}
-function getTarget(target, allElements) {
-  const els = findDOMElements(target);
-
-  if (allElements) {
-    if (isArrayOrNodeList(els)) {
-      return els;
-    }
-
-    if (els === null) {
-      return [];
-    }
-
-    return [els];
-  }
-
-  if (isArrayOrNodeList(els)) {
-    return els[0];
-  }
-
-  return els;
-}
-const defaultToggleEvents = ['touchstart', 'click'];
-function addMultipleEventListeners(_els, handler, _events, useCapture) {
-  let els = _els;
-
-  if (!isArrayOrNodeList(els)) {
-    els = [els];
-  }
-
-  let events = _events;
-
-  if (typeof events === 'string') {
-    events = events.split(/\s+/);
-  }
-
-  if (!isArrayOrNodeList(els) || typeof handler !== 'function' || !Array.isArray(events)) {
-    throw new Error(`
-      The first argument of this function must be DOM node or an array on DOM nodes or NodeList.
-      The second must be a function.
-      The third is a string or an array of strings that represents DOM events
-    `);
-  }
-
-  Array.prototype.forEach.call(events, event => {
-    Array.prototype.forEach.call(els, el => {
-      el.addEventListener(event, handler, useCapture);
-    });
-  });
-  return function removeEvents() {
-    Array.prototype.forEach.call(events, event => {
-      Array.prototype.forEach.call(els, el => {
-        el.removeEventListener(event, handler, useCapture);
-      });
-    });
-  };
-}
-const focusableElements = ['a[href]', 'area[href]', 'input:not([disabled]):not([type=hidden])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'object', 'embed', '[tabindex]:not(.modal):not(.offcanvas)', 'audio[controls]', 'video[controls]', '[contenteditable]:not([contenteditable="false"])'];
-
-var utils = {
-  __proto__: null,
-  getScrollbarWidth: getScrollbarWidth,
-  setScrollbarWidth: setScrollbarWidth,
-  isBodyOverflowing: isBodyOverflowing,
-  getOriginalBodyPadding: getOriginalBodyPadding,
-  conditionallyUpdateScrollbar: conditionallyUpdateScrollbar,
-  setGlobalCssModule: setGlobalCssModule,
-  mapToCssModules: mapToCssModules,
-  omit: omit,
-  pick: pick,
-  warnOnce: warnOnce,
-  deprecated: deprecated,
-  DOMElement: DOMElement,
-  targetPropType: targetPropType,
-  tagPropType: tagPropType,
-  TransitionTimeouts: TransitionTimeouts,
-  TransitionPropTypeKeys: TransitionPropTypeKeys,
-  TransitionStatuses: TransitionStatuses,
-  keyCodes: keyCodes,
-  PopperPlacements: PopperPlacements,
-  canUseDOM: canUseDOM,
-  isReactRefObj: isReactRefObj,
-  isObject: isObject,
-  toNumber: toNumber,
-  isFunction: isFunction,
-  findDOMElements: findDOMElements,
-  isArrayOrNodeList: isArrayOrNodeList,
-  getTarget: getTarget,
-  defaultToggleEvents: defaultToggleEvents,
-  addMultipleEventListeners: addMultipleEventListeners,
-  focusableElements: focusableElements
-};
-
-const _excluded$1h = ["className", "cssModule", "fluid", "tag"];
-const propTypes$1m = {
-  tag: tagPropType,
-  fluid: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$1k = {
-  tag: 'div'
-};
-
-function Container(props) {
-  const {
-    className,
-    cssModule,
-    fluid,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1h);
-
-  let containerClass = 'container';
-
-  if (fluid === true) {
-    containerClass = 'container-fluid';
-  } else if (fluid) {
-    containerClass = `container-${fluid}`;
-  }
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, containerClass), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-Container.propTypes = propTypes$1m;
-Container.defaultProps = defaultProps$1k;
-
-const _excluded$1g = ["className", "cssModule", "noGutters", "tag", "widths"];
-const rowColWidths = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
-const rowColsPropType = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]);
-const propTypes$1l = {
-  tag: tagPropType,
-  noGutters: deprecated(prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, 'Please use Bootstrap 5 gutter utility classes. https://getbootstrap.com/docs/5.0/layout/gutters/'),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  xs: rowColsPropType,
-  sm: rowColsPropType,
-  md: rowColsPropType,
-  lg: rowColsPropType,
-  xl: rowColsPropType,
-  xxl: rowColsPropType,
-  widths: prop_types__WEBPACK_IMPORTED_MODULE_3__.array
-};
-const defaultProps$1j = {
-  tag: 'div',
-  widths: rowColWidths
-};
-
-function Row(props) {
-  const {
-    className,
-    cssModule,
-    noGutters,
-    tag: Tag,
-    widths
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1g);
-
-  const colClasses = [];
-  widths.forEach((colWidth, i) => {
-    let colSize = props[colWidth];
-    delete attributes[colWidth];
-
-    if (!colSize) {
-      return;
-    }
-
-    const isXs = !i;
-    colClasses.push(isXs ? `row-cols-${colSize}` : `row-cols-${colWidth}-${colSize}`);
-  });
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, noGutters ? 'gx-0' : null, 'row', colClasses), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-Row.propTypes = propTypes$1l;
-Row.defaultProps = defaultProps$1j;
-
-const _excluded$1f = ["className", "cssModule", "widths", "tag"];
-const colWidths$1 = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
-const stringOrNumberProp$1 = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]);
-const columnProps$1 = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  order: stringOrNumberProp$1,
-  offset: stringOrNumberProp$1
-})]);
-const propTypes$1k = {
-  tag: tagPropType,
-  xs: columnProps$1,
-  sm: columnProps$1,
-  md: columnProps$1,
-  lg: columnProps$1,
-  xl: columnProps$1,
-  xxl: columnProps$1,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  widths: prop_types__WEBPACK_IMPORTED_MODULE_3__.array
-};
-const defaultProps$1i = {
-  tag: 'div',
-  widths: colWidths$1
-};
-
-const getColumnSizeClass$1 = (isXs, colWidth, colSize) => {
-  if (colSize === true || colSize === '') {
-    return isXs ? 'col' : `col-${colWidth}`;
-  }
-
-  if (colSize === 'auto') {
-    return isXs ? 'col-auto' : `col-${colWidth}-auto`;
-  }
-
-  return isXs ? `col-${colSize}` : `col-${colWidth}-${colSize}`;
-};
-
-const getColumnClasses = (attributes, cssModule, widths = colWidths$1) => {
-  const modifiedAttributes = attributes;
-  const colClasses = [];
-  widths.forEach((colWidth, i) => {
-    let columnProp = modifiedAttributes[colWidth];
-    delete modifiedAttributes[colWidth];
-
-    if (!columnProp && columnProp !== '') {
-      return;
-    }
-
-    const isXs = !i;
-
-    if (isObject(columnProp)) {
-      const colSizeInterfix = isXs ? '-' : `-${colWidth}-`;
-      const colClass = getColumnSizeClass$1(isXs, colWidth, columnProp.size);
-      colClasses.push(mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__({
-        [colClass]: columnProp.size || columnProp.size === '',
-        [`order${colSizeInterfix}${columnProp.order}`]: columnProp.order || columnProp.order === 0,
-        [`offset${colSizeInterfix}${columnProp.offset}`]: columnProp.offset || columnProp.offset === 0
-      }), cssModule));
-    } else {
-      const colClass = getColumnSizeClass$1(isXs, colWidth, columnProp);
-      colClasses.push(colClass);
-    }
-  });
-  return {
-    colClasses,
-    modifiedAttributes
-  };
-};
-
-function Col(props) {
-  const {
-    className,
-    cssModule,
-    widths,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1f);
-
-  let {
-    modifiedAttributes,
-    colClasses
-  } = getColumnClasses(attributes, cssModule, widths);
-
-  if (!colClasses.length) {
-    colClasses.push('col');
-  }
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, colClasses), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, modifiedAttributes, {
-    className: classes
-  }));
-}
-
-Col.propTypes = propTypes$1k;
-Col.defaultProps = defaultProps$1i;
-
-const _excluded$1e = ["expand", "className", "cssModule", "light", "dark", "fixed", "sticky", "color", "container", "tag", "children"];
-const propTypes$1j = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Theme the navbar by adding a background color  */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Use any of the responsive containers to change how wide the content in your navbar is presented. */
-  container: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** This prop is passed if the background is dark, to make the text lighter */
-  dark: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Determine if to show toggler button */
-  expand: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Make the navbar fixed at the top */
-  fixed: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  full: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add `.navbar-light` class */
-  light: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  role: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Use `position: sticky` which isn't fully supported in every browser */
-  sticky: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$1h = {
-  tag: 'nav',
-  expand: false,
-  container: 'fluid'
-};
-
-const getExpandClass = expand => {
-  if (expand === false) {
-    return false;
-  }
-
-  if (expand === true || expand === 'xs') {
-    return 'navbar-expand';
-  }
-
-  return `navbar-expand-${expand}`;
-};
-
-function Navbar(props) {
-  const {
-    expand,
-    className,
-    cssModule,
-    light,
-    dark,
-    fixed,
-    sticky,
-    color,
-    container,
-    tag: Tag,
-    children
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1e);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'navbar', getExpandClass(expand), {
-    'navbar-light': light,
-    'navbar-dark': dark,
-    [`bg-${color}`]: color,
-    [`fixed-${fixed}`]: fixed,
-    [`sticky-${sticky}`]: sticky
-  }), cssModule);
-  const containerClass = container && container === true ? 'container' : `container-${container}`;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }), container ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: containerClass
-  }, children) : children);
-}
-
-Navbar.propTypes = propTypes$1j;
-Navbar.defaultProps = defaultProps$1h;
-
-const _excluded$1d = ["className", "cssModule", "tag"];
-const propTypes$1i = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$1g = {
-  tag: 'a'
-};
-
-function NavbarBrand(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1d);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'navbar-brand'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-NavbarBrand.propTypes = propTypes$1i;
-NavbarBrand.defaultProps = defaultProps$1g;
-
-const _excluded$1c = ["className", "cssModule", "active", "tag"];
-const propTypes$1h = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$1f = {
-  tag: 'span'
-};
-
-function NavbarText(props) {
-  const {
-    className,
-    cssModule,
-    active,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1c);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'navbar-text'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-NavbarText.propTypes = propTypes$1h;
-NavbarText.defaultProps = defaultProps$1f;
-
-const _excluded$1b = ["className", "cssModule", "children", "tag"];
-const propTypes$1g = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-  type: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Pass children so this component can wrap the child elements */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node
-};
-const defaultProps$1e = {
-  tag: 'button',
-  type: 'button'
-};
-
-function NavbarToggler(props) {
-  const {
-    className,
-    cssModule,
-    children,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1b);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'navbar-toggler'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-    "aria-label": "Toggle navigation"
-  }, attributes, {
-    className: classes
-  }), children || /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: mapToCssModules('navbar-toggler-icon', cssModule)
-  }));
-}
-
-NavbarToggler.propTypes = propTypes$1g;
-NavbarToggler.defaultProps = defaultProps$1e;
-
-const _excluded$1a = ["className", "cssModule", "tabs", "pills", "vertical", "horizontal", "justified", "fill", "navbar", "card", "tag"];
-const propTypes$1f = {
-  /** Adding card prop adds `.card-header-tabs` or `.card-header-pills` class */
-  card: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** fills the nav to extend to full available width */
-  fill: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Change the horizontal alignment of your nav */
-  horizontal: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['center', 'end']),
-
-  /**  All horizontal space will be occupied by nav links, but unlike the `fill` above, every nav item will be the same width. */
-  justified: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add navbar for a full-height and lightweight navigation */
-  navbar: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Make NavItems look like pills */
-  pills: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Make NavItems look like tabs */
-  tabs: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Stack your navigation by changing the flex item direction */
-  vertical: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string])
-};
-const defaultProps$1d = {
-  tag: 'ul',
-  vertical: false
-};
-
-const getVerticalClass = vertical => {
-  if (vertical === false) {
-    return false;
-  }
-
-  if (vertical === true || vertical === 'xs') {
-    return 'flex-column';
-  }
-
-  return `flex-${vertical}-column`;
-};
-
-function Nav(props) {
-  const {
-    className,
-    cssModule,
-    tabs,
-    pills,
-    vertical,
-    horizontal,
-    justified,
-    fill,
-    navbar,
-    card,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$1a);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, navbar ? 'navbar-nav' : 'nav', horizontal ? `justify-content-${horizontal}` : false, getVerticalClass(vertical), {
-    'nav-tabs': tabs,
-    'card-header-tabs': card && tabs,
-    'nav-pills': pills,
-    'card-header-pills': card && pills,
-    'nav-justified': justified,
-    'nav-fill': fill
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-Nav.propTypes = propTypes$1f;
-Nav.defaultProps = defaultProps$1d;
-
-const _excluded$19 = ["className", "cssModule", "active", "tag"];
-const propTypes$1e = {
-  /** Add active class to element */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$1c = {
-  tag: 'li'
-};
-
-function NavItem(props) {
-  const {
-    className,
-    cssModule,
-    active,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$19);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'nav-item', active ? 'active' : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-NavItem.propTypes = propTypes$1e;
-NavItem.defaultProps = defaultProps$1c;
-
-const _excluded$18 = ["className", "cssModule", "active", "tag", "innerRef"];
-const propTypes$1d = {
-  /** Add active class to NavLink */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Disable the link */
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  href: prop_types__WEBPACK_IMPORTED_MODULE_3__.any,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Function to be triggered on click */
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$1b = {
-  tag: 'a'
-};
-
-class NavLink extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e) {
-    if (this.props.disabled) {
-      e.preventDefault();
-      return;
-    }
-
-    if (this.props.href === '#') {
-      e.preventDefault();
-    }
-
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
-  }
-
-  render() {
-    let _this$props = this.props,
-        {
-      className,
-      cssModule,
-      active,
-      tag: Tag,
-      innerRef
-    } = _this$props,
-        attributes = _objectWithoutProperties(_this$props, _excluded$18);
-
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'nav-link', {
-      disabled: attributes.disabled,
-      active: active
-    }), cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-      ref: innerRef,
-      onClick: this.onClick,
-      className: classes
-    }));
-  }
-
-}
-
-NavLink.propTypes = propTypes$1d;
-NavLink.defaultProps = defaultProps$1b;
-var NavLink$1 = NavLink;
-
-const _excluded$17 = ["className", "listClassName", "cssModule", "children", "tag", "listTag", "aria-label"];
-const propTypes$1c = {
-  /** Aria label */
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Pass children so this component can wrap them */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Add custom class to list tag */
-  listClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for list tag */
-  listTag: tagPropType,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$1a = {
-  tag: 'nav',
-  listTag: 'ol',
-  'aria-label': 'breadcrumb'
-};
-
-function Breadcrumb(props) {
-  const {
-    className,
-    listClassName,
-    cssModule,
-    children,
-    tag: Tag,
-    listTag: ListTag,
-    'aria-label': label
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$17);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className), cssModule);
-  const listClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('breadcrumb', listClassName), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    "aria-label": label
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ListTag, {
-    className: listClasses
-  }, children));
-}
-
-Breadcrumb.propTypes = propTypes$1c;
-Breadcrumb.defaultProps = defaultProps$1a;
-
-const _excluded$16 = ["className", "cssModule", "active", "tag"];
-const propTypes$1b = {
-  /** Adds a visual "active" state to a Breadcrumb Item */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class to the element */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$19 = {
-  tag: 'li'
-};
-
-function BreadcrumbItem(props) {
-  const {
-    className,
-    cssModule,
-    active,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$16);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, active ? 'active' : false, 'breadcrumb-item'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    "aria-current": active ? 'page' : undefined
-  }));
-}
-
-BreadcrumbItem.propTypes = propTypes$1b;
-BreadcrumbItem.defaultProps = defaultProps$19;
-
-const _excluded$15 = ["className", "cssModule", "variant", "innerRef"];
-const propTypes$1a = {
-  /** Disable the button if needed */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Aria label */
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Function to be triggered on click */
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Change the variant to white */
-  variant: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['white']),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func])
-};
-const defaultProps$18 = {
-  'aria-label': 'close'
-};
-
-function CloseButton(props) {
-  const {
-    className,
-    cssModule,
-    variant,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$15);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'btn-close', variant && `btn-close-${variant}`));
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", _extends({
-    ref: innerRef,
-    type: "button",
-    className: classes
-  }, attributes));
-}
-
-CloseButton.propTypes = propTypes$1a;
-CloseButton.defaultProps = defaultProps$18;
-
-const _excluded$14 = ["active", "aria-label", "block", "className", "close", "cssModule", "color", "outline", "size", "tag", "innerRef"];
-const propTypes$19 = {
-  /** Manually set the visual state of the button to active */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Aria label */
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  block: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Pass children so this component can wrap them */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Use the button as a close button */
-  close: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Change color of Button to one of the available colors */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Disables the button */
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Function to be triggered on click */
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Adds outline to the button */
-  outline: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Make the button bigger or smaller */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$17 = {
-  color: 'secondary',
-  tag: 'button'
-};
-
-function Button(props) {
-  const onClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(e => {
-    if (props.disabled) {
-      e.preventDefault();
-      return;
-    }
-
-    if (props.onClick) {
-      return props.onClick(e);
-    }
-  }, [props.onClick, props.disabled]);
-
-  let {
-    active,
-    'aria-label': ariaLabel,
-    block,
-    className,
-    close,
-    cssModule,
-    color,
-    outline,
-    size,
-    tag: Tag,
-    innerRef
-  } = props,
-      attributes = _objectWithoutProperties(props, _excluded$14);
-
-  if (close) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CloseButton, attributes);
-  }
-
-  const btnOutlineColor = `btn${outline ? '-outline' : ''}-${color}`;
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'btn', btnOutlineColor, size ? `btn-${size}` : false, block ? 'd-block w-100' : false, {
-    active,
-    disabled: props.disabled
-  }), cssModule);
-
-  if (attributes.href && Tag === 'button') {
-    Tag = 'a';
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-    type: Tag === 'button' && attributes.onClick ? 'button' : undefined
-  }, attributes, {
-    className: classes,
-    ref: innerRef,
-    onClick: onClick,
-    "aria-label": ariaLabel
-  }));
-}
-
-Button.propTypes = propTypes$19;
-Button.defaultProps = defaultProps$17;
-
-const _excluded$13 = ["className"];
-const propTypes$18 = {
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  onBlur: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  onFocus: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  defaultValue: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$16 = {
-  defaultValue: false
-};
-
-function ButtonToggle(props) {
-  const [toggled, setToggled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props.defaultValue);
-  const [focus, setFocus] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const onBlur = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(e => {
-    if (props.onBlur) {
-      props.onBlur(e);
-    }
-
-    setFocus(false);
-  }, [props.onBlur]);
-  const onFocus = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(e => {
-    if (props.onFocus) {
-      props.onFocus(e);
-    }
-
-    setFocus(true);
-  }, [props.onFocus]);
-  const onClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(e => {
-    if (props.onClick) {
-      props.onClick(e);
-    }
-
-    setToggled(!toggled);
-  }, [props.onClick]);
-
-  const {
-    className
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$13);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, {
-    focus: focus
-  }), props.cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Button, _extends({
-    active: toggled,
-    onBlur: onBlur,
-    onFocus: onFocus,
-    onClick: onClick,
-    className: classes
-  }, attributes));
-}
-
-ButtonToggle.propTypes = propTypes$18;
-ButtonToggle.defaultProps = defaultProps$16;
-
-/**
- * DropdownContext
- * {
- *  toggle: PropTypes.func.isRequired,
- *  isOpen: PropTypes.bool.isRequired,
- *  direction: PropTypes.oneOf(['up', 'down', 'start', 'end']).isRequired,
- *  inNavbar: PropTypes.bool.isRequired,
- *  disabled: PropTypes.bool
- * }
- */
-
-const DropdownContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-
-const InputGroupContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-
-const _excluded$12 = ["className", "cssModule", "direction", "isOpen", "group", "size", "nav", "setActiveFromChild", "active", "tag", "menuRole"];
-const propTypes$17 = {
-  a11y: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  direction: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['up', 'down', 'start', 'end', 'left', 'right']),
-  group: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  nav: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  tag: tagPropType,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  dropup: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  inNavbar: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  setActiveFromChild: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  menuRole: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['listbox', 'menu'])
-};
-const defaultProps$15 = {
-  a11y: true,
-  isOpen: false,
-  direction: 'down',
-  nav: false,
-  active: false,
-  inNavbar: false,
-  setActiveFromChild: false
-};
-const preventDefaultKeys = [keyCodes.space, keyCodes.enter, keyCodes.up, keyCodes.down, keyCodes.end, keyCodes.home];
-
-class Dropdown extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.addEvents = this.addEvents.bind(this);
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.removeEvents = this.removeEvents.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.handleMenuRef = this.handleMenuRef.bind(this);
-    this.handleToggleRef = this.handleToggleRef.bind(this);
-    this.containerRef = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
-    this.menuRef = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
-    this.toggleRef = react__WEBPACK_IMPORTED_MODULE_0__.createRef(); // ref for DropdownToggle
-  }
-
-  componentDidMount() {
-    this.handleProps();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.isOpen !== prevProps.isOpen) {
-      this.handleProps();
-    }
-  }
-
-  componentWillUnmount() {
-    this.removeEvents();
-  }
-
-  handleMenuRef(menuRef) {
-    this.menuRef.current = menuRef;
-  }
-
-  handleToggleRef(toggleRef) {
-    this.toggleRef.current = toggleRef;
-  }
-
-  handleDocumentClick(e) {
-    if (e && (e.which === 3 || e.type === 'keyup' && e.which !== keyCodes.tab)) return;
-    const container = this.getContainer();
-    const menu = this.getMenu();
-    const toggle = this.getToggle();
-    const targetIsToggle = e.target === toggle;
-    const clickIsInMenu = menu && menu.contains(e.target) && menu !== e.target;
-    let clickIsInInput = false;
-
-    if (container) {
-      // this is only for InputGroup with type dropdown
-      clickIsInInput = container.classList.contains('input-group') && container.classList.contains('dropdown') && e.target.tagName === 'INPUT';
-    }
-
-    if ((targetIsToggle && !clickIsInInput || clickIsInMenu) && (e.type !== 'keyup' || e.which === keyCodes.tab)) {
-      return;
-    }
-
-    this.toggle(e);
-  }
-
-  handleKeyDown(e) {
-    const isTargetMenuItem = e.target.getAttribute('role') === 'menuitem' || e.target.getAttribute('role') === 'option';
-    const isTargetMenuCtrl = this.getMenuCtrl() === e.target;
-    const isTab = keyCodes.tab === e.which;
-
-    if (/input|textarea/i.test(e.target.tagName) || isTab && !this.props.a11y || isTab && !(isTargetMenuItem || isTargetMenuCtrl)) {
-      return;
-    }
-
-    if (preventDefaultKeys.indexOf(e.which) !== -1 || e.which >= 48 && e.which <= 90) {
-      e.preventDefault();
-    }
-
-    if (this.props.disabled) return;
-
-    if (isTargetMenuCtrl) {
-      if ([keyCodes.space, keyCodes.enter, keyCodes.up, keyCodes.down].indexOf(e.which) > -1) {
-        // Open the menu (if not open) and focus the first menu item
-        if (!this.props.isOpen) {
-          this.toggle(e);
-        }
-
-        setTimeout(() => this.getMenuItems()[0].focus());
-      } else if (this.props.isOpen && isTab) {
-        // Focus the first menu item if tabbing from an open menu. We need this
-        // for cases where the DropdownMenu sets a custom container, which may
-        // not be the natural next item to tab to from the DropdownToggle.
-        e.preventDefault();
-        this.getMenuItems()[0].focus();
-      } else if (this.props.isOpen && e.which === keyCodes.esc) {
-        this.toggle(e);
-      }
-    }
-
-    if (this.props.isOpen && isTargetMenuItem) {
-      if ([keyCodes.tab, keyCodes.esc].indexOf(e.which) > -1) {
-        this.toggle(e);
-        this.getMenuCtrl().focus();
-      } else if ([keyCodes.space, keyCodes.enter].indexOf(e.which) > -1) {
-        e.target.click();
-        this.getMenuCtrl().focus();
-      } else if ([keyCodes.down, keyCodes.up].indexOf(e.which) > -1 || [keyCodes.n, keyCodes.p].indexOf(e.which) > -1 && e.ctrlKey) {
-        const $menuitems = this.getMenuItems();
-        let index = $menuitems.indexOf(e.target);
-
-        if (keyCodes.up === e.which || keyCodes.p === e.which && e.ctrlKey) {
-          index = index !== 0 ? index - 1 : $menuitems.length - 1;
-        } else if (keyCodes.down === e.which || keyCodes.n === e.which && e.ctrlKey) {
-          index = index === $menuitems.length - 1 ? 0 : index + 1;
-        }
-
-        $menuitems[index].focus();
-      } else if (keyCodes.end === e.which) {
-        const $menuitems = this.getMenuItems();
-        $menuitems[$menuitems.length - 1].focus();
-      } else if (keyCodes.home === e.which) {
-        const $menuitems = this.getMenuItems();
-        $menuitems[0].focus();
-      } else if (e.which >= 48 && e.which <= 90) {
-        const $menuitems = this.getMenuItems();
-        const charPressed = String.fromCharCode(e.which).toLowerCase();
-
-        for (let i = 0; i < $menuitems.length; i += 1) {
-          const firstLetter = $menuitems[i].textContent && $menuitems[i].textContent[0].toLowerCase();
-
-          if (firstLetter === charPressed) {
-            $menuitems[i].focus();
-            break;
-          }
-        }
-      }
-    }
-  }
-
-  handleProps() {
-    if (this.props.isOpen) {
-      this.addEvents();
-    } else {
-      this.removeEvents();
-    }
-  }
-
-  getContextValue() {
-    return {
-      toggle: this.toggle,
-      isOpen: this.props.isOpen,
-      direction: this.props.direction === 'down' && this.props.dropup ? 'up' : this.props.direction,
-      inNavbar: this.props.inNavbar,
-      disabled: this.props.disabled,
-      // Callback that should be called by DropdownMenu to provide a ref to
-      // a HTML tag that's used for the DropdownMenu
-      onMenuRef: this.handleMenuRef,
-      onToggleRef: this.handleToggleRef,
-      menuRole: this.props.menuRole
-    };
-  }
-
-  getContainer() {
-    return this.containerRef.current;
-  }
-
-  getMenu() {
-    return this.menuRef.current;
-  }
-
-  getToggle() {
-    return this.toggleRef.current;
-  }
-
-  getMenuCtrl() {
-    if (this._$menuCtrl) return this._$menuCtrl;
-    this._$menuCtrl = this.getToggle();
-    return this._$menuCtrl;
-  }
-
-  getItemType() {
-    if (this.props.menuRole === 'listbox') {
-      return 'option';
-    }
-
-    return 'menuitem';
-  }
-
-  getMenuItems() {
-    // In a real menu with a child DropdownMenu, `this.getMenu()` should never
-    // be null, but it is sometimes null in tests. To mitigate that, we just
-    // use `this.getContainer()` as the fallback `menuContainer`.
-    const menuContainer = this.getMenu() || this.getContainer();
-    return [].slice.call(menuContainer.querySelectorAll(`[role="${this.getItemType()}"]`));
-  }
-
-  addEvents() {
-    ['click', 'touchstart', 'keyup'].forEach(event => document.addEventListener(event, this.handleDocumentClick, true));
-  }
-
-  removeEvents() {
-    ['click', 'touchstart', 'keyup'].forEach(event => document.removeEventListener(event, this.handleDocumentClick, true));
-  }
-
-  toggle(e) {
-    if (this.props.disabled) {
-      return e && e.preventDefault();
-    }
-
-    return this.props.toggle(e);
-  }
-
-  render() {
-    const _omit = omit(this.props, ['toggle', 'disabled', 'inNavbar', 'a11y']),
-          {
-      className,
-      cssModule,
-      direction,
-      isOpen,
-      group,
-      size,
-      nav,
-      setActiveFromChild,
-      active,
-      tag,
-      menuRole
-    } = _omit,
-          attrs = _objectWithoutProperties(_omit, _excluded$12);
-
-    const Tag = tag || (nav ? 'li' : 'div');
-    let subItemIsActive = false;
-
-    if (setActiveFromChild) {
-      react__WEBPACK_IMPORTED_MODULE_0__.Children.map(this.props.children[1].props.children, dropdownItem => {
-        if (dropdownItem && dropdownItem.props.active) subItemIsActive = true;
-      });
-    }
-
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, nav && active ? 'active' : false, setActiveFromChild && subItemIsActive ? 'active' : false, {
-      'btn-group': group,
-      [`btn-group-${size}`]: !!size,
-      dropdown: !group,
-      dropup: direction === 'up',
-      dropstart: direction === 'start' || direction === 'left',
-      dropend: direction === 'end' || direction === 'right',
-      show: isOpen,
-      'nav-item': nav
-    }), cssModule);
-
-    if (this.context.insideInputGroup) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DropdownContext.Provider, {
-        value: this.getContextValue()
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_popper__WEBPACK_IMPORTED_MODULE_4__.Manager, null, react__WEBPACK_IMPORTED_MODULE_0__.Children.map(this.props.children, child => react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(child, {
-        onKeyDown: this.handleKeyDown
-      }))));
-    }
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DropdownContext.Provider, {
-      value: this.getContextValue()
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_popper__WEBPACK_IMPORTED_MODULE_4__.Manager, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attrs, {
-      [typeof Tag === 'string' ? 'ref' : 'innerRef']: this.containerRef,
-      onKeyDown: this.handleKeyDown,
-      className: classes
-    }))));
-  }
-
-}
-
-Dropdown.propTypes = propTypes$17;
-Dropdown.defaultProps = defaultProps$15;
-Dropdown.contextType = InputGroupContext;
-var Dropdown$1 = Dropdown;
-
-const propTypes$16 = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node
-};
-
-function ButtonDropdown(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Dropdown$1, _extends({
-    group: true
-  }, props));
-}
-
-ButtonDropdown.propTypes = propTypes$16;
-
-const _excluded$11 = ["className", "cssModule", "size", "vertical", "tag"];
-const propTypes$15 = {
-  /** Aria label */
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** In order for assistive technologies (such as screen readers) to convey that a series of buttons is grouped, an appropriate role attribute needs to be provided. For button groups, this would be role="group", while toolbars should have a role="toolbar". */
-  role: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Make the button bigger or smaller */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Make button group vertical */
-  vertical: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$14 = {
-  tag: 'div',
-  role: 'group'
-};
-
-function ButtonGroup(props) {
-  const {
-    className,
-    cssModule,
-    size,
-    vertical,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$11);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, size ? 'btn-group-' + size : false, vertical ? 'btn-group-vertical' : 'btn-group'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ButtonGroup.propTypes = propTypes$15;
-ButtonGroup.defaultProps = defaultProps$14;
-
-const _excluded$10 = ["className", "cssModule", "tag"];
-const propTypes$14 = {
-  /** Aria label */
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** In order for assistive technologies (such as screen readers) to convey that a series of buttons is grouped, an appropriate role attribute needs to be provided. For button groups, this would be role="group", while toolbars should have a role="toolbar". */
-  role: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$13 = {
-  tag: 'div',
-  role: 'toolbar'
-};
-
-function ButtonToolbar(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$10);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'btn-toolbar'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ButtonToolbar.propTypes = propTypes$14;
-ButtonToolbar.defaultProps = defaultProps$13;
-
-const _excluded$$ = ["className", "cssModule", "divider", "tag", "header", "active", "text"];
-const propTypes$13 = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  divider: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  header: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  text: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$12 = {
-  tag: 'button',
-  toggle: true
-};
-
-class DropdownItem extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-    this.getTabIndex = this.getTabIndex.bind(this);
-  }
-
-  onClick(e) {
-    const {
-      disabled,
-      header,
-      divider,
-      text
-    } = this.props;
-
-    if (disabled || header || divider || text) {
-      e.preventDefault();
-      return;
-    }
-
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
-
-    if (this.props.toggle) {
-      this.context.toggle(e);
-    }
-  }
-
-  getRole() {
-    if (this.context.menuRole === 'listbox') {
-      return 'option';
-    }
-
-    return 'menuitem';
-  }
-
-  getTabIndex() {
-    const {
-      disabled,
-      header,
-      divider,
-      text
-    } = this.props;
-
-    if (disabled || header || divider || text) {
-      return '-1';
-    }
-
-    return '0';
-  }
-
-  render() {
-    const tabIndex = this.getTabIndex();
-    const role = tabIndex > -1 ? this.getRole() : undefined;
-
-    let _omit = omit(this.props, ['toggle']),
-        {
-      className,
-      cssModule,
-      divider,
-      tag: Tag,
-      header,
-      active,
-      text
-    } = _omit,
-        props = _objectWithoutProperties(_omit, _excluded$$);
-
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, {
-      disabled: props.disabled,
-      'dropdown-item': !divider && !header && !text,
-      active: active,
-      'dropdown-header': header,
-      'dropdown-divider': divider,
-      'dropdown-item-text': text
-    }), cssModule);
-
-    if (Tag === 'button') {
-      if (header) {
-        Tag = 'h6';
-      } else if (divider) {
-        Tag = 'div';
-      } else if (props.href) {
-        Tag = 'a';
-      } else if (text) {
-        Tag = 'span';
-      }
-    }
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-      type: Tag === 'button' && (props.onClick || this.props.toggle) ? 'button' : undefined
-    }, props, {
-      tabIndex: tabIndex,
-      role: role,
-      className: classes,
-      onClick: this.onClick
-    }));
-  }
-
-}
-
-DropdownItem.propTypes = propTypes$13;
-DropdownItem.defaultProps = defaultProps$12;
-DropdownItem.contextType = DropdownContext;
-var DropdownItem$1 = DropdownItem;
-
-const _excluded$_ = ["className", "cssModule", "dark", "end", "right", "tag", "flip", "modifiers", "persist", "strategy", "container", "updateOnSelect"];
-const propTypes$12 = {
-  tag: tagPropType,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node.isRequired,
-  dark: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  end: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Flips the menu to the opposite side if there is not enough space to fit */
-  flip: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  modifiers: prop_types__WEBPACK_IMPORTED_MODULE_3__.array,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  style: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  persist: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  strategy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  container: targetPropType,
-
-  /** Update popper layout when a click event comes up. This leverages event bubbling. */
-  updateOnSelect: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  right: deprecated(prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, 'Please use "end" instead.')
-};
-const defaultProps$11 = {
-  tag: 'div',
-  flip: true,
-  modifiers: []
-};
-const directionPositionMap = {
-  up: 'top',
-  left: 'left',
-  right: 'right',
-  start: 'left',
-  end: 'right',
-  down: 'bottom'
-};
-
-class DropdownMenu extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  getRole() {
-    if (this.context.menuRole === 'listbox') {
-      return 'listbox';
-    }
-
-    return 'menu';
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      className,
-      cssModule,
-      dark,
-      end,
-      right,
-      tag,
-      flip,
-      modifiers,
-      persist,
-      strategy,
-      container,
-      updateOnSelect
-    } = _this$props,
-          attrs = _objectWithoutProperties(_this$props, _excluded$_);
-
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'dropdown-menu', {
-      'dropdown-menu-dark': dark,
-      'dropdown-menu-end': end || right,
-      show: this.context.isOpen
-    }), cssModule);
-    const Tag = tag;
-
-    if (persist || this.context.isOpen && !this.context.inNavbar) {
-      const position1 = directionPositionMap[this.context.direction] || 'bottom';
-      const position2 = end || right ? 'end' : 'start';
-      const poperPlacement = `${position1}-${position2}`;
-      const poperModifiers = [...modifiers, {
-        name: 'flip',
-        enabled: !!flip
-      }];
-      const popper = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_popper__WEBPACK_IMPORTED_MODULE_5__.Popper, {
-        placement: poperPlacement,
-        modifiers: poperModifiers,
-        strategy: strategy
-      }, ({
-        ref,
-        style,
-        placement,
-        update
-      }) => {
-        let combinedStyle = _objectSpread2(_objectSpread2({}, this.props.style), style);
-
-        const handleRef = tagRef => {
-          // Send the ref to `react-popper`
-          ref(tagRef); // Send the ref to the parent Dropdown so that clicks outside
-          // it will cause it to close
-
-          const {
-            onMenuRef
-          } = this.context;
-          if (onMenuRef) onMenuRef(tagRef);
-        };
-
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-          tabIndex: "-1",
-          role: this.getRole(),
-          ref: handleRef
-        }, attrs, {
-          style: combinedStyle,
-          "aria-hidden": !this.context.isOpen,
-          className: classes,
-          "data-popper-placement": placement,
-          onClick: () => updateOnSelect && update()
-        }));
-      });
-
-      if (container) {
-        return react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal(popper, getTarget(container));
-      }
-
-      return popper;
-    }
-
-    const {
-      onMenuRef
-    } = this.context;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-      tabIndex: "-1",
-      role: this.getRole()
-    }, attrs, {
-      ref: onMenuRef,
-      "aria-hidden": !this.context.isOpen,
-      className: classes,
-      "data-popper-placement": attrs.placement
-    }));
-  }
-
-}
-
-DropdownMenu.propTypes = propTypes$12;
-DropdownMenu.defaultProps = defaultProps$11;
-DropdownMenu.contextType = DropdownContext;
-var DropdownMenu$1 = DropdownMenu;
-
-const _excluded$Z = ["className", "color", "cssModule", "caret", "split", "nav", "tag", "innerRef"];
-const propTypes$11 = {
-  caret: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  onClick: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  'aria-haspopup': prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  split: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  nav: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func])
-};
-const defaultProps$10 = {
-  color: 'secondary',
-  'aria-haspopup': true
-};
-
-class DropdownToggle extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e) {
-    if (this.props.disabled || this.context.disabled) {
-      e.preventDefault();
-      return;
-    }
-
-    if (this.props.nav && !this.props.tag) {
-      e.preventDefault();
-    }
-
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
-
-    this.context.toggle(e);
-  }
-
-  getRole() {
-    return this.context.menuRole || this.props['aria-haspopup'];
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      className,
-      color,
-      cssModule,
-      caret,
-      split,
-      nav,
-      tag,
-      innerRef
-    } = _this$props,
-          props = _objectWithoutProperties(_this$props, _excluded$Z);
-
-    const ariaLabel = props['aria-label'] || 'Toggle Dropdown';
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, {
-      'dropdown-toggle': caret || split,
-      'dropdown-toggle-split': split,
-      'nav-link': nav
-    }), cssModule);
-    const children = typeof props.children !== 'undefined' ? props.children : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "visually-hidden"
-    }, ariaLabel);
-    let Tag;
-
-    if (nav && !tag) {
-      Tag = 'a';
-      props.href = '#';
-    } else if (!tag) {
-      Tag = Button;
-      props.color = color;
-      props.cssModule = cssModule;
-    } else {
-      Tag = tag;
-    }
-
-    if (this.context.inNavbar) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, props, {
-        className: classes,
-        onClick: this.onClick,
-        ref: this.context.onToggleRef,
-        "aria-expanded": this.context.isOpen,
-        "aria-haspopup": this.getRole(),
-        children: children
-      }));
-    }
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_popper__WEBPACK_IMPORTED_MODULE_6__.Reference, {
-      innerRef: innerRef
-    }, ({
-      ref
-    }) => {
-      const handleRef = tagRef => {
-        ref(tagRef);
-        const {
-          onToggleRef
-        } = this.context;
-        if (onToggleRef) onToggleRef(tagRef);
-      };
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, props, {
-        [typeof Tag === 'string' ? 'ref' : 'innerRef']: handleRef,
-        className: classes,
-        onClick: this.onClick,
-        "aria-expanded": this.context.isOpen,
-        "aria-haspopup": this.getRole(),
-        children: children
-      }));
-    });
-  }
-
-}
-
-DropdownToggle.propTypes = propTypes$11;
-DropdownToggle.defaultProps = defaultProps$10;
-DropdownToggle.contextType = DropdownContext;
-var DropdownToggle$1 = DropdownToggle;
-
-const _excluded$Y = ["tag", "baseClass", "baseClassActive", "className", "cssModule", "children", "innerRef"];
-
-const propTypes$10 = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.propTypes), {}, {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.node), prop_types__WEBPACK_IMPORTED_MODULE_3__.node]),
-  tag: tagPropType,
-  baseClass: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  baseClassActive: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func])
-});
-
-const defaultProps$$ = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.defaultProps), {}, {
-  tag: 'div',
-  baseClass: 'fade',
-  baseClassActive: 'show',
-  timeout: TransitionTimeouts.Fade,
-  appear: true,
-  enter: true,
-  exit: true,
-  in: true
-});
-
-function Fade(props) {
-  const {
-    tag: Tag,
-    baseClass,
-    baseClassActive,
-    className,
-    cssModule,
-    children,
-    innerRef
-  } = props,
-        otherProps = _objectWithoutProperties(props, _excluded$Y);
-
-  const transitionProps = pick(otherProps, TransitionPropTypeKeys);
-  const childProps = omit(otherProps, TransitionPropTypeKeys);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default, transitionProps, status => {
-    const isActive = status === 'entered';
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, baseClass, isActive && baseClassActive), cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-      className: classes
-    }, childProps, {
-      ref: innerRef
-    }), children);
-  });
-}
-
-Fade.propTypes = propTypes$10;
-Fade.defaultProps = defaultProps$$;
-
-/**
- * AccordionContext
- * {
- *  toggle: PropTypes.func.isRequired,
- *  openId: PropTypes.string,
- * }
- */
-
-const AccordionContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-
-const _excluded$X = ["flush", "open", "toggle", "className", "cssModule", "tag", "innerRef"];
-const propTypes$$ = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Render accordions edge-to-edge with their parent container */
-  flush: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** The current active key that corresponds to the currently expanded card */
-  open: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.array, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]).isRequired,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Function that's triggered on clicking `AccordionHeader` */
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func.isRequired
-};
-const defaultProps$_ = {
-  tag: 'div'
-};
-
-function Accordion(props) {
-  const {
-    flush,
-    open,
-    toggle,
-    className,
-    cssModule,
-    tag: Tag,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$X);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'accordion', {
-    'accordion-flush': flush
-  }), cssModule);
-  const accordionContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => ({
-    open,
-    toggle
-  }));
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AccordionContext.Provider, {
-    value: accordionContext
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  })));
-}
-
-Accordion.propTypes = propTypes$$;
-Accordion.defaultProps = defaultProps$_;
-
-const _excluded$W = ["defaultOpen", "stayOpen"];
-const propTypes$_ = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.array, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  stayOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$Z = {
-  tag: 'div'
-};
-
-function UncontrolledAccordion(_ref) {
-  let {
-    defaultOpen,
-    stayOpen
-  } = _ref,
-      props = _objectWithoutProperties(_ref, _excluded$W);
-
-  const [open, setOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(defaultOpen || (stayOpen ? [] : undefined));
-
-  const toggle = id => {
-    if (stayOpen) {
-      if (open.includes(id)) {
-        setOpen(open.filter(accordionId => accordionId !== id));
-      } else {
-        setOpen([...open, id]);
-      }
-    } else if (open === id) {
-      setOpen(undefined);
-    } else {
-      setOpen(id);
-    }
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Accordion, _extends({}, props, {
-    open: open,
-    toggle: toggle
-  }));
-}
-
-UncontrolledAccordion.propTypes = propTypes$_;
-UncontrolledAccordion.defaultProps = defaultProps$Z;
-
-const _excluded$V = ["className", "cssModule", "tag", "innerRef", "children", "targetId"];
-const propTypes$Z = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing base class name with a new class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Unique key used to control item's collapse/expand */
-  targetId: prop_types__WEBPACK_IMPORTED_MODULE_3__.string.isRequired
-};
-const defaultProps$Y = {
-  tag: 'h2'
-};
-
-function AccordionHeader(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    innerRef,
-    children,
-    targetId
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$V);
-
-  const {
-    open,
-    toggle
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(AccordionContext);
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'accordion-header'), cssModule);
-  const buttonClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('accordion-button', {
-    collapsed: !(Array.isArray(open) ? open.includes(targetId) : open === targetId)
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    type: "button",
-    className: buttonClasses,
-    onClick: () => toggle(targetId)
-  }, children));
-}
-
-AccordionHeader.propTypes = propTypes$Z;
-AccordionHeader.defaultProps = defaultProps$Y;
-
-const _excluded$U = ["className", "cssModule", "tag", "innerRef"];
-const propTypes$Y = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** To add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing base class name with a new class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$X = {
-  tag: 'div'
-};
-
-function AccordionItem(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$U);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'accordion-item'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-AccordionItem.propTypes = propTypes$Y;
-AccordionItem.defaultProps = defaultProps$X;
-
-const _excluded$T = ["tag", "horizontal", "isOpen", "className", "navbar", "cssModule", "children", "innerRef"];
-
-const propTypes$X = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.propTypes), {}, {
-  /** Make content animation appear horizontally */
-  horizontal: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set if Collapse is open or closed */
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.node), prop_types__WEBPACK_IMPORTED_MODULE_3__.node]),
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  navbar: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-    current: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-  })
-});
-
-const defaultProps$W = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.defaultProps), {}, {
-  horizontal: false,
-  isOpen: false,
-  appear: false,
-  enter: true,
-  exit: true,
-  tag: 'div',
-  timeout: TransitionTimeouts.Collapse
-});
-
-const transitionStatusToClassHash = {
-  [TransitionStatuses.ENTERING]: 'collapsing',
-  [TransitionStatuses.ENTERED]: 'collapse show',
-  [TransitionStatuses.EXITING]: 'collapsing',
-  [TransitionStatuses.EXITED]: 'collapse'
-};
-
-function getTransitionClass(status) {
-  return transitionStatusToClassHash[status] || 'collapse';
-}
-
-class Collapse extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dimension: null
-    };
-    this.nodeRef = props.innerRef || react__WEBPACK_IMPORTED_MODULE_0__.createRef();
-    ['onEntering', 'onEntered', 'onExit', 'onExiting', 'onExited'].forEach(name => {
-      this[name] = this[name].bind(this);
-    });
-  }
-
-  onEntering(_, isAppearing) {
-    const node = this.getNode();
-    this.setState({
-      dimension: this.getDimension(node)
-    });
-    this.props.onEntering(node, isAppearing);
-  }
-
-  onEntered(_, isAppearing) {
-    const node = this.getNode();
-    this.setState({
-      dimension: null
-    });
-    this.props.onEntered(node, isAppearing);
-  }
-
-  onExit() {
-    const node = this.getNode();
-    this.setState({
-      dimension: this.getDimension(node)
-    });
-    this.props.onExit(node);
-  }
-
-  onExiting() {
-    const node = this.getNode(); // getting this variable triggers a reflow
-
-    this.getDimension(node); // eslint-disable-line no-unused-vars
-
-
-    this.setState({
-      dimension: 0
-    });
-    this.props.onExiting(node);
-  }
-
-  onExited() {
-    const node = this.getNode();
-    this.setState({
-      dimension: null
-    });
-    this.props.onExited(node);
-  }
-
-  getNode() {
-    return this.nodeRef.current;
-  }
-
-  getDimension(node) {
-    return this.props.horizontal ? node.scrollWidth : node.scrollHeight;
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      tag: Tag,
-      horizontal,
-      isOpen,
-      className,
-      navbar,
-      cssModule,
-      children,
-      innerRef
-    } = _this$props,
-          otherProps = _objectWithoutProperties(_this$props, _excluded$T);
-
-    const {
-      dimension
-    } = this.state;
-    const transitionProps = pick(otherProps, TransitionPropTypeKeys);
-    const childProps = omit(otherProps, TransitionPropTypeKeys);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default, _extends({}, transitionProps, {
-      in: isOpen,
-      nodeRef: this.nodeRef,
-      onEntering: this.onEntering,
-      onEntered: this.onEntered,
-      onExit: this.onExit,
-      onExiting: this.onExiting,
-      onExited: this.onExited
-    }), status => {
-      let collapseClass = getTransitionClass(status);
-      const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, horizontal && 'collapse-horizontal', collapseClass, navbar && 'navbar-collapse'), cssModule);
-      const style = dimension === null ? null : {
-        [horizontal ? 'width' : 'height']: dimension
-      };
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, childProps, {
-        style: _objectSpread2(_objectSpread2({}, childProps.style), style),
-        className: classes,
-        ref: this.nodeRef
-      }), children);
-    });
-  }
-
-}
-
-Collapse.propTypes = propTypes$X;
-Collapse.defaultProps = defaultProps$W;
-var Collapse$1 = Collapse;
-
-const _excluded$S = ["className", "cssModule", "tag", "innerRef", "children", "accordionId"];
-const propTypes$W = {
-  /** Unique key used to control item's collapse/expand */
-  accordionId: prop_types__WEBPACK_IMPORTED_MODULE_3__.string.isRequired,
-
-  /** To add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Change existing base class name with a new class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Pass ref to the component */
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$V = {
-  tag: 'div'
-};
-
-function AccordionBody(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    innerRef,
-    children,
-    accordionId
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$S);
-
-  const {
-    open
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(AccordionContext);
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'accordion-collapse'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Collapse$1, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef,
-    isOpen: Array.isArray(open) ? open.includes(accordionId) : open === accordionId
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-    className: "accordion-body"
-  }, children));
-}
-
-AccordionBody.propTypes = propTypes$W;
-AccordionBody.defaultProps = defaultProps$V;
-
-const _excluded$R = ["className", "cssModule", "color", "innerRef", "pill", "tag"];
-const propTypes$V = {
-  /** Pass children so this component can wrap the child elements */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change background color of Badge */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Add rounded corners to the Badge */
-  pill: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$U = {
-  color: 'secondary',
-  pill: false,
-  tag: 'span'
-};
-
-function Badge(props) {
-  let {
-    className,
-    cssModule,
-    color,
-    innerRef,
-    pill,
-    tag: Tag
-  } = props,
-      attributes = _objectWithoutProperties(props, _excluded$R);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'badge', 'bg-' + color, pill ? 'rounded-pill' : false), cssModule);
-
-  if (attributes.href && Tag === 'span') {
-    Tag = 'a';
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-Badge.propTypes = propTypes$V;
-Badge.defaultProps = defaultProps$U;
-
-const _excluded$Q = ["className", "cssModule", "color", "body", "inverse", "outline", "tag", "innerRef"];
-const propTypes$U = {
-  /** Toggles card padding using `.card-body` */
-  body: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change background color of component */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Inverts the color */
-  inverse: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Changes the card to have only outline */
-  outline: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$T = {
-  tag: 'div'
-};
-
-function Card(props) {
-  const {
-    className,
-    cssModule,
-    color,
-    body,
-    inverse,
-    outline,
-    tag: Tag,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$Q);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card', inverse ? 'text-white' : false, body ? 'card-body' : false, color ? `${outline ? 'border' : 'bg'}-${color}` : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-Card.propTypes = propTypes$U;
-Card.defaultProps = defaultProps$T;
-
-const _excluded$P = ["className", "cssModule", "tag"];
-const propTypes$T = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$S = {
-  tag: 'div'
-};
-
-function CardGroup(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$P);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-group'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardGroup.propTypes = propTypes$T;
-CardGroup.defaultProps = defaultProps$S;
-
-const _excluded$O = ["className", "cssModule", "tag"];
-const propTypes$S = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$R = {
-  tag: 'div'
-};
-
-function CardDeck(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$O);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-deck'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardDeck.propTypes = propTypes$S;
-CardDeck.defaultProps = defaultProps$R;
-
-const _excluded$N = ["className", "cssModule", "tag"];
-const propTypes$R = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$Q = {
-  tag: 'div'
-};
-
-function CardColumns(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$N);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-columns'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardColumns.propTypes = propTypes$R;
-CardColumns.defaultProps = defaultProps$Q;
-
-const _excluded$M = ["className", "cssModule", "innerRef", "tag"];
-const propTypes$Q = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$P = {
-  tag: 'div'
-};
-
-function CardBody(props) {
-  const {
-    className,
-    cssModule,
-    innerRef,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$M);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-body'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-CardBody.propTypes = propTypes$Q;
-CardBody.defaultProps = defaultProps$P;
-
-const _excluded$L = ["className", "cssModule", "tag", "innerRef"];
-const propTypes$P = {
-  tag: tagPropType,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$O = {
-  tag: 'a'
-};
-
-function CardLink(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$L);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-link'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    ref: innerRef,
-    className: classes
-  }));
-}
-
-CardLink.propTypes = propTypes$P;
-CardLink.defaultProps = defaultProps$O;
-
-const _excluded$K = ["className", "cssModule", "tag"];
-const propTypes$O = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$N = {
-  tag: 'div'
-};
-
-function CardFooter(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$K);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-footer'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardFooter.propTypes = propTypes$O;
-CardFooter.defaultProps = defaultProps$N;
-
-const _excluded$J = ["className", "cssModule", "tag"];
-const propTypes$N = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$M = {
-  tag: 'div'
-};
-
-function CardHeader(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$J);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-header'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardHeader.propTypes = propTypes$N;
-CardHeader.defaultProps = defaultProps$M;
-
-const _excluded$I = ["className", "cssModule", "top", "bottom", "tag"];
-const propTypes$M = {
-  /** Add `bottom` prop if image is at bottom of card */
-  bottom: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Add `top` prop if image is at top of card */
-  top: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$L = {
-  tag: 'img'
-};
-
-function CardImg(props) {
-  const {
-    className,
-    cssModule,
-    top,
-    bottom,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$I);
-
-  let cardImgClassName = 'card-img';
-
-  if (top) {
-    cardImgClassName = 'card-img-top';
-  }
-
-  if (bottom) {
-    cardImgClassName = 'card-img-bottom';
-  }
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, cardImgClassName), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardImg.propTypes = propTypes$M;
-CardImg.defaultProps = defaultProps$L;
-
-const _excluded$H = ["className", "cssModule", "tag"];
-const propTypes$L = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$K = {
-  tag: 'div'
-};
-
-function CardImgOverlay(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$H);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-img-overlay'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardImgOverlay.propTypes = propTypes$L;
-CardImgOverlay.defaultProps = defaultProps$K;
-
-/**
- * CarouselContext
- * {
- *  direction: PropTypes.oneOf(['start', 'end']).isRequired,
- * }
- */
-
-const CarouselContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-
-const _excluded$G = ["in", "children", "cssModule", "slide", "tag", "className"];
-
-class CarouselItem extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startAnimation: false
-    };
-    this.onEnter = this.onEnter.bind(this);
-    this.onEntering = this.onEntering.bind(this);
-    this.onExit = this.onExit.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
-  }
-
-  onEnter(node, isAppearing) {
-    this.setState({
-      startAnimation: false
-    });
-    this.props.onEnter(node, isAppearing);
-  }
-
-  onEntering(node, isAppearing) {
-    // getting this variable triggers a reflow
-    const {
-      offsetHeight
-    } = node;
-    this.setState({
-      startAnimation: true
-    });
-    this.props.onEntering(node, isAppearing);
-    return offsetHeight;
-  }
-
-  onExit(node) {
-    this.setState({
-      startAnimation: false
-    });
-    this.props.onExit(node);
-  }
-
-  onExiting(node) {
-    this.setState({
-      startAnimation: true
-    });
-    node.dispatchEvent(new CustomEvent('slide.bs.carousel'));
-    this.props.onExiting(node);
-  }
-
-  onExited(node) {
-    node.dispatchEvent(new CustomEvent('slid.bs.carousel'));
-    this.props.onExited(node);
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      in: isIn,
-      children,
-      cssModule,
-      slide,
-      tag: Tag,
-      className
-    } = _this$props,
-          transitionProps = _objectWithoutProperties(_this$props, _excluded$G);
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default, _extends({}, transitionProps, {
-      enter: slide,
-      exit: slide,
-      in: isIn,
-      onEnter: this.onEnter,
-      onEntering: this.onEntering,
-      onExit: this.onExit,
-      onExiting: this.onExiting,
-      onExited: this.onExited
-    }), status => {
-      const {
-        direction
-      } = this.context;
-      const isActive = status === TransitionStatuses.ENTERED || status === TransitionStatuses.EXITING;
-      const directionClassName = (status === TransitionStatuses.ENTERING || status === TransitionStatuses.EXITING) && this.state.startAnimation && (direction === 'end' ? 'carousel-item-start' : 'carousel-item-end');
-      const orderClassName = status === TransitionStatuses.ENTERING && (direction === 'end' ? 'carousel-item-next' : 'carousel-item-prev');
-      const itemClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'carousel-item', isActive && 'active', directionClassName, orderClassName), cssModule);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-        className: itemClasses
-      }, children);
-    });
-  }
-
-}
-
-CarouselItem.propTypes = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.propTypes), {}, {
-  /** Set a custom element for this component */
-  tag: tagPropType,
-  in: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Enable/disable animation */
-  slide: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-});
-CarouselItem.defaultProps = _objectSpread2(_objectSpread2({}, react_transition_group__WEBPACK_IMPORTED_MODULE_7__.default.defaultProps), {}, {
-  tag: 'div',
-  timeout: TransitionTimeouts.Carousel,
-  slide: true
-});
-CarouselItem.contextType = CarouselContext;
-var CarouselItem$1 = CarouselItem;
-
-const SWIPE_THRESHOLD = 40;
-const propTypes$K = {
-  /** the current active slide of the carousel */
-  activeIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.number,
-
-  /** a function which should advance the carousel to the next slide (via activeIndex) */
-  next: prop_types__WEBPACK_IMPORTED_MODULE_3__.func.isRequired,
-
-  /** a function which should advance the carousel to the previous slide (via activeIndex) */
-  previous: prop_types__WEBPACK_IMPORTED_MODULE_3__.func.isRequired,
-
-  /** controls if the left and right arrow keys should control the carousel */
-  keyboard: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** If set to "hover", pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on
-   * mouseleave. If set to false, hovering over the carousel won't pause it.
-   */
-  pause: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['hover', false]),
-
-  /** Autoplays the carousel after the user manually cycles the first item. If "carousel", autoplays the carousel on load. */
-  ride: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['carousel']),
-
-  /** the interval at which the carousel automatically cycles */
-  interval: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.bool]),
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.array,
-
-  /** called when the mouse enters the Carousel */
-  mouseEnter: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** called when the mouse exits the Carousel */
-  mouseLeave: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** controls whether the slide animation on the Carousel works or not */
-  slide: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** make the controls, indicators and captions dark on the Carousel */
-  dark: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Enable touch support */
-  enableTouch: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const propsToOmit$2 = Object.keys(propTypes$K);
-const defaultProps$J = {
-  interval: 5000,
-  pause: 'hover',
-  keyboard: true,
-  slide: true,
-  enableTouch: true,
-  fade: false
-};
-
-class Carousel extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.renderItems = this.renderItems.bind(this);
-    this.hoverStart = this.hoverStart.bind(this);
-    this.hoverEnd = this.hoverEnd.bind(this);
-    this.handleTouchStart = this.handleTouchStart.bind(this);
-    this.handleTouchEnd = this.handleTouchEnd.bind(this);
-    this.touchStartX = 0;
-    this.touchStartY = 0;
-    this.state = {
-      activeIndex: this.props.activeIndex,
-      direction: 'end',
-      indicatorClicked: false
-    };
-  }
-
-  componentDidMount() {
-    // Set up the cycle
-    if (this.props.ride === 'carousel') {
-      this.setInterval();
-    } // TODO: move this to the specific carousel like bootstrap. Currently it will trigger ALL carousels on the page.
-
-
-    document.addEventListener('keyup', this.handleKeyPress);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let newState = null;
-    let {
-      activeIndex,
-      direction,
-      indicatorClicked
-    } = prevState;
-
-    if (nextProps.activeIndex !== activeIndex) {
-      // Calculate the direction to turn
-      if (nextProps.activeIndex === activeIndex + 1) {
-        direction = 'end';
-      } else if (nextProps.activeIndex === activeIndex - 1) {
-        direction = 'start';
-      } else if (nextProps.activeIndex < activeIndex) {
-        direction = indicatorClicked ? 'start' : 'end';
-      } else if (nextProps.activeIndex !== activeIndex) {
-        direction = indicatorClicked ? 'end' : 'start';
-      }
-
-      newState = {
-        activeIndex: nextProps.activeIndex,
-        direction,
-        indicatorClicked: false
-      };
-    }
-
-    return newState;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.activeIndex === this.state.activeIndex) return;
-    this.setInterval();
-  }
-
-  componentWillUnmount() {
-    this.clearInterval();
-    document.removeEventListener('keyup', this.handleKeyPress);
-  }
-
-  handleKeyPress(evt) {
-    if (this.props.keyboard) {
-      if (evt.keyCode === 37) {
-        this.props.previous();
-      } else if (evt.keyCode === 39) {
-        this.props.next();
-      }
-    }
-  }
-
-  handleTouchStart(e) {
-    if (!this.props.enableTouch) {
-      return;
-    }
-
-    this.touchStartX = e.changedTouches[0].screenX;
-    this.touchStartY = e.changedTouches[0].screenY;
-  }
-
-  handleTouchEnd(e) {
-    if (!this.props.enableTouch) {
-      return;
-    }
-
-    const currentX = e.changedTouches[0].screenX;
-    const currentY = e.changedTouches[0].screenY;
-    const diffX = Math.abs(this.touchStartX - currentX);
-    const diffY = Math.abs(this.touchStartY - currentY); // Don't swipe if Y-movement is bigger than X-movement
-
-    if (diffX < diffY) {
-      return;
-    }
-
-    if (diffX < SWIPE_THRESHOLD) {
-      return;
-    }
-
-    if (currentX < this.touchStartX) {
-      this.props.next();
-    } else {
-      this.props.previous();
-    }
-  }
-
-  getContextValue() {
-    return {
-      direction: this.state.direction
-    };
-  }
-
-  setInterval() {
-    // make sure not to have multiple intervals going...
-    this.clearInterval();
-
-    if (this.props.interval) {
-      this.cycleInterval = setInterval(() => {
-        this.props.next();
-      }, parseInt(this.props.interval, 10));
-    }
-  }
-
-  clearInterval() {
-    clearInterval(this.cycleInterval);
-  }
-
-  hoverStart(...args) {
-    if (this.props.pause === 'hover') {
-      this.clearInterval();
-    }
-
-    if (this.props.mouseEnter) {
-      this.props.mouseEnter(...args);
-    }
-  }
-
-  hoverEnd(...args) {
-    if (this.props.pause === 'hover') {
-      this.setInterval();
-    }
-
-    if (this.props.mouseLeave) {
-      this.props.mouseLeave(...args);
-    }
-  }
-
-  renderItems(carouselItems, className) {
-    const {
-      slide
-    } = this.props;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: className
-    }, carouselItems.map((item, index) => {
-      const isIn = index === this.state.activeIndex;
-      return react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(item, {
-        in: isIn,
-        slide: slide
-      });
-    }));
-  }
-
-  render() {
-    const {
-      cssModule,
-      slide,
-      className,
-      dark,
-      fade
-    } = this.props;
-    const attributes = omit(this.props, propsToOmit$2);
-    const outerClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'carousel', fade && 'carousel-fade', slide && 'slide', dark && 'carousel-dark'), cssModule);
-    const innerClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('carousel-inner'), cssModule); // filter out booleans, null, or undefined
-
-    const children = this.props.children.filter(child => child !== null && child !== undefined && typeof child !== 'boolean');
-    const slidesOnly = children.every(child => child.type === CarouselItem$1); // Rendering only slides
-
-    if (slidesOnly) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, attributes, {
-        className: outerClasses,
-        onMouseEnter: this.hoverStart,
-        onMouseLeave: this.hoverEnd
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselContext.Provider, {
-        value: this.getContextValue()
-      }, this.renderItems(children, innerClasses)));
-    } // Rendering slides and controls
-
-
-    if (children[0] instanceof Array) {
-      const _carouselItems = children[0];
-      const _controlLeft = children[1];
-      const _controlRight = children[2];
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, attributes, {
-        className: outerClasses,
-        onMouseEnter: this.hoverStart,
-        onMouseLeave: this.hoverEnd
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselContext.Provider, {
-        value: this.getContextValue()
-      }, this.renderItems(_carouselItems, innerClasses), _controlLeft, _controlRight));
-    } // Rendering indicators, slides and controls
-
-
-    const indicators = children[0];
-
-    const wrappedOnClick = e => {
-      if (typeof indicators.props.onClickHandler === 'function') {
-        this.setState({
-          indicatorClicked: true
-        }, () => indicators.props.onClickHandler(e));
-      }
-    };
-
-    const wrappedIndicators = react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(indicators, {
-      onClickHandler: wrappedOnClick
-    });
-    const carouselItems = children[1];
-    const controlLeft = children[2];
-    const controlRight = children[3];
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, attributes, {
-      className: outerClasses,
-      onMouseEnter: this.hoverStart,
-      onMouseLeave: this.hoverEnd,
-      onTouchStart: this.handleTouchStart,
-      onTouchEnd: this.handleTouchEnd
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselContext.Provider, {
-      value: this.getContextValue()
-    }, wrappedIndicators, this.renderItems(carouselItems, innerClasses), controlLeft, controlRight));
-  }
-
-}
-
-Carousel.propTypes = propTypes$K;
-Carousel.defaultProps = defaultProps$J;
-var Carousel$1 = Carousel;
-
-const _excluded$F = ["direction", "onClickHandler", "cssModule", "directionText", "className"];
-
-function CarouselControl(props) {
-  const {
-    direction,
-    onClickHandler,
-    cssModule,
-    directionText,
-    className
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$F);
-
-  const anchorClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, `carousel-control-${direction}`), cssModule);
-  const iconClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(`carousel-control-${direction}-icon`), cssModule);
-  const screenReaderClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('visually-hidden'), cssModule);
-  return (
-    /*#__PURE__*/
-    // We need to disable this linting rule to use an `<a>` instead of
-    // `<button>` because that's what the Bootstrap examples require:
-    // https://getbootstrap.com/docs/4.5/components/carousel/#with-controls
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", _extends({}, attributes, {
-      className: anchorClasses,
-      style: {
-        cursor: 'pointer'
-      },
-      role: "button",
-      tabIndex: "0",
-      onClick: e => {
-        e.preventDefault();
-        onClickHandler();
-      }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: iconClasses,
-      "aria-hidden": "true"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: screenReaderClasses
-    }, directionText || direction))
-  );
-}
-
-CarouselControl.propTypes = {
-  /** Set the direction of control button */
-  direction: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['prev', 'next']).isRequired,
-
-  /** Function to be triggered on click */
-  onClickHandler: prop_types__WEBPACK_IMPORTED_MODULE_3__.func.isRequired,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Screen reader text */
-  directionText: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-
-const _excluded$E = ["items", "activeIndex", "cssModule", "onClickHandler", "className"];
-
-function CarouselIndicators(props) {
-  const {
-    items,
-    activeIndex,
-    cssModule,
-    onClickHandler,
-    className
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$E);
-
-  const listClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'carousel-indicators'), cssModule);
-  const indicators = items.map((item, idx) => {
-    const indicatorClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__({
-      active: activeIndex === idx
-    }), cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      "aria-label": item.caption,
-      "data-bs-target": true,
-      type: "button",
-      key: `${item.key || Object.values(item).join('')}`,
-      onClick: e => {
-        e.preventDefault();
-        onClickHandler(idx);
-      },
-      className: indicatorClasses
-    });
-  });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({
-    className: listClasses
-  }, attributes), indicators);
-}
-
-CarouselIndicators.propTypes = {
-  /** The current active index */
-  activeIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.number.isRequired,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Array of items to show */
-  items: prop_types__WEBPACK_IMPORTED_MODULE_3__.array.isRequired,
-
-  /** Function to be triggered on click */
-  onClickHandler: prop_types__WEBPACK_IMPORTED_MODULE_3__.func.isRequired
-};
-
-function CarouselCaption(props) {
-  const {
-    captionHeader,
-    captionText,
-    cssModule,
-    className
-  } = props;
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'carousel-caption', 'd-none', 'd-md-block'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: classes
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, captionHeader), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, captionText));
-}
-
-CarouselCaption.propTypes = {
-  /** Heading for the caption */
-  captionHeader: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Text for caption */
-  captionText: prop_types__WEBPACK_IMPORTED_MODULE_3__.node.isRequired,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-
-const _excluded$D = ["defaultActiveIndex", "autoPlay", "indicators", "controls", "items", "goToIndex"];
-const propTypes$J = {
-  items: prop_types__WEBPACK_IMPORTED_MODULE_3__.array.isRequired,
-  indicators: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  controls: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  autoPlay: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  defaultActiveIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.number,
-  activeIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.number,
-  next: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  previous: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  goToIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.func
-};
-
-class UncontrolledCarousel extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.animating = false;
-    this.state = {
-      activeIndex: props.defaultActiveIndex || 0
-    };
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
-    this.goToIndex = this.goToIndex.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
-  }
-
-  onExiting() {
-    this.animating = true;
-  }
-
-  onExited() {
-    this.animating = false;
-  }
-
-  next() {
-    if (this.animating) return;
-    this.setState(prevState => {
-      const nextIndex = prevState.activeIndex === this.props.items.length - 1 ? 0 : prevState.activeIndex + 1;
-      return {
-        activeIndex: nextIndex
-      };
-    });
-  }
-
-  previous() {
-    if (this.animating) return;
-    this.setState(prevState => {
-      const nextIndex = prevState.activeIndex === 0 ? this.props.items.length - 1 : prevState.activeIndex - 1;
-      return {
-        activeIndex: nextIndex
-      };
-    });
-  }
-
-  goToIndex(newIndex) {
-    if (this.animating) return;
-    this.setState({
-      activeIndex: newIndex
-    });
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      defaultActiveIndex,
-      autoPlay,
-      indicators,
-      controls,
-      items,
-      goToIndex
-    } = _this$props,
-          props = _objectWithoutProperties(_this$props, _excluded$D);
-
-    const {
-      activeIndex
-    } = this.state;
-    const slides = items.map(item => {
-      const key = item.key || item.src;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselItem$1, {
-        onExiting: this.onExiting,
-        onExited: this.onExited,
-        key: key
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-        className: "d-block w-100",
-        src: item.src,
-        alt: item.altText
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselCaption, {
-        captionText: item.caption,
-        captionHeader: item.header || item.caption
-      }));
-    });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Carousel$1, _extends({
-      activeIndex: activeIndex,
-      next: this.next,
-      previous: this.previous,
-      ride: autoPlay ? 'carousel' : undefined
-    }, props), indicators && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselIndicators, {
-      items: items,
-      activeIndex: props.activeIndex || activeIndex,
-      onClickHandler: goToIndex || this.goToIndex
-    }), slides, controls && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselControl, {
-      direction: "prev",
-      directionText: "Previous",
-      onClickHandler: props.previous || this.previous
-    }), controls && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CarouselControl, {
-      direction: "next",
-      directionText: "Next",
-      onClickHandler: props.next || this.next
-    }));
-  }
-
-}
-
-UncontrolledCarousel.propTypes = propTypes$J;
-UncontrolledCarousel.defaultProps = {
-  controls: true,
-  indicators: true,
-  autoPlay: true
-};
-var UncontrolledCarousel$1 = UncontrolledCarousel;
-
-const _excluded$C = ["className", "cssModule", "tag"];
-const propTypes$I = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$I = {
-  tag: 'div'
-};
-
-function CardSubtitle(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$C);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-subtitle'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardSubtitle.propTypes = propTypes$I;
-CardSubtitle.defaultProps = defaultProps$I;
-
-const _excluded$B = ["className", "cssModule", "tag"];
-const propTypes$H = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$H = {
-  tag: 'p'
-};
-
-function CardText(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$B);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-text'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardText.propTypes = propTypes$H;
-CardText.defaultProps = defaultProps$H;
-
-const _excluded$A = ["className", "cssModule", "tag"];
-const propTypes$G = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$G = {
-  tag: 'div'
-};
-
-function CardTitle(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$A);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'card-title'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-CardTitle.propTypes = propTypes$G;
-CardTitle.defaultProps = defaultProps$G;
-
-const _excluded$z = ["cssModule", "children", "isOpen", "flip", "target", "offset", "fallbackPlacements", "placementPrefix", "arrowClassName", "hideArrow", "popperClassName", "tag", "container", "modifiers", "strategy", "boundariesElement", "onClosed", "fade", "transition", "placement"];
-
-function noop$2() {}
-
-const propTypes$F = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.node, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]).isRequired,
-  popperClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  placement: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  placementPrefix: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  arrowClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  hideArrow: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  offset: prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.number),
-  fallbackPlacements: prop_types__WEBPACK_IMPORTED_MODULE_3__.array,
-  flip: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  container: targetPropType,
-  target: targetPropType.isRequired,
-  modifiers: prop_types__WEBPACK_IMPORTED_MODULE_3__.array,
-  strategy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  boundariesElement: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, DOMElement]),
-  onClosed: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  transition: prop_types__WEBPACK_IMPORTED_MODULE_3__.shape(Fade.propTypes)
-};
-const defaultProps$F = {
-  boundariesElement: 'scrollParent',
-  placement: 'auto',
-  hideArrow: false,
-  isOpen: false,
-  offset: [0, 0],
-  flip: true,
-  container: 'body',
-  modifiers: [],
-  onClosed: noop$2,
-  fade: true,
-  transition: _objectSpread2({}, Fade.defaultProps)
-};
-
-class PopperContent extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.setTargetNode = this.setTargetNode.bind(this);
-    this.getTargetNode = this.getTargetNode.bind(this);
-    this.getRef = this.getRef.bind(this);
-    this.onClosed = this.onClosed.bind(this);
-    this.state = {
-      isOpen: props.isOpen
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.isOpen && !state.isOpen) {
-      return {
-        isOpen: props.isOpen
-      };
-    }
-
-    return null;
-  }
-
-  componentDidUpdate() {
-    if (this._element && this._element.childNodes && this._element.childNodes[0] && this._element.childNodes[0].focus) {
-      this._element.childNodes[0].focus();
-    }
-  }
-
-  onClosed() {
-    this.props.onClosed();
-    this.setState({
-      isOpen: false
-    });
-  }
-
-  getTargetNode() {
-    return this.targetNode;
-  }
-
-  getContainerNode() {
-    return getTarget(this.props.container);
-  }
-
-  getRef(ref) {
-    this._element = ref;
-  }
-
-  setTargetNode(node) {
-    this.targetNode = typeof node === 'string' ? getTarget(node) : node;
-  }
-
-  renderChildren() {
-    const _this$props = this.props,
-          {
-      cssModule,
-      children,
-      isOpen,
-      flip,
-      target,
-      offset,
-      fallbackPlacements,
-      placementPrefix,
-      arrowClassName: _arrowClassName,
-      hideArrow,
-      popperClassName: _popperClassName,
-      tag,
-      container,
-      modifiers,
-      strategy,
-      boundariesElement,
-      onClosed,
-      fade,
-      transition,
-      placement
-    } = _this$props,
-          attrs = _objectWithoutProperties(_this$props, _excluded$z);
-
-    const arrowClassName = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('arrow', _arrowClassName), cssModule);
-    const popperClassName = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(_popperClassName, placementPrefix ? `${placementPrefix}-auto` : ''), this.props.cssModule);
-    const modifierNames = modifiers.map(m => m.name);
-    const baseModifiers = [{
-      name: 'offset',
-      options: {
-        offset
-      }
-    }, {
-      name: 'flip',
-      enabled: flip,
-      options: {
-        fallbackPlacements
-      }
-    }, {
-      name: 'preventOverflow',
-      options: {
-        boundary: boundariesElement
-      }
-    }].filter(m => !modifierNames.includes(m.name));
-    const extendedModifiers = [...baseModifiers, ...modifiers];
-
-    const popperTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), transition), {}, {
-      baseClass: fade ? transition.baseClass : '',
-      timeout: fade ? transition.timeout : 0
-    });
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, popperTransition, attrs, {
-      in: isOpen,
-      onExited: this.onClosed,
-      tag: tag
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_popper__WEBPACK_IMPORTED_MODULE_5__.Popper, {
-      referenceElement: this.targetNode,
-      modifiers: extendedModifiers,
-      placement: placement,
-      strategy: strategy
-    }, ({
-      ref,
-      style,
-      placement: popperPlacement,
-      isReferenceHidden,
-      arrowProps,
-      update
-    }) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      ref: ref,
-      style: style,
-      className: popperClassName,
-      "data-popper-placement": popperPlacement,
-      "data-popper-reference-hidden": isReferenceHidden ? 'true' : undefined
-    }, typeof children === 'function' ? children({
-      update
-    }) : children, !hideArrow && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      ref: arrowProps.ref,
-      className: arrowClassName,
-      style: arrowProps.style
-    }))));
-  }
-
-  render() {
-    this.setTargetNode(this.props.target);
-
-    if (this.state.isOpen) {
-      return this.props.container === 'inline' ? this.renderChildren() : react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        ref: this.getRef
-      }, this.renderChildren()), this.getContainerNode());
-    }
-
-    return null;
-  }
-
-}
-
-PopperContent.propTypes = propTypes$F;
-PopperContent.defaultProps = defaultProps$F;
-var PopperContent$1 = PopperContent;
-
-function PopperTargetHelper(props, context) {
-  context.popperManager.setTargetNode(getTarget(props.target));
-  return null;
-}
-
-PopperTargetHelper.contextTypes = {
-  popperManager: prop_types__WEBPACK_IMPORTED_MODULE_3__.object.isRequired
-};
-PopperTargetHelper.propTypes = {
-  target: targetPropType.isRequired
-};
-
-const propTypes$E = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.node, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-  placement: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(PopperPlacements),
-  target: targetPropType.isRequired,
-  container: targetPropType,
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  hideArrow: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  boundariesElement: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, DOMElement]),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  innerClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  arrowClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  popperClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  autohide: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  placementPrefix: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  delay: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-    show: prop_types__WEBPACK_IMPORTED_MODULE_3__.number,
-    hide: prop_types__WEBPACK_IMPORTED_MODULE_3__.number
-  }), prop_types__WEBPACK_IMPORTED_MODULE_3__.number]),
-  modifiers: prop_types__WEBPACK_IMPORTED_MODULE_3__.array,
-  strategy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  offset: prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.number),
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.object]),
-  trigger: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  flip: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const DEFAULT_DELAYS = {
-  show: 0,
-  hide: 50
-};
-const defaultProps$E = {
-  isOpen: false,
-  hideArrow: false,
-  autohide: false,
-  delay: DEFAULT_DELAYS,
-  toggle: function () {},
-  trigger: 'click',
-  fade: true
-};
-
-function isInDOMSubtree(element, subtreeRoot) {
-  return subtreeRoot && (element === subtreeRoot || subtreeRoot.contains(element));
-}
-
-function isInDOMSubtrees(element, subtreeRoots = []) {
-  return subtreeRoots && subtreeRoots.length && subtreeRoots.filter(subTreeRoot => isInDOMSubtree(element, subTreeRoot))[0];
-}
-
-class TooltipPopoverWrapper extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this._targets = [];
-    this.currentTargetElement = null;
-    this.addTargetEvents = this.addTargetEvents.bind(this);
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-    this.removeTargetEvents = this.removeTargetEvents.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.showWithDelay = this.showWithDelay.bind(this);
-    this.hideWithDelay = this.hideWithDelay.bind(this);
-    this.onMouseOverTooltipContent = this.onMouseOverTooltipContent.bind(this);
-    this.onMouseLeaveTooltipContent = this.onMouseLeaveTooltipContent.bind(this);
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
-    this.onEscKeyDown = this.onEscKeyDown.bind(this);
-    this.getRef = this.getRef.bind(this);
-    this.state = {
-      isOpen: props.isOpen
-    };
-    this._isMounted = false;
-  }
-
-  componentDidMount() {
-    this._isMounted = true;
-    this.updateTarget();
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-    this.removeTargetEvents();
-    this._targets = null;
-    this.clearShowTimeout();
-    this.clearHideTimeout();
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.isOpen && !state.isOpen) {
-      return {
-        isOpen: props.isOpen
-      };
-    }
-
-    return null;
-  }
-
-  handleDocumentClick(e) {
-    const triggers = this.props.trigger.split(' ');
-
-    if (triggers.indexOf('legacy') > -1 && (this.props.isOpen || isInDOMSubtrees(e.target, this._targets))) {
-      if (this._hideTimeout) {
-        this.clearHideTimeout();
-      }
-
-      if (this.props.isOpen && !isInDOMSubtree(e.target, this._popover)) {
-        this.hideWithDelay(e);
-      } else if (!this.props.isOpen) {
-        this.showWithDelay(e);
-      }
-    } else if (triggers.indexOf('click') > -1 && isInDOMSubtrees(e.target, this._targets)) {
-      if (this._hideTimeout) {
-        this.clearHideTimeout();
-      }
-
-      if (!this.props.isOpen) {
-        this.showWithDelay(e);
-      } else {
-        this.hideWithDelay(e);
-      }
-    }
-  }
-
-  onMouseOverTooltipContent() {
-    if (this.props.trigger.indexOf('hover') > -1 && !this.props.autohide) {
-      if (this._hideTimeout) {
-        this.clearHideTimeout();
-      }
-
-      if (this.state.isOpen && !this.props.isOpen) {
-        this.toggle();
-      }
-    }
-  }
-
-  onMouseLeaveTooltipContent(e) {
-    if (this.props.trigger.indexOf('hover') > -1 && !this.props.autohide) {
-      if (this._showTimeout) {
-        this.clearShowTimeout();
-      }
-
-      e.persist();
-      this._hideTimeout = setTimeout(this.hide.bind(this, e), this.getDelay('hide'));
-    }
-  }
-
-  onEscKeyDown(e) {
-    if (e.key === 'Escape') {
-      this.hide(e);
-    }
-  }
-
-  getRef(ref) {
-    const {
-      innerRef
-    } = this.props;
-
-    if (innerRef) {
-      if (typeof innerRef === 'function') {
-        innerRef(ref);
-      } else if (typeof innerRef === 'object') {
-        innerRef.current = ref;
-      }
-    }
-
-    this._popover = ref;
-  }
-
-  getDelay(key) {
-    const {
-      delay
-    } = this.props;
-
-    if (typeof delay === 'object') {
-      return isNaN(delay[key]) ? DEFAULT_DELAYS[key] : delay[key];
-    }
-
-    return delay;
-  }
-
-  getCurrentTarget(target) {
-    if (!target) return null;
-
-    const index = this._targets.indexOf(target);
-
-    if (index >= 0) return this._targets[index];
-    return this.getCurrentTarget(target.parentElement);
-  }
-
-  show(e) {
-    if (!this.props.isOpen) {
-      this.clearShowTimeout();
-      this.currentTargetElement = e ? e.currentTarget || this.getCurrentTarget(e.target) : null;
-
-      if (e && e.composedPath && typeof e.composedPath === 'function') {
-        const path = e.composedPath();
-        this.currentTargetElement = path && path[0] || this.currentTargetElement;
-      }
-
-      this.toggle(e);
-    }
-  }
-
-  showWithDelay(e) {
-    if (this._hideTimeout) {
-      this.clearHideTimeout();
-    }
-
-    this._showTimeout = setTimeout(this.show.bind(this, e), this.getDelay('show'));
-  }
-
-  hide(e) {
-    if (this.props.isOpen) {
-      this.clearHideTimeout();
-      this.currentTargetElement = null;
-      this.toggle(e);
-    }
-  }
-
-  hideWithDelay(e) {
-    if (this._showTimeout) {
-      this.clearShowTimeout();
-    }
-
-    this._hideTimeout = setTimeout(this.hide.bind(this, e), this.getDelay('hide'));
-  }
-
-  clearShowTimeout() {
-    clearTimeout(this._showTimeout);
-    this._showTimeout = undefined;
-  }
-
-  clearHideTimeout() {
-    clearTimeout(this._hideTimeout);
-    this._hideTimeout = undefined;
-  }
-
-  addEventOnTargets(type, handler, isBubble) {
-    this._targets.forEach(target => {
-      target.addEventListener(type, handler, isBubble);
-    });
-  }
-
-  removeEventOnTargets(type, handler, isBubble) {
-    this._targets.forEach(target => {
-      target.removeEventListener(type, handler, isBubble);
-    });
-  }
-
-  addTargetEvents() {
-    if (this.props.trigger) {
-      let triggers = this.props.trigger.split(' ');
-
-      if (triggers.indexOf('manual') === -1) {
-        if (triggers.indexOf('click') > -1 || triggers.indexOf('legacy') > -1) {
-          document.addEventListener('click', this.handleDocumentClick, true);
-        }
-
-        if (this._targets && this._targets.length) {
-          if (triggers.indexOf('hover') > -1) {
-            this.addEventOnTargets('mouseover', this.showWithDelay, true);
-            this.addEventOnTargets('mouseout', this.hideWithDelay, true);
-          }
-
-          if (triggers.indexOf('focus') > -1) {
-            this.addEventOnTargets('focusin', this.show, true);
-            this.addEventOnTargets('focusout', this.hide, true);
-          }
-
-          this.addEventOnTargets('keydown', this.onEscKeyDown, true);
-        }
-      }
-    }
-  }
-
-  removeTargetEvents() {
-    if (this._targets) {
-      this.removeEventOnTargets('mouseover', this.showWithDelay, true);
-      this.removeEventOnTargets('mouseout', this.hideWithDelay, true);
-      this.removeEventOnTargets('keydown', this.onEscKeyDown, true);
-      this.removeEventOnTargets('focusin', this.show, true);
-      this.removeEventOnTargets('focusout', this.hide, true);
-    }
-
-    document.removeEventListener('click', this.handleDocumentClick, true);
-  }
-
-  updateTarget() {
-    const newTarget = getTarget(this.props.target, true);
-
-    if (newTarget !== this._targets) {
-      this.removeTargetEvents();
-      this._targets = newTarget ? Array.from(newTarget) : [];
-      this.currentTargetElement = this.currentTargetElement || this._targets[0];
-      this.addTargetEvents();
-    }
-  }
-
-  toggle(e) {
-    if (this.props.disabled || !this._isMounted) {
-      return e && e.preventDefault();
-    }
-
-    return this.props.toggle(e);
-  }
-
-  render() {
-    if (this.props.isOpen) {
-      this.updateTarget();
-    }
-
-    const target = this.currentTargetElement || this._targets[0];
-
-    if (!target) {
-      return null;
-    }
-
-    const {
-      className,
-      cssModule,
-      innerClassName,
-      isOpen,
-      hideArrow,
-      boundariesElement,
-      placement,
-      placementPrefix,
-      arrowClassName,
-      popperClassName,
-      container,
-      modifiers,
-      strategy,
-      offset,
-      fade,
-      flip,
-      children
-    } = this.props;
-    const attributes = omit(this.props, Object.keys(propTypes$E));
-    const popperClasses = mapToCssModules(popperClassName, cssModule);
-    const classes = mapToCssModules(innerClassName, cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(PopperContent$1, {
-      className: className,
-      target: target,
-      isOpen: isOpen,
-      hideArrow: hideArrow,
-      boundariesElement: boundariesElement,
-      placement: placement,
-      placementPrefix: placementPrefix,
-      arrowClassName: arrowClassName,
-      popperClassName: popperClasses,
-      container: container,
-      modifiers: modifiers,
-      strategy: strategy,
-      offset: offset,
-      cssModule: cssModule,
-      fade: fade,
-      flip: flip
-    }, ({
-      update
-    }) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, attributes, {
-      ref: this.getRef,
-      className: classes,
-      role: "tooltip",
-      onMouseOver: this.onMouseOverTooltipContent,
-      onMouseLeave: this.onMouseLeaveTooltipContent,
-      onKeyDown: this.onEscKeyDown
-    }), typeof children === 'function' ? children({
-      update
-    }) : children));
-  }
-
-}
-
-TooltipPopoverWrapper.propTypes = propTypes$E;
-TooltipPopoverWrapper.defaultProps = defaultProps$E;
-var TooltipPopoverWrapper$1 = TooltipPopoverWrapper;
-
-const defaultProps$D = {
-  placement: 'right',
-  placementPrefix: 'bs-popover',
-  trigger: 'click',
-  offset: [0, 8]
-};
-
-function Popover(props) {
-  const popperClasses = classnames__WEBPACK_IMPORTED_MODULE_1__('popover', 'show', props.popperClassName);
-  const classes = classnames__WEBPACK_IMPORTED_MODULE_1__('popover-inner', props.innerClassName);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TooltipPopoverWrapper$1, _extends({}, props, {
-    arrowClassName: "popover-arrow",
-    popperClassName: popperClasses,
-    innerClassName: classes
-  }));
-}
-
-Popover.propTypes = propTypes$E;
-Popover.defaultProps = defaultProps$D;
-
-const omitKeys$4 = ['defaultOpen'];
-class UncontrolledPopover extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: props.defaultOpen || false
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Popover, _extends({
-      isOpen: this.state.isOpen,
-      toggle: this.toggle
-    }, omit(this.props, omitKeys$4)));
-  }
-
-}
-UncontrolledPopover.propTypes = _objectSpread2({
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-}, Popover.propTypes);
-
-const _excluded$y = ["className", "cssModule", "tag"];
-const propTypes$D = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$C = {
-  tag: 'h3'
-};
-
-function PopoverHeader(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$y);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'popover-header'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-PopoverHeader.propTypes = propTypes$D;
-PopoverHeader.defaultProps = defaultProps$C;
-
-const _excluded$x = ["className", "cssModule", "tag"];
-const propTypes$C = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$B = {
-  tag: 'div'
-};
-
-function PopoverBody(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$x);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'popover-body'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-PopoverBody.propTypes = propTypes$C;
-PopoverBody.defaultProps = defaultProps$B;
-
-const _excluded$w = ["children", "className", "barClassName", "cssModule", "value", "min", "max", "animated", "striped", "color", "bar", "multi", "tag", "style", "barStyle", "barAriaValueText", "barAriaLabelledBy"];
-const propTypes$B = {
-  /** Enable animation to bar */
-  animated: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  bar: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  barAriaLabelledBy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  barAriaValueText: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  barClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  barStyle: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Add custom color to the placeholder */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Maximum value of progress */
-  max: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.number]),
-
-  /** Minimum value of progress, defaults to zero */
-  min: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.number]),
-  multi: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add stripes to progress bar */
-  striped: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  style: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Current value of progress */
-  value: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.number])
-};
-const defaultProps$A = {
-  tag: 'div',
-  value: 0,
-  min: 0,
-  max: 100,
-  style: {},
-  barStyle: {}
-};
-
-function Progress(props) {
-  const {
-    children,
-    className,
-    barClassName,
-    cssModule,
-    value,
-    min,
-    max,
-    animated,
-    striped,
-    color,
-    bar,
-    multi,
-    tag: Tag,
-    style,
-    barStyle,
-    barAriaValueText,
-    barAriaLabelledBy
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$w);
-
-  const percent = toNumber(value) / toNumber(max) * 100;
-  const progressClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'progress'), cssModule);
-  const progressBarClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('progress-bar', bar ? className || barClassName : barClassName, animated ? 'progress-bar-animated' : null, color ? `bg-${color}` : null, striped || animated ? 'progress-bar-striped' : null), cssModule);
-  const progressBarProps = {
-    className: progressBarClasses,
-    style: _objectSpread2(_objectSpread2(_objectSpread2({}, bar ? style : {}), barStyle), {}, {
-      width: `${percent}%`
-    }),
-    role: 'progressbar',
-    'aria-valuenow': value,
-    'aria-valuemin': min,
-    'aria-valuemax': max,
-    'aria-valuetext': barAriaValueText,
-    'aria-labelledby': barAriaLabelledBy,
-    children: children
-  };
-
-  if (bar) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, progressBarProps));
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    style: style,
-    className: progressClasses
-  }), multi ? children : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", progressBarProps));
-}
-
-Progress.propTypes = propTypes$B;
-Progress.defaultProps = defaultProps$A;
-
-const propTypes$A = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node.isRequired,
-  node: prop_types__WEBPACK_IMPORTED_MODULE_3__.any
-};
-
-class Portal extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  componentWillUnmount() {
-    if (this.defaultNode) {
-      document.body.removeChild(this.defaultNode);
-    }
-
-    this.defaultNode = null;
-  }
-
-  render() {
-    if (!canUseDOM) {
-      return null;
-    }
-
-    if (!this.props.node && !this.defaultNode) {
-      this.defaultNode = document.createElement('div');
-      document.body.appendChild(this.defaultNode);
-    }
-
-    return react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal(this.props.children, this.props.node || this.defaultNode);
-  }
-
-}
-
-Portal.propTypes = propTypes$A;
-var Portal$1 = Portal;
-
-function noop$1() {}
-
-const FadePropTypes$1 = prop_types__WEBPACK_IMPORTED_MODULE_3__.shape(Fade.propTypes);
-const propTypes$z = {
-  /** */
-  autoFocus: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add backdrop to modal */
-  backdrop: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['static'])]),
-
-  /** add custom classname to backdrop */
-  backdropClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  backdropTransition: FadePropTypes$1,
-
-  /** Vertically center the modal */
-  centered: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add children for the modal to wrap */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom className for modal content */
-  contentClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  container: targetPropType,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  external: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Enable/Disable animation */
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Make the modal fullscreen */
-  fullscreen: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['sm', 'md', 'lg', 'xl'])]),
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** The status of the modal, either open or close */
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Allow modal to be closed with escape key. */
-  keyboard: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Identifies the element (or elements) that labels the current element. */
-  labelledBy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  modalClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  modalTransition: FadePropTypes$1,
-
-  /** Function to be triggered on close */
-  onClosed: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Function to be triggered on enter */
-  onEnter: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Function to be triggered on exit */
-  onExit: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Function to be triggered on open */
-  onOpened: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Returns focus to the element that triggered opening of the modal */
-  returnFocusAfterClose: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Accessibility role */
-  role: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Make the modal scrollable */
-  scrollable: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Two optional sizes `lg` and `sm` */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Function to toggle modal visibility */
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  trapFocus: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Unmounts the modal when modal is closed */
-  unmountOnClose: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  wrapClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  zIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string])
-};
-const propsToOmit$1 = Object.keys(propTypes$z);
-const defaultProps$z = {
-  isOpen: false,
-  autoFocus: true,
-  centered: false,
-  scrollable: false,
-  role: 'dialog',
-  backdrop: true,
-  keyboard: true,
-  zIndex: 1050,
-  fade: true,
-  onOpened: noop$1,
-  onClosed: noop$1,
-  modalTransition: {
-    timeout: TransitionTimeouts.Modal
-  },
-  backdropTransition: {
-    mountOnEnter: true,
-    timeout: TransitionTimeouts.Fade // uses standard fade transition
-
-  },
-  unmountOnClose: true,
-  returnFocusAfterClose: true,
-  container: 'body',
-  trapFocus: false
-};
-
-class Modal extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this._element = null;
-    this._originalBodyPadding = null;
-    this.getFocusableChildren = this.getFocusableChildren.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
-    this.handleBackdropMouseDown = this.handleBackdropMouseDown.bind(this);
-    this.handleEscape = this.handleEscape.bind(this);
-    this.handleStaticBackdropAnimation = this.handleStaticBackdropAnimation.bind(this);
-    this.handleTab = this.handleTab.bind(this);
-    this.onOpened = this.onOpened.bind(this);
-    this.onClosed = this.onClosed.bind(this);
-    this.manageFocusAfterClose = this.manageFocusAfterClose.bind(this);
-    this.clearBackdropAnimationTimeout = this.clearBackdropAnimationTimeout.bind(this);
-    this.trapFocus = this.trapFocus.bind(this);
-    this.state = {
-      isOpen: false,
-      showStaticBackdropAnimation: false
-    };
-  }
-
-  componentDidMount() {
-    const {
-      isOpen,
-      autoFocus,
-      onEnter
-    } = this.props;
-
-    if (isOpen) {
-      this.init();
-      this.setState({
-        isOpen: true
-      });
-
-      if (autoFocus) {
-        this.setFocus();
-      }
-    }
-
-    if (onEnter) {
-      onEnter();
-    } // traps focus inside the Modal, even if the browser address bar is focused
-
-
-    document.addEventListener('focus', this.trapFocus, true);
-    this._isMounted = true;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.isOpen && !prevProps.isOpen) {
-      this.init();
-      this.setState({
-        isOpen: true
-      }); // let render() renders Modal Dialog first
-
-      return;
-    } // now Modal Dialog is rendered and we can refer this._element and this._dialog
-
-
-    if (this.props.autoFocus && this.state.isOpen && !prevState.isOpen) {
-      this.setFocus();
-    }
-
-    if (this._element && prevProps.zIndex !== this.props.zIndex) {
-      this._element.style.zIndex = this.props.zIndex;
-    }
-  }
-
-  componentWillUnmount() {
-    this.clearBackdropAnimationTimeout();
-
-    if (this.props.onExit) {
-      this.props.onExit();
-    }
-
-    if (this._element) {
-      this.destroy();
-
-      if (this.props.isOpen || this.state.isOpen) {
-        this.close();
-      }
-    }
-
-    document.removeEventListener('focus', this.trapFocus, true);
-    this._isMounted = false;
-  } // not mouseUp because scrollbar fires it, shouldn't close when user scrolls
-
-
-  handleBackdropClick(e) {
-    if (e.target === this._mouseDownElement) {
-      e.stopPropagation();
-      const backdrop = this._dialog ? this._dialog.parentNode : null;
-
-      if (backdrop && e.target === backdrop && this.props.backdrop === 'static') {
-        this.handleStaticBackdropAnimation();
-      }
-
-      if (!this.props.isOpen || this.props.backdrop !== true) return;
-
-      if (backdrop && e.target === backdrop && this.props.toggle) {
-        this.props.toggle(e);
-      }
-    }
-  }
-
-  handleTab(e) {
-    if (e.which !== 9) return;
-    if (this.modalIndex < Modal.openCount - 1) return; // last opened modal
-
-    const focusableChildren = this.getFocusableChildren();
-    const totalFocusable = focusableChildren.length;
-    if (totalFocusable === 0) return;
-    const currentFocus = this.getFocusedChild();
-    let focusedIndex = 0;
-
-    for (let i = 0; i < totalFocusable; i += 1) {
-      if (focusableChildren[i] === currentFocus) {
-        focusedIndex = i;
-        break;
-      }
-    }
-
-    if (e.shiftKey && focusedIndex === 0) {
-      e.preventDefault();
-      focusableChildren[totalFocusable - 1].focus();
-    } else if (!e.shiftKey && focusedIndex === totalFocusable - 1) {
-      e.preventDefault();
-      focusableChildren[0].focus();
-    }
-  }
-
-  handleBackdropMouseDown(e) {
-    this._mouseDownElement = e.target;
-  }
-
-  handleEscape(e) {
-    if (this.props.isOpen && e.keyCode === keyCodes.esc && this.props.toggle) {
-      if (this.props.keyboard) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.toggle(e);
-      } else if (this.props.backdrop === 'static') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.handleStaticBackdropAnimation();
-      }
-    }
-  }
-
-  handleStaticBackdropAnimation() {
-    this.clearBackdropAnimationTimeout();
-    this.setState({
-      showStaticBackdropAnimation: true
-    });
-    this._backdropAnimationTimeout = setTimeout(() => {
-      this.setState({
-        showStaticBackdropAnimation: false
-      });
-    }, 100);
-  }
-
-  onOpened(node, isAppearing) {
-    this.props.onOpened();
-    (this.props.modalTransition.onEntered || noop$1)(node, isAppearing);
-  }
-
-  onClosed(node) {
-    const {
-      unmountOnClose
-    } = this.props; // so all methods get called before it is unmounted
-
-    this.props.onClosed();
-    (this.props.modalTransition.onExited || noop$1)(node);
-
-    if (unmountOnClose) {
-      this.destroy();
-    }
-
-    this.close();
-
-    if (this._isMounted) {
-      this.setState({
-        isOpen: false
-      });
-    }
-  }
-
-  setFocus() {
-    if (this._dialog && this._dialog.parentNode && typeof this._dialog.parentNode.focus === 'function') {
-      this._dialog.parentNode.focus();
-    }
-  }
-
-  getFocusableChildren() {
-    return this._element.querySelectorAll(focusableElements.join(', '));
-  }
-
-  getFocusedChild() {
-    let currentFocus;
-    const focusableChildren = this.getFocusableChildren();
-
-    try {
-      currentFocus = document.activeElement;
-    } catch (err) {
-      currentFocus = focusableChildren[0];
-    }
-
-    return currentFocus;
-  }
-
-  trapFocus(ev) {
-    if (!this.props.trapFocus) {
-      return;
-    }
-
-    if (!this._element) {
-      // element is not attached
-      return;
-    }
-
-    if (this._dialog && this._dialog.parentNode === ev.target) {
-      // initial focus when the Modal is opened
-      return;
-    }
-
-    if (this.modalIndex < Modal.openCount - 1) {
-      // last opened modal
-      return;
-    }
-
-    const children = this.getFocusableChildren();
-
-    for (let i = 0; i < children.length; i += 1) {
-      // focus is already inside the Modal
-      if (children[i] === ev.target) return;
-    }
-
-    if (children.length > 0) {
-      // otherwise focus the first focusable element in the Modal
-      ev.preventDefault();
-      ev.stopPropagation();
-      children[0].focus();
-    }
-  }
-
-  init() {
-    try {
-      this._triggeringElement = document.activeElement;
-    } catch (err) {
-      this._triggeringElement = null;
-    }
-
-    if (!this._element) {
-      this._element = document.createElement('div');
-
-      this._element.setAttribute('tabindex', '-1');
-
-      this._element.style.position = 'relative';
-      this._element.style.zIndex = this.props.zIndex;
-      this._mountContainer = getTarget(this.props.container);
-
-      this._mountContainer.appendChild(this._element);
-    }
-
-    this._originalBodyPadding = getOriginalBodyPadding();
-
-    if (Modal.openCount < 1) {
-      Modal.originalBodyOverflow = window.getComputedStyle(document.body).overflow;
-    }
-    conditionallyUpdateScrollbar();
-
-    if (Modal.openCount === 0) {
-      document.body.className = classnames__WEBPACK_IMPORTED_MODULE_1__(document.body.className, mapToCssModules('modal-open', this.props.cssModule));
-      document.body.style.overflow = 'hidden';
-    }
-
-    this.modalIndex = Modal.openCount;
-    Modal.openCount += 1;
-  }
-
-  destroy() {
-    if (this._element) {
-      this._mountContainer.removeChild(this._element);
-
-      this._element = null;
-    }
-
-    this.manageFocusAfterClose();
-  }
-
-  manageFocusAfterClose() {
-    if (this._triggeringElement) {
-      const {
-        returnFocusAfterClose
-      } = this.props;
-      if (this._triggeringElement.focus && returnFocusAfterClose) this._triggeringElement.focus();
-      this._triggeringElement = null;
-    }
-  }
-
-  close() {
-    if (Modal.openCount <= 1) {
-      const modalOpenClassName = mapToCssModules('modal-open', this.props.cssModule); // Use regex to prevent matching `modal-open` as part of a different class, e.g. `my-modal-opened`
-
-      const modalOpenClassNameRegex = new RegExp(`(^| )${modalOpenClassName}( |$)`);
-      document.body.className = document.body.className.replace(modalOpenClassNameRegex, ' ').trim();
-      document.body.style.overflow = Modal.originalBodyOverflow;
-    }
-
-    this.manageFocusAfterClose();
-    Modal.openCount = Math.max(0, Modal.openCount - 1);
-    setScrollbarWidth(this._originalBodyPadding);
-  }
-
-  clearBackdropAnimationTimeout() {
-    if (this._backdropAnimationTimeout) {
-      clearTimeout(this._backdropAnimationTimeout);
-      this._backdropAnimationTimeout = undefined;
-    }
-  }
-
-  renderModalDialog() {
-    const attributes = omit(this.props, propsToOmit$1);
-    const dialogBaseClass = 'modal-dialog';
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, attributes, {
-      className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(dialogBaseClass, this.props.className, {
-        [`modal-${this.props.size}`]: this.props.size,
-        [`${dialogBaseClass}-centered`]: this.props.centered,
-        [`${dialogBaseClass}-scrollable`]: this.props.scrollable,
-        'modal-fullscreen': this.props.fullscreen === true,
-        [`modal-fullscreen-${this.props.fullscreen}-down`]: typeof this.props.fullscreen === 'string'
-      }), this.props.cssModule),
-      role: "document",
-      ref: c => {
-        this._dialog = c;
-      }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('modal-content', this.props.contentClassName), this.props.cssModule)
-    }, this.props.children));
-  }
-
-  render() {
-    const {
-      unmountOnClose
-    } = this.props;
-
-    if (!!this._element && (this.state.isOpen || !unmountOnClose)) {
-      const isModalHidden = !!this._element && !this.state.isOpen && !unmountOnClose;
-      this._element.style.display = isModalHidden ? 'none' : 'block';
-      const {
-        wrapClassName,
-        modalClassName,
-        backdropClassName,
-        cssModule,
-        isOpen,
-        backdrop,
-        role,
-        labelledBy,
-        external,
-        innerRef
-      } = this.props;
-      const modalAttributes = {
-        onClick: this.handleBackdropClick,
-        onMouseDown: this.handleBackdropMouseDown,
-        onKeyUp: this.handleEscape,
-        onKeyDown: this.handleTab,
-        style: {
-          display: 'block'
-        },
-        'aria-labelledby': labelledBy,
-        role,
-        tabIndex: '-1'
-      };
-      const hasTransition = this.props.fade;
-
-      const modalTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), this.props.modalTransition), {}, {
-        baseClass: hasTransition ? this.props.modalTransition.baseClass : '',
-        timeout: hasTransition ? this.props.modalTransition.timeout : 0
-      });
-
-      const backdropTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), this.props.backdropTransition), {}, {
-        baseClass: hasTransition ? this.props.backdropTransition.baseClass : '',
-        timeout: hasTransition ? this.props.backdropTransition.timeout : 0
-      });
-
-      const Backdrop = backdrop && (hasTransition ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, backdropTransition, {
-        in: isOpen && !!backdrop,
-        cssModule: cssModule,
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('modal-backdrop', backdropClassName), cssModule)
-      })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('modal-backdrop', 'show', backdropClassName), cssModule)
-      }));
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Portal$1, {
-        node: this._element
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: mapToCssModules(wrapClassName)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, modalAttributes, modalTransition, {
-        in: isOpen,
-        onEntered: this.onOpened,
-        onExited: this.onClosed,
-        cssModule: cssModule,
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('modal', modalClassName, this.state.showStaticBackdropAnimation && 'modal-static'), cssModule),
-        innerRef: innerRef
-      }), external, this.renderModalDialog()), Backdrop));
-    }
-
-    return null;
-  }
-
-}
-
-Modal.propTypes = propTypes$z;
-Modal.defaultProps = defaultProps$z;
-Modal.openCount = 0;
-Modal.originalBodyOverflow = null;
-var Modal$1 = Modal;
-
-const _excluded$v = ["className", "cssModule", "children", "toggle", "tag", "wrapTag", "closeAriaLabel", "close"];
-const propTypes$y = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Custom close button */
-  close: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  closeAriaLabel: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Function to be triggered when close button is clicked */
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  wrapTag: tagPropType
-};
-const defaultProps$y = {
-  tag: 'h5',
-  wrapTag: 'div',
-  closeAriaLabel: 'Close'
-};
-
-function ModalHeader(props) {
-  let closeButton;
-
-  const {
-    className,
-    cssModule,
-    children,
-    toggle,
-    tag: Tag,
-    wrapTag: WrapTag,
-    closeAriaLabel,
-    close
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$v);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'modal-header'), cssModule);
-
-  if (!close && toggle) {
-    closeButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      type: "button",
-      onClick: toggle,
-      className: mapToCssModules('btn-close', cssModule),
-      "aria-label": closeAriaLabel
-    });
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(WrapTag, _extends({}, attributes, {
-    className: classes
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-    className: mapToCssModules('modal-title', cssModule)
-  }, children), close || closeButton);
-}
-
-ModalHeader.propTypes = propTypes$y;
-ModalHeader.defaultProps = defaultProps$y;
-
-const _excluded$u = ["className", "cssModule", "tag"];
-const propTypes$x = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$x = {
-  tag: 'div'
-};
-
-function ModalBody(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$u);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'modal-body'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ModalBody.propTypes = propTypes$x;
-ModalBody.defaultProps = defaultProps$x;
-
-const _excluded$t = ["className", "cssModule", "tag"];
-const propTypes$w = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$w = {
-  tag: 'div'
-};
-
-function ModalFooter(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$t);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'modal-footer'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ModalFooter.propTypes = propTypes$w;
-ModalFooter.defaultProps = defaultProps$w;
-
-const defaultProps$v = {
-  placement: 'top',
-  autohide: true,
-  placementPrefix: 'bs-tooltip',
-  trigger: 'hover focus'
-};
-
-function Tooltip(props) {
-  const popperClasses = classnames__WEBPACK_IMPORTED_MODULE_1__('tooltip', 'show', props.popperClassName);
-  const classes = classnames__WEBPACK_IMPORTED_MODULE_1__('tooltip-inner', props.innerClassName);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TooltipPopoverWrapper$1, _extends({}, props, {
-    arrowClassName: "tooltip-arrow",
-    popperClassName: popperClasses,
-    innerClassName: classes
-  }));
-}
-
-Tooltip.propTypes = propTypes$E;
-Tooltip.defaultProps = defaultProps$v;
-
-const _excluded$s = ["className", "cssModule", "size", "bordered", "borderless", "striped", "dark", "hover", "responsive", "tag", "responsiveTag", "innerRef"];
-const propTypes$v = {
-  /** Adds border to all sides of table */
-  bordered: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Removes all borders */
-  borderless: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Adds custom class name to component */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /**  */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Makes the table dark */
-  dark: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Enables a hover state on the rows within `<tbody>` */
-  hover: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.object]),
-
-  /** Responsive tables allow tables to be scrolled horizontally with ease */
-  responsive: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  responsiveTag: tagPropType,
-
-  /** Make tables more compact by cutting cell padding in half when setting size as sm. */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Adds zebra-striping to any table row within the `<tbody>` */
-  striped: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom tag to the component */
-  tag: tagPropType
-};
-const defaultProps$u = {
-  tag: 'table',
-  responsiveTag: 'div'
-};
-
-function Table(props) {
-  const {
-    className,
-    cssModule,
-    size,
-    bordered,
-    borderless,
-    striped,
-    dark,
-    hover,
-    responsive,
-    tag: Tag,
-    responsiveTag: ResponsiveTag,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$s);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'table', size ? 'table-' + size : false, bordered ? 'table-bordered' : false, borderless ? 'table-borderless' : false, striped ? 'table-striped' : false, dark ? 'table-dark' : false, hover ? 'table-hover' : false), cssModule);
-  const table = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    ref: innerRef,
-    className: classes
-  }));
-
-  if (responsive) {
-    const responsiveClassName = mapToCssModules(responsive === true ? 'table-responsive' : `table-responsive-${responsive}`, cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ResponsiveTag, {
-      className: responsiveClassName
-    }, table);
-  }
-
-  return table;
-}
-
-Table.propTypes = propTypes$v;
-Table.defaultProps = defaultProps$u;
-
-const _excluded$r = ["className", "cssModule", "tag", "flush", "horizontal", "numbered"];
-const propTypes$u = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Remove borders to make the list appear flush */
-  flush: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Make the list horizontal instead of vertical */
-  horizontal: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Add number to the ListItems */
-  numbered: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$t = {
-  tag: 'ul',
-  horizontal: false,
-  numbered: false
-};
-
-const getHorizontalClass = horizontal => {
-  if (horizontal === false) {
-    return false;
-  }
-
-  if (horizontal === true || horizontal === 'xs') {
-    return 'list-group-horizontal';
-  }
-
-  return `list-group-horizontal-${horizontal}`;
-};
-
-function ListGroup(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    flush,
-    horizontal,
-    numbered
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$r);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'list-group', // list-group-horizontal cannot currently be mixed with list-group-flush
-  // we only try to apply horizontal classes if flush is false
-  flush ? 'list-group-flush' : getHorizontalClass(horizontal), {
-    'list-group-numbered': numbered
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ListGroup.propTypes = propTypes$u;
-ListGroup.defaultProps = defaultProps$t;
-
-const _excluded$q = ["className", "cssModule", "tag", "innerRef"];
-const propTypes$t = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  tag: tagPropType,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$s = {
-  tag: 'form'
-};
-
-class Form extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.getRef = this.getRef.bind(this);
-    this.submit = this.submit.bind(this);
-  }
-
-  getRef(ref) {
-    if (this.props.innerRef) {
-      this.props.innerRef(ref);
-    }
-
-    this.ref = ref;
-  }
-
-  submit() {
-    if (this.ref) {
-      this.ref.submit();
-    }
-  }
-
-  render() {
-    const _this$props = this.props,
-          {
-      className,
-      cssModule,
-      tag: Tag,
-      innerRef
-    } = _this$props,
-          attributes = _objectWithoutProperties(_this$props, _excluded$q);
-
-    const classes = mapToCssModules(className, cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-      ref: innerRef,
-      className: classes
-    }));
-  }
-
-}
-
-Form.propTypes = propTypes$t;
-Form.defaultProps = defaultProps$s;
-var Form$1 = Form;
-
-const _excluded$p = ["className", "cssModule", "valid", "tooltip", "tag"];
-const propTypes$s = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  valid: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tooltip: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-const defaultProps$r = {
-  tag: 'div',
-  valid: undefined
-};
-
-function FormFeedback(props) {
-  const {
-    className,
-    cssModule,
-    valid,
-    tooltip,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$p);
-
-  const validMode = tooltip ? 'tooltip' : 'feedback';
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, valid ? `valid-${validMode}` : `invalid-${validMode}`), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-FormFeedback.propTypes = propTypes$s;
-FormFeedback.defaultProps = defaultProps$r;
-
-const _excluded$o = ["className", "cssModule", "row", "disabled", "check", "inline", "floating", "tag", "switch"];
-const propTypes$r = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  row: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  check: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  switch: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  inline: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  floating: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$q = {
-  tag: 'div'
-};
-
-function FormGroup(props) {
-  const {
-    className,
-    cssModule,
-    row,
-    disabled,
-    check,
-    inline,
-    floating,
-    tag: Tag,
-    switch: switchProp
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$o);
-
-  const formCheck = check || switchProp;
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, row ? 'row' : false, formCheck ? 'form-check' : 'mb-3', switchProp ? 'form-switch' : false, formCheck && inline ? 'form-check-inline' : false, formCheck && disabled ? 'disabled' : false, floating && 'form-floating'), cssModule);
-
-  if (Tag === 'fieldset') {
-    attributes.disabled = disabled;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-FormGroup.propTypes = propTypes$r;
-FormGroup.defaultProps = defaultProps$q;
-
-const _excluded$n = ["className", "cssModule", "inline", "color", "tag"];
-const propTypes$q = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  inline: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$p = {
-  tag: 'small',
-  color: 'muted'
-};
-
-function FormText(props) {
-  const {
-    className,
-    cssModule,
-    inline,
-    color,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$n);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, !inline ? 'form-text' : false, color ? `text-${color}` : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-FormText.propTypes = propTypes$q;
-FormText.defaultProps = defaultProps$p;
-
-const _excluded$m = ["className", "cssModule", "type", "bsSize", "valid", "invalid", "tag", "addon", "plaintext", "innerRef"];
-const propTypes$p = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  type: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  bsSize: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  valid: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  invalid: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-  plaintext: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  addon: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$o = {
-  type: 'text'
-};
-
-class Input extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.getRef = this.getRef.bind(this);
-    this.focus = this.focus.bind(this);
-  }
-
-  getRef(ref) {
-    if (this.props.innerRef) {
-      this.props.innerRef(ref);
-    }
-
-    this.ref = ref;
-  }
-
-  focus() {
-    if (this.ref) {
-      this.ref.focus();
-    }
-  }
-
-  render() {
-    let _this$props = this.props,
-        {
-      className,
-      cssModule,
-      type,
-      bsSize,
-      valid,
-      invalid,
-      tag,
-      addon,
-      plaintext,
-      innerRef
-    } = _this$props,
-        attributes = _objectWithoutProperties(_this$props, _excluded$m);
-
-    const checkInput = ['switch', 'radio', 'checkbox'].indexOf(type) > -1;
-    const isNotaNumber = /\D/g;
-    const textareaInput = type === 'textarea';
-    const selectInput = type === 'select';
-    const rangeInput = type === 'range';
-    let Tag = tag || (selectInput || textareaInput ? type : 'input');
-    let formControlClass = 'form-control';
-
-    if (plaintext) {
-      formControlClass = `${formControlClass}-plaintext`;
-      Tag = tag || 'input';
-    } else if (rangeInput) {
-      formControlClass = 'form-range';
-    } else if (selectInput) {
-      formControlClass = 'form-select';
-    } else if (checkInput) {
-      if (addon) {
-        formControlClass = null;
-      } else {
-        formControlClass = 'form-check-input';
-      }
-    }
-
-    if (attributes.size && isNotaNumber.test(attributes.size)) {
-      warnOnce('Please use the prop "bsSize" instead of the "size" to bootstrap\'s input sizing.');
-      bsSize = attributes.size;
-      delete attributes.size;
-    }
-
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, invalid && 'is-invalid', valid && 'is-valid', bsSize ? selectInput ? `form-select-${bsSize}` : `form-control-${bsSize}` : false, formControlClass), cssModule);
-
-    if (Tag === 'input' || tag && typeof tag === 'function') {
-      attributes.type = type === 'switch' ? 'checkbox' : type;
-    }
-
-    if (attributes.children && !(plaintext || type === 'select' || typeof Tag !== 'string' || Tag === 'select')) {
-      warnOnce(`Input with a type of "${type}" cannot have children. Please use "value"/"defaultValue" instead.`);
-      delete attributes.children;
-    }
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-      ref: innerRef,
-      className: classes,
-      "aria-invalid": invalid
-    }));
-  }
-
-}
-
-Input.propTypes = propTypes$p;
-Input.defaultProps = defaultProps$o;
-var Input$1 = Input;
-
-const _excluded$l = ["className", "cssModule", "tag", "type", "size"];
-const propTypes$o = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Sets size of InputGroup */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-  type: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-const defaultProps$n = {
-  tag: 'div'
-};
-
-function InputGroup(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    type,
-    size
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$l);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'input-group', size ? `input-group-${size}` : null), cssModule);
-
-  if (props.type === 'dropdown') {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Dropdown$1, _extends({}, attributes, {
-      className: classes
-    }));
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(InputGroupContext.Provider, {
-    value: {
-      insideInputGroup: true
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  })));
-}
-
-InputGroup.propTypes = propTypes$o;
-InputGroup.defaultProps = defaultProps$n;
-
-const _excluded$k = ["className", "cssModule", "tag"];
-const propTypes$n = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$m = {
-  tag: 'span'
-};
-
-function InputGroupText(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$k);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'input-group-text'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-InputGroupText.propTypes = propTypes$n;
-InputGroupText.defaultProps = defaultProps$m;
-
-const _excluded$j = ["className", "cssModule", "hidden", "widths", "tag", "check", "size", "for"];
-const colWidths = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
-const stringOrNumberProp = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]);
-const columnProps = prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.bool, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.shape({
-  size: stringOrNumberProp,
-  order: stringOrNumberProp,
-  offset: stringOrNumberProp
-})]);
-const propTypes$m = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  hidden: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  check: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  for: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  xs: columnProps,
-  sm: columnProps,
-  md: columnProps,
-  lg: columnProps,
-  xl: columnProps,
-  xxl: columnProps,
-  widths: prop_types__WEBPACK_IMPORTED_MODULE_3__.array
-};
-const defaultProps$l = {
-  tag: 'label',
-  widths: colWidths
-};
-
-const getColumnSizeClass = (isXs, colWidth, colSize) => {
-  if (colSize === true || colSize === '') {
-    return isXs ? 'col' : `col-${colWidth}`;
-  }
-
-  if (colSize === 'auto') {
-    return isXs ? 'col-auto' : `col-${colWidth}-auto`;
-  }
-
-  return isXs ? `col-${colSize}` : `col-${colWidth}-${colSize}`;
-};
-
-function Label(props) {
-  const {
-    className,
-    cssModule,
-    hidden,
-    widths,
-    tag: Tag,
-    check,
-    size,
-    for: htmlFor
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$j);
-
-  const colClasses = [];
-  widths.forEach((colWidth, i) => {
-    let columnProp = props[colWidth];
-    delete attributes[colWidth];
-
-    if (!columnProp && columnProp !== '') {
-      return;
-    }
-
-    const isXs = !i;
-    let colClass;
-
-    if (isObject(columnProp)) {
-      const colSizeInterfix = isXs ? '-' : `-${colWidth}-`;
-      colClass = getColumnSizeClass(isXs, colWidth, columnProp.size);
-      colClasses.push(mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__({
-        [colClass]: columnProp.size || columnProp.size === '',
-        [`order${colSizeInterfix}${columnProp.order}`]: columnProp.order || columnProp.order === 0,
-        [`offset${colSizeInterfix}${columnProp.offset}`]: columnProp.offset || columnProp.offset === 0
-      })), cssModule);
-    } else {
-      colClass = getColumnSizeClass(isXs, colWidth, columnProp);
-      colClasses.push(colClass);
-    }
-  });
-  const colFormLabel = size || colClasses.length;
-  const formLabel = !(check || colFormLabel);
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, hidden ? 'visually-hidden' : false, check ? 'form-check-label' : false, size ? `col-form-label-${size}` : false, colClasses, colFormLabel ? 'col-form-label' : false, formLabel ? 'form-label' : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-    htmlFor: htmlFor
-  }, attributes, {
-    className: classes
-  }));
-}
-
-Label.propTypes = propTypes$m;
-Label.defaultProps = defaultProps$l;
-
-const _excluded$i = ["body", "bottom", "className", "cssModule", "heading", "left", "list", "middle", "object", "right", "tag", "top"];
-const propTypes$l = {
-  body: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  bottom: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  heading: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  left: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  list: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  middle: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  object: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  right: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  top: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-};
-
-function Media(props) {
-  const {
-    body,
-    bottom,
-    className,
-    cssModule,
-    heading,
-    left,
-    list,
-    middle,
-    object,
-    right,
-    tag,
-    top
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$i);
-
-  let defaultTag;
-
-  if (heading) {
-    defaultTag = 'h4';
-  } else if (attributes.href) {
-    defaultTag = 'a';
-  } else if (attributes.src || object) {
-    defaultTag = 'img';
-  } else if (list) {
-    defaultTag = 'ul';
-  } else {
-    defaultTag = 'div';
-  }
-
-  const Tag = tag || defaultTag;
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, {
-    'media-body': body,
-    'media-heading': heading,
-    'media-left': left,
-    'media-right': right,
-    'media-top': top,
-    'media-bottom': bottom,
-    'media-middle': middle,
-    'media-object': object,
-    'media-list': list,
-    media: !body && !heading && !left && !right && !top && !bottom && !middle && !object && !list
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-Media.propTypes = propTypes$l;
-
-function noop() {}
-
-const FadePropTypes = prop_types__WEBPACK_IMPORTED_MODULE_3__.shape(Fade.propTypes);
-const propTypes$k = {
-  autoFocus: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  backdrop: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  backdropClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  backdropTransition: FadePropTypes,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  container: targetPropType,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  direction: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['start', 'end', 'bottom', 'top']),
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  keyboard: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  labelledBy: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  offcanvasTransition: FadePropTypes,
-  onClosed: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  onEnter: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  onExit: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  style: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  onOpened: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  returnFocusAfterClose: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  role: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  scrollable: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  trapFocus: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  unmountOnClose: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  zIndex: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.number, prop_types__WEBPACK_IMPORTED_MODULE_3__.string])
-};
-const propsToOmit = Object.keys(propTypes$k);
-const defaultProps$k = {
-  isOpen: false,
-  autoFocus: true,
-  direction: 'start',
-  scrollable: false,
-  role: 'dialog',
-  backdrop: true,
-  keyboard: true,
-  zIndex: 1050,
-  fade: true,
-  onOpened: noop,
-  onClosed: noop,
-  offcanvasTransition: {
-    timeout: TransitionTimeouts.Offcanvas
-  },
-  backdropTransition: {
-    mountOnEnter: true,
-    timeout: TransitionTimeouts.Fade // uses standard fade transition
-
-  },
-  unmountOnClose: true,
-  returnFocusAfterClose: true,
-  container: 'body',
-  trapFocus: false
-};
-
-class Offcanvas extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this._element = null;
-    this._originalBodyPadding = null;
-    this.getFocusableChildren = this.getFocusableChildren.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
-    this.handleBackdropMouseDown = this.handleBackdropMouseDown.bind(this);
-    this.handleEscape = this.handleEscape.bind(this);
-    this.handleTab = this.handleTab.bind(this);
-    this.onOpened = this.onOpened.bind(this);
-    this.onClosed = this.onClosed.bind(this);
-    this.manageFocusAfterClose = this.manageFocusAfterClose.bind(this);
-    this.clearBackdropAnimationTimeout = this.clearBackdropAnimationTimeout.bind(this);
-    this.trapFocus = this.trapFocus.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-
-  componentDidMount() {
-    const {
-      isOpen,
-      autoFocus,
-      onEnter
-    } = this.props;
-
-    if (isOpen) {
-      this.init();
-      this.setState({
-        isOpen: true
-      });
-
-      if (autoFocus) {
-        this.setFocus();
-      }
-    }
-
-    if (onEnter) {
-      onEnter();
-    } // traps focus inside the Offcanvas, even if the browser address bar is focused
-
-
-    document.addEventListener('focus', this.trapFocus, true);
-    this._isMounted = true;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.isOpen && !prevProps.isOpen) {
-      this.init();
-      this.setState({
-        isOpen: true
-      });
-      return;
-    } // now Offcanvas Dialog is rendered and we can refer this._element and this._dialog
-
-
-    if (this.props.autoFocus && this.state.isOpen && !prevState.isOpen) {
-      this.setFocus();
-    }
-
-    if (this._element && prevProps.zIndex !== this.props.zIndex) {
-      this._element.style.zIndex = this.props.zIndex;
-    }
-  }
-
-  componentWillUnmount() {
-    this.clearBackdropAnimationTimeout();
-
-    if (this.props.onExit) {
-      this.props.onExit();
-    }
-
-    if (this._element) {
-      this.destroy();
-
-      if (this.props.isOpen || this.state.isOpen) {
-        this.close();
-      }
-    }
-
-    document.removeEventListener('focus', this.trapFocus, true);
-    this._isMounted = false;
-  } // not mouseUp because scrollbar fires it, shouldn't close when user scrolls
-
-
-  handleBackdropClick(e) {
-    if (e.target === this._mouseDownElement) {
-      e.stopPropagation();
-      const backdrop = this._backdrop;
-      if (!this.props.isOpen || this.props.backdrop !== true) return;
-
-      if (backdrop && e.target === backdrop && this.props.toggle) {
-        this.props.toggle(e);
-      }
-    }
-  }
-
-  handleTab(e) {
-    if (e.which !== 9) return;
-    if (this.offcanvasIndex < Offcanvas.openCount - 1) return; // last opened offcanvas
-
-    const focusableChildren = this.getFocusableChildren();
-    const totalFocusable = focusableChildren.length;
-    if (totalFocusable === 0) return;
-    const currentFocus = this.getFocusedChild();
-    let focusedIndex = 0;
-
-    for (let i = 0; i < totalFocusable; i += 1) {
-      if (focusableChildren[i] === currentFocus) {
-        focusedIndex = i;
-        break;
-      }
-    }
-
-    if (e.shiftKey && focusedIndex === 0) {
-      e.preventDefault();
-      focusableChildren[totalFocusable - 1].focus();
-    } else if (!e.shiftKey && focusedIndex === totalFocusable - 1) {
-      e.preventDefault();
-      focusableChildren[0].focus();
-    }
-  }
-
-  handleBackdropMouseDown(e) {
-    this._mouseDownElement = e.target;
-  }
-
-  handleEscape(e) {
-    if (this.props.isOpen && e.keyCode === keyCodes.esc && this.props.toggle) {
-      if (this.props.keyboard) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.toggle(e);
-      }
-    }
-  }
-
-  onOpened(node, isAppearing) {
-    this.props.onOpened();
-    (this.props.offcanvasTransition.onEntered || noop)(node, isAppearing);
-  }
-
-  onClosed(node) {
-    const {
-      unmountOnClose
-    } = this.props; // so all methods get called before it is unmounted
-
-    this.props.onClosed();
-    (this.props.offcanvasTransition.onExited || noop)(node);
-
-    if (unmountOnClose) {
-      this.destroy();
-    }
-
-    this.close();
-
-    if (this._isMounted) {
-      this.setState({
-        isOpen: false
-      });
-    }
-  }
-
-  setFocus() {
-    if (this._dialog && typeof this._dialog.focus === 'function') {
-      this._dialog.focus();
-    }
-  }
-
-  getFocusableChildren() {
-    return this._element.querySelectorAll(focusableElements.join(', '));
-  }
-
-  getFocusedChild() {
-    let currentFocus;
-    const focusableChildren = this.getFocusableChildren();
-
-    try {
-      currentFocus = document.activeElement;
-    } catch (err) {
-      currentFocus = focusableChildren[0];
-    }
-
-    return currentFocus;
-  }
-
-  trapFocus(ev) {
-    if (!this.props.trapFocus) {
-      return;
-    }
-
-    if (!this._element) {
-      // element is not attached
-      return;
-    }
-
-    if (this._dialog === ev.target) {
-      // initial focus when the Offcanvas is opened
-      return;
-    }
-
-    if (this.offcanvasIndex < Offcanvas.openCount - 1) {
-      // last opened offcanvas
-      return;
-    }
-
-    const children = this.getFocusableChildren();
-
-    for (let i = 0; i < children.length; i += 1) {
-      // focus is already inside the Offcanvas
-      if (children[i] === ev.target) return;
-    }
-
-    if (children.length > 0) {
-      // otherwise focus the first focusable element in the Offcanvas
-      ev.preventDefault();
-      ev.stopPropagation();
-      children[0].focus();
-    }
-  }
-
-  init() {
-    try {
-      this._triggeringElement = document.activeElement;
-    } catch (err) {
-      this._triggeringElement = null;
-    }
-
-    if (!this._element) {
-      this._element = document.createElement('div');
-
-      this._element.setAttribute('tabindex', '-1');
-
-      this._element.style.position = 'relative';
-      this._element.style.zIndex = this.props.zIndex;
-      this._mountContainer = getTarget(this.props.container);
-
-      this._mountContainer.appendChild(this._element);
-    }
-
-    this._originalBodyPadding = getOriginalBodyPadding();
-    conditionallyUpdateScrollbar();
-
-    if (Offcanvas.openCount === 0 && this.props.backdrop && !this.props.scrollable) {
-      document.body.style.overflow = 'hidden';
-    }
-
-    this.offcanvasIndex = Offcanvas.openCount;
-    Offcanvas.openCount += 1;
-  }
-
-  destroy() {
-    if (this._element) {
-      this._mountContainer.removeChild(this._element);
-
-      this._element = null;
-    }
-
-    this.manageFocusAfterClose();
-  }
-
-  manageFocusAfterClose() {
-    if (this._triggeringElement) {
-      const {
-        returnFocusAfterClose
-      } = this.props;
-      if (this._triggeringElement.focus && returnFocusAfterClose) this._triggeringElement.focus();
-      this._triggeringElement = null;
-    }
-  }
-
-  close() {
-    this.manageFocusAfterClose();
-    Offcanvas.openCount = Math.max(0, Offcanvas.openCount - 1);
-    document.body.style.overflow = null;
-    setScrollbarWidth(this._originalBodyPadding);
-  }
-
-  clearBackdropAnimationTimeout() {
-    if (this._backdropAnimationTimeout) {
-      clearTimeout(this._backdropAnimationTimeout);
-      this._backdropAnimationTimeout = undefined;
-    }
-  }
-
-  render() {
-    const {
-      direction,
-      unmountOnClose
-    } = this.props;
-
-    if (!!this._element && (this.state.isOpen || !unmountOnClose)) {
-      const isOffcanvasHidden = !!this._element && !this.state.isOpen && !unmountOnClose;
-      this._element.style.display = isOffcanvasHidden ? 'none' : 'block';
-      const {
-        className,
-        backdropClassName,
-        cssModule,
-        isOpen,
-        backdrop,
-        role,
-        labelledBy,
-        style
-      } = this.props;
-      const offcanvasAttributes = {
-        onKeyUp: this.handleEscape,
-        onKeyDown: this.handleTab,
-        'aria-labelledby': labelledBy,
-        role,
-        tabIndex: '-1'
-      };
-      const hasTransition = this.props.fade;
-
-      const offcanvasTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), this.props.offcanvasTransition), {}, {
-        baseClass: hasTransition ? this.props.offcanvasTransition.baseClass : '',
-        timeout: hasTransition ? this.props.offcanvasTransition.timeout : 0
-      });
-
-      const backdropTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), this.props.backdropTransition), {}, {
-        baseClass: hasTransition ? this.props.backdropTransition.baseClass : '',
-        timeout: hasTransition ? this.props.backdropTransition.timeout : 0
-      });
-
-      const Backdrop = backdrop && (hasTransition ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, backdropTransition, {
-        in: isOpen && !!backdrop,
-        innerRef: c => {
-          this._backdrop = c;
-        },
-        cssModule: cssModule,
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('offcanvas-backdrop', backdropClassName), cssModule),
-        onClick: this.handleBackdropClick,
-        onMouseDown: this.handleBackdropMouseDown
-      })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('offcanvas-backdrop', 'show', backdropClassName), cssModule),
-        onClick: this.handleBackdropClick,
-        onMouseDown: this.handleBackdropMouseDown
-      }));
-      const attributes = omit(this.props, propsToOmit);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Portal$1, {
-        node: this._element
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, attributes, offcanvasAttributes, offcanvasTransition, {
-        in: isOpen,
-        onEntered: this.onOpened,
-        onExited: this.onClosed,
-        cssModule: cssModule,
-        className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('offcanvas', className, `offcanvas-${direction}`), cssModule),
-        innerRef: c => {
-          this._dialog = c;
-        },
-        style: _objectSpread2(_objectSpread2({}, style), {}, {
-          visibility: isOpen ? 'visible' : 'hidden'
-        })
-      }), this.props.children), Backdrop);
-    }
-
-    return null;
-  }
-
-}
-
-Offcanvas.propTypes = propTypes$k;
-Offcanvas.defaultProps = defaultProps$k;
-Offcanvas.openCount = 0;
-var Offcanvas$1 = Offcanvas;
-
-const _excluded$h = ["className", "cssModule", "tag"];
-const propTypes$j = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$j = {
-  tag: 'div'
-};
-
-function OffcanvasBody(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$h);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'offcanvas-body'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-OffcanvasBody.propTypes = propTypes$j;
-OffcanvasBody.defaultProps = defaultProps$j;
-
-const _excluded$g = ["children", "className", "close", "closeAriaLabel", "cssModule", "tag", "toggle", "wrapTag"];
-const propTypes$i = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  close: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  closeAriaLabel: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  tag: tagPropType,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  wrapTag: tagPropType
-};
-const defaultProps$i = {
-  closeAriaLabel: 'Close',
-  tag: 'h5',
-  wrapTag: 'div'
-};
-
-function OffcanvasHeader(props) {
-  let closeButton;
-
-  const {
-    children,
-    className,
-    close,
-    closeAriaLabel,
-    cssModule,
-    tag: Tag,
-    toggle,
-    wrapTag: WrapTag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$g);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'offcanvas-header'), cssModule);
-
-  if (!close && toggle) {
-    closeButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      type: "button",
-      onClick: toggle,
-      className: mapToCssModules('btn-close', cssModule),
-      "aria-label": closeAriaLabel
-    });
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(WrapTag, _extends({}, attributes, {
-    className: classes
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-    className: mapToCssModules('offcanvas-title', cssModule)
-  }, children), close || closeButton);
-}
-
-OffcanvasHeader.propTypes = propTypes$i;
-OffcanvasHeader.defaultProps = defaultProps$i;
-
-const _excluded$f = ["className", "listClassName", "cssModule", "size", "tag", "listTag", "aria-label"];
-const propTypes$h = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom class for list */
-  listClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Make the Pagination bigger or smaller  */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Set a custom element for list component */
-  listTag: tagPropType,
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-const defaultProps$h = {
-  tag: 'nav',
-  listTag: 'ul',
-  'aria-label': 'pagination'
-};
-
-function Pagination(props) {
-  const {
-    className,
-    listClassName,
-    cssModule,
-    size,
-    tag: Tag,
-    listTag: ListTag,
-    'aria-label': label
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$f);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className), cssModule);
-  const listClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(listClassName, 'pagination', {
-    [`pagination-${size}`]: !!size
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-    className: classes,
-    "aria-label": label
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ListTag, _extends({}, attributes, {
-    className: listClasses
-  })));
-}
-
-Pagination.propTypes = propTypes$h;
-Pagination.defaultProps = defaultProps$h;
-
-const _excluded$e = ["active", "className", "cssModule", "disabled", "tag"];
-const propTypes$g = {
-  /** Set item as active */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set item as disabled */
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$g = {
-  tag: 'li'
-};
-
-function PaginationItem(props) {
-  const {
-    active,
-    className,
-    cssModule,
-    disabled,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$e);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'page-item', {
-    active,
-    disabled
-  }), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-PaginationItem.propTypes = propTypes$g;
-PaginationItem.defaultProps = defaultProps$g;
-
-const _excluded$d = ["className", "cssModule", "next", "previous", "first", "last", "tag"];
-const propTypes$f = {
-  'aria-label': prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Add to next button to add default aria label and icon */
-  next: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add to previous button to add default aria label and icon */
-  previous: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add to first button to add default aria label and icon */
-  first: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add to last button to add default aria label and icon */
-  last: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$f = {
-  tag: 'a'
-};
-
-function PaginationLink(props) {
-  let {
-    className,
-    cssModule,
-    next,
-    previous,
-    first,
-    last,
-    tag: Tag
-  } = props,
-      attributes = _objectWithoutProperties(props, _excluded$d);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'page-link'), cssModule);
-  let defaultAriaLabel;
-
-  if (previous) {
-    defaultAriaLabel = 'Previous';
-  } else if (next) {
-    defaultAriaLabel = 'Next';
-  } else if (first) {
-    defaultAriaLabel = 'First';
-  } else if (last) {
-    defaultAriaLabel = 'Last';
-  }
-
-  const ariaLabel = props['aria-label'] || defaultAriaLabel;
-  let defaultCaret;
-
-  if (previous) {
-    defaultCaret = '\u2039';
-  } else if (next) {
-    defaultCaret = '\u203A';
-  } else if (first) {
-    defaultCaret = '\u00ab';
-  } else if (last) {
-    defaultCaret = '\u00bb';
-  }
-
-  let {
-    children
-  } = props;
-
-  if (children && Array.isArray(children) && children.length === 0) {
-    children = null;
-  }
-
-  if (!attributes.href && Tag === 'a') {
-    Tag = 'button';
-  }
-
-  if (previous || next || first || last) {
-    children = [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      "aria-hidden": "true",
-      key: "caret"
-    }, children || defaultCaret), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "visually-hidden",
-      key: "ariaLabel"
-    }, ariaLabel)];
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    "aria-label": ariaLabel
-  }), children);
-}
-
-PaginationLink.propTypes = propTypes$f;
-PaginationLink.defaultProps = defaultProps$f;
-
-/**
- * TabContext
- * {
- *  activeTabId: PropTypes.any
- * }
- */
-
-const TabContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
-
-const propTypes$e = {
-  tag: tagPropType,
-  activeTab: prop_types__WEBPACK_IMPORTED_MODULE_3__.any,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps$e = {
-  tag: 'div'
-};
-
-class TabContent extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.activeTab !== nextProps.activeTab) {
-      return {
-        activeTab: nextProps.activeTab
-      };
-    }
-
-    return null;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: this.props.activeTab
-    };
-  }
-
-  render() {
-    const {
-      className,
-      cssModule,
-      tag: Tag
-    } = this.props;
-    const attributes = omit(this.props, Object.keys(propTypes$e));
-    const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('tab-content', className), cssModule);
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TabContext.Provider, {
-      value: {
-        activeTabId: this.state.activeTab
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-      className: classes
-    })));
-  }
-
-}
-
-var TabContent$1 = TabContent;
-TabContent.propTypes = propTypes$e;
-TabContent.defaultProps = defaultProps$e;
-
-const _excluded$c = ["className", "cssModule", "tabId", "tag"];
-const propTypes$d = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  tabId: prop_types__WEBPACK_IMPORTED_MODULE_3__.any
-};
-const defaultProps$d = {
-  tag: 'div'
-};
-function TabPane(props) {
-  const {
-    className,
-    cssModule,
-    tabId,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$c);
-
-  const getClasses = activeTabId => mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('tab-pane', className, {
-    active: tabId === activeTabId
-  }), cssModule);
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TabContext.Consumer, null, ({
-    activeTabId
-  }) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: getClasses(activeTabId)
-  })));
-}
-TabPane.propTypes = propTypes$d;
-TabPane.defaultProps = defaultProps$d;
-
-const _excluded$b = ["className", "closeClassName", "closeAriaLabel", "cssModule", "tag", "color", "isOpen", "toggle", "children", "transition", "fade", "innerRef"];
-const propTypes$c = {
-  /** Pass children so this component can wrap the child elements */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom class for close button */
-  closeClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Aria label for close button */
-  closeAriaLabel: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change color of alert */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Toggle fade animation */
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func]),
-
-  /** Control visibility state of Alert */
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Function to toggle visibility */
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-
-  /** Props to be passed to `Fade` to modify transition */
-  transition: prop_types__WEBPACK_IMPORTED_MODULE_3__.shape(Fade.propTypes)
-};
-const defaultProps$c = {
-  color: 'success',
-  isOpen: true,
-  tag: 'div',
-  closeAriaLabel: 'Close',
-  fade: true,
-  transition: _objectSpread2(_objectSpread2({}, Fade.defaultProps), {}, {
-    unmountOnExit: true
-  })
-};
-
-function Alert(props) {
-  const {
-    className,
-    closeClassName,
-    closeAriaLabel,
-    cssModule,
-    tag: Tag,
-    color,
-    isOpen,
-    toggle,
-    children,
-    transition,
-    fade,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$b);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'alert', `alert-${color}`, {
-    'alert-dismissible': toggle
-  }), cssModule);
-  const closeClasses = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('btn-close', closeClassName), cssModule);
-
-  const alertTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), transition), {}, {
-    baseClass: fade ? transition.baseClass : '',
-    timeout: fade ? transition.timeout : 0
-  });
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, attributes, alertTransition, {
-    tag: Tag,
-    className: classes,
-    in: isOpen,
-    role: "alert",
-    innerRef: innerRef
-  }), toggle ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    type: "button",
-    className: closeClasses,
-    "aria-label": closeAriaLabel,
-    onClick: toggle
-  }) : null, children);
-}
-
-Alert.propTypes = propTypes$c;
-Alert.defaultProps = defaultProps$c;
-
-const _excluded$a = ["className", "cssModule", "tag", "isOpen", "children", "transition", "fade", "innerRef"];
-const propTypes$b = {
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  fade: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  tag: tagPropType,
-  transition: prop_types__WEBPACK_IMPORTED_MODULE_3__.shape(Fade.propTypes),
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func])
-};
-const defaultProps$b = {
-  isOpen: true,
-  tag: 'div',
-  fade: true,
-  transition: _objectSpread2(_objectSpread2({}, Fade.defaultProps), {}, {
-    unmountOnExit: true
-  })
-};
-
-function Toast(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    isOpen,
-    children,
-    transition,
-    fade,
-    innerRef
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$a);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'toast'), cssModule);
-
-  const toastTransition = _objectSpread2(_objectSpread2(_objectSpread2({}, Fade.defaultProps), transition), {}, {
-    baseClass: fade ? transition.baseClass : '',
-    timeout: fade ? transition.timeout : 0
-  });
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Fade, _extends({}, attributes, toastTransition, {
-    tag: Tag,
-    className: classes,
-    in: isOpen,
-    role: "alert",
-    innerRef: innerRef
-  }), children);
-}
-
-Toast.propTypes = propTypes$b;
-Toast.defaultProps = defaultProps$b;
-
-const _excluded$9 = ["className", "cssModule", "innerRef", "tag"];
-const propTypes$a = {
-  tag: tagPropType,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.func])
-};
-const defaultProps$a = {
-  tag: 'div'
-};
-
-function ToastBody(props) {
-  const {
-    className,
-    cssModule,
-    innerRef,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$9);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'toast-body'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-ToastBody.propTypes = propTypes$a;
-ToastBody.defaultProps = defaultProps$a;
-
-const _excluded$8 = ["className", "cssModule", "children", "toggle", "tag", "wrapTag", "closeAriaLabel", "close", "tagClassName", "icon"];
-const propTypes$9 = {
-  tag: tagPropType,
-  icon: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.node]),
-  wrapTag: tagPropType,
-  toggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.node,
-  closeAriaLabel: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  charCode: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.string, prop_types__WEBPACK_IMPORTED_MODULE_3__.number]),
-  close: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-  tagClassName: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-const defaultProps$9 = {
-  tag: 'strong',
-  wrapTag: 'div',
-  tagClassName: 'me-auto',
-  closeAriaLabel: 'Close'
-};
-
-function ToastHeader(props) {
-  let closeButton;
-  let icon;
-
-  const {
-    className,
-    cssModule,
-    children,
-    toggle,
-    tag: Tag,
-    wrapTag: WrapTag,
-    closeAriaLabel,
-    close,
-    tagClassName,
-    icon: iconProp
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$8);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'toast-header'), cssModule);
-
-  if (!close && toggle) {
-    closeButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      type: "button",
-      onClick: toggle,
-      className: mapToCssModules('btn-close', cssModule),
-      "aria-label": closeAriaLabel
-    });
-  }
-
-  if (typeof iconProp === 'string') {
-    icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
-      className: mapToCssModules(`rounded text-${iconProp}`),
-      width: "20",
-      height: "20",
-      xmlns: "http://www.w3.org/2000/svg",
-      preserveAspectRatio: "xMidYMid slice",
-      focusable: "false",
-      role: "img"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("rect", {
-      fill: "currentColor",
-      width: "100%",
-      height: "100%"
-    }));
-  } else if (iconProp) {
-    icon = iconProp;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(WrapTag, _extends({}, attributes, {
-    className: classes
-  }), icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, {
-    className: mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(tagClassName, {
-      'ms-2': icon != null
-    }), cssModule)
-  }, children), close || closeButton);
-}
-
-ToastHeader.propTypes = propTypes$9;
-ToastHeader.defaultProps = defaultProps$9;
-
-const _excluded$7 = ["className", "cssModule", "tag", "active", "disabled", "action", "color"];
-const propTypes$8 = {
-  /** Add action prop to give effects while hovering over element */
-  action: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add active prop to make the current selection active */
-  active: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Add background colour to the list item */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Make the list item appear disabled */
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$8 = {
-  tag: 'li'
-};
-
-const handleDisabledOnClick = e => {
-  e.preventDefault();
-};
-
-function ListGroupItem(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    active,
-    disabled,
-    action,
-    color
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$7);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, active ? 'active' : false, disabled ? 'disabled' : false, action ? 'list-group-item-action' : false, color ? `list-group-item-${color}` : false, 'list-group-item'), cssModule); // Prevent click event when disabled.
-
-  if (disabled) {
-    attributes.onClick = handleDisabledOnClick;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ListGroupItem.propTypes = propTypes$8;
-ListGroupItem.defaultProps = defaultProps$8;
-
-const _excluded$6 = ["className", "cssModule", "tag"];
-const propTypes$7 = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$7 = {
-  tag: 'h5'
-};
-
-function ListGroupItemHeading(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$6);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'list-group-item-heading'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ListGroupItemHeading.propTypes = propTypes$7;
-ListGroupItemHeading.defaultProps = defaultProps$7;
-
-const _excluded$5 = ["className", "cssModule", "tag"];
-const propTypes$6 = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$6 = {
-  tag: 'p'
-};
-
-function ListGroupItemText(props) {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$5);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'list-group-item-text'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes
-  }));
-}
-
-ListGroupItemText.propTypes = propTypes$6;
-ListGroupItemText.defaultProps = defaultProps$6;
-
-const _excluded$4 = ["className", "cssModule", "tag", "type"];
-const propTypes$5 = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Type of list `unstyled` or `inline` */
-  type: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-const defaultProps$5 = {
-  tag: 'ul'
-};
-const List = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((props, ref) => {
-  const {
-    className,
-    cssModule,
-    tag: Tag,
-    type
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$4);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, type ? `list-${type}` : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: ref
-  }));
-});
-List.name = 'List';
-List.propTypes = propTypes$5;
-List.defaultProps = defaultProps$5;
-var List$1 = List;
-
-const _excluded$3 = ["className", "cssModule", "tag"];
-const propTypes$4 = {
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change underlying component's CSS base class name */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Set a custom element for this component */
-  tag: tagPropType
-};
-const defaultProps$4 = {
-  tag: 'li'
-};
-const ListInlineItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((props, ref) => {
-  const {
-    className,
-    cssModule,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$3);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, 'list-inline-item'), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
-    className: classes,
-    ref: ref
-  }));
-});
-ListInlineItem.name = 'ListInlineItem';
-ListInlineItem.propTypes = propTypes$4;
-ListInlineItem.defaultProps = defaultProps$4;
-var ListInlineItem$1 = ListInlineItem;
-
-class UncontrolledAlert extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: true
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Alert, _extends({
-      isOpen: this.state.isOpen,
-      toggle: this.toggle
-    }, this.props));
-  }
-
-}
-
-var UncontrolledAlert$1 = UncontrolledAlert;
-
-const omitKeys$3 = ['defaultOpen'];
-class UncontrolledButtonDropdown extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: props.defaultOpen || false
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ButtonDropdown, _extends({
-      isOpen: this.state.isOpen,
-      toggle: this.toggle
-    }, omit(this.props, omitKeys$3)));
-  }
-
-}
-UncontrolledButtonDropdown.propTypes = _objectSpread2({
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-}, ButtonDropdown.propTypes);
-
-const omitKeys$2 = ['toggleEvents', 'defaultOpen'];
-const propTypes$3 = {
-  /** set if Collapse is open by default */
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-
-  /** id of the element that should trigger toggle */
-  toggler: prop_types__WEBPACK_IMPORTED_MODULE_3__.string.isRequired,
-
-  /** Events that should trigger the toggle */
-  toggleEvents: prop_types__WEBPACK_IMPORTED_MODULE_3__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3__.string)
-};
-const defaultProps$3 = {
-  toggleEvents: defaultToggleEvents
-};
-
-class UncontrolledCollapse extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.togglers = null;
-    this.removeEventListeners = null;
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: props.defaultOpen || false
-    };
-  }
-
-  componentDidMount() {
-    this.togglers = findDOMElements(this.props.toggler);
-
-    if (this.togglers.length) {
-      this.removeEventListeners = addMultipleEventListeners(this.togglers, this.toggle, this.props.toggleEvents);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.togglers.length && this.removeEventListeners) {
-      this.removeEventListeners();
-    }
-  }
-
-  toggle(e) {
-    this.setState(({
-      isOpen
-    }) => ({
-      isOpen: !isOpen
-    }));
-    e.preventDefault();
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Collapse$1, _extends({
-      isOpen: this.state.isOpen
-    }, omit(this.props, omitKeys$2)));
-  }
-
-}
-
-UncontrolledCollapse.propTypes = propTypes$3;
-UncontrolledCollapse.defaultProps = defaultProps$3;
-var UncontrolledCollapse$1 = UncontrolledCollapse;
-
-const omitKeys$1 = ['defaultOpen'];
-class UncontrolledDropdown extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: props.defaultOpen || false
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle(e) {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }), () => {
-      if (this.props.onToggle) {
-        this.props.onToggle(e, this.state.isOpen);
-      }
-    });
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Dropdown$1, _extends({
-      isOpen: this.state.isOpen,
-      toggle: this.toggle
-    }, omit(this.props, omitKeys$1)));
-  }
-
-}
-UncontrolledDropdown.propTypes = _objectSpread2({
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  onToggle: prop_types__WEBPACK_IMPORTED_MODULE_3__.func
-}, Dropdown$1.propTypes);
-
-const omitKeys = ['defaultOpen'];
-class UncontrolledTooltip extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: props.defaultOpen || false
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-  }
-
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tooltip, _extends({
-      isOpen: this.state.isOpen,
-      toggle: this.toggle
-    }, omit(this.props, omitKeys)));
-  }
-
-}
-UncontrolledTooltip.propTypes = _objectSpread2({
-  defaultOpen: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool
-}, Tooltip.propTypes);
-
-const _excluded$2 = ["className", "cssModule", "type", "size", "color", "children", "tag"];
-const propTypes$2 = {
-  /** Set a custom element for this component */
-  tag: tagPropType,
-
-  /** Change animation of spinner */
-  type: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['border', 'grow']),
-
-  /** Change size of spinner */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['sm']),
-
-  /** Change color of spinner */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']),
-
-  /** Add custom class */
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Change existing className with a new className */
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object,
-
-  /** Pass children so this component can wrap the child elements */
-  children: prop_types__WEBPACK_IMPORTED_MODULE_3__.string
-};
-const defaultProps$2 = {
-  tag: 'div',
-  type: 'border',
-  children: 'Loading...'
-};
-
-function Spinner(props) {
-  const {
-    className,
-    cssModule,
-    type,
-    size,
-    color,
-    children,
-    tag: Tag
-  } = props,
-        attributes = _objectWithoutProperties(props, _excluded$2);
-
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, size ? `spinner-${type}-${size}` : false, `spinner-${type}`, color ? `text-${color}` : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({
-    role: "status"
-  }, attributes, {
-    className: classes
-  }), children && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: mapToCssModules('visually-hidden', cssModule)
-  }, children));
-}
-
-Spinner.propTypes = propTypes$2;
-Spinner.defaultProps = defaultProps$2;
-
-const _excluded$1 = ["className", "cssModule", "color", "innerRef", "tag", "animation", "size", "widths"];
-
-const propTypes$1 = _objectSpread2(_objectSpread2({}, Col.propTypes), {}, {
-  /** Add custom color to the placeholder */
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-
-  /** Add custom tag. */
-  tag: tagPropType,
-
-  /** Apply either `glow` or `wave` animation. */
-  animation: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['glow', 'wave']),
-  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_3__.object, prop_types__WEBPACK_IMPORTED_MODULE_3__.func, prop_types__WEBPACK_IMPORTED_MODULE_3__.string]),
-
-  /** Make the size larger */
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.oneOf(['lg', 'sm', 'xs'])
-});
-
-const defaultProps$1 = {
-  tag: 'span'
-};
-
-function Placeholder(props) {
-  let {
-    className,
-    cssModule,
-    color,
-    innerRef,
-    tag: Tag,
-    animation,
-    size,
-    widths
-  } = props,
-      attributes = _objectWithoutProperties(props, _excluded$1);
-
-  let {
-    attributes: modifiedAttributes,
-    colClasses
-  } = getColumnClasses(attributes, cssModule, widths);
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__(className, colClasses, 'placeholder' + (animation ? '-' + animation : ''), size ? 'placeholder-' + size : false, color ? 'bg-' + color : false), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, modifiedAttributes, {
-    className: classes,
-    ref: innerRef
-  }));
-}
-
-Placeholder.propTypes = propTypes$1;
-Placeholder.defaultProps = defaultProps$1;
-
-const _excluded = ["cssModule", "className", "tag"];
-const propTypes = {
-  size: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  outline: prop_types__WEBPACK_IMPORTED_MODULE_3__.bool,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_3__.string,
-  tag: tagPropType,
-  cssModule: prop_types__WEBPACK_IMPORTED_MODULE_3__.object
-};
-const defaultProps = {
-  color: 'primary',
-  tag: Button
-};
-
-function PlaceholderButton(props) {
-  let {
-    cssModule,
-    className,
-    tag: Tag
-  } = props,
-      attributes = _objectWithoutProperties(props, _excluded);
-
-  let {
-    attributes: modifiedAttributes,
-    colClasses
-  } = getColumnClasses(attributes, cssModule);
-  const classes = mapToCssModules(classnames__WEBPACK_IMPORTED_MODULE_1__('placeholder', className, colClasses), cssModule);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Button, _extends({}, modifiedAttributes, {
-    className: classes,
-    disabled: true
-  }));
-}
-
-PlaceholderButton.propTypes = propTypes;
-PlaceholderButton.defaultProps = defaultProps;
-
-(() => {
-  if (typeof window !== 'object' || typeof window.CustomEvent === 'function') return;
-
-  const CustomEvent = (event, params) => {
-    params = params || {
-      bubbles: false,
-      cancelable: false,
-      detail: null
-    };
-    let evt = document.createEvent('CustomEvent');
-    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-    return evt;
-  };
-
-  window.CustomEvent = CustomEvent;
-})();
-
-(() => {
-  if (typeof Object.values === 'function') return;
-
-  const values = O => Object.keys(O).map(key => O[key]);
-
-  Object.values = values;
-})();
-
-var polyfill = {
-  __proto__: null
-};
-
-
-//# sourceMappingURL=reactstrap.modern.js.map
-
-
-/***/ }),
-
 /***/ "./node_modules/scheduler/cjs/scheduler-tracing.development.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
@@ -73391,6 +67196,97 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_swiper_min_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/admin/index.css":
+/*!**************************************!*\
+  !*** ./resources/js/admin/index.css ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/index.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__);
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()((_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1___default()), options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1___default().locals) || {});
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/Home/home.css":
+/*!************************************************!*\
+  !*** ./resources/js/admin/pages/Home/home.css ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_home_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./home.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/Home/home.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_home_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_home_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/ManageBook/managebook.css":
+/*!************************************************************!*\
+  !*** ./resources/js/admin/pages/ManageBook/managebook.css ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_managebook_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./managebook.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/admin/pages/ManageBook/managebook.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_managebook_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_managebook_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
