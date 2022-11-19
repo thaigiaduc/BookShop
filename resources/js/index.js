@@ -10,15 +10,8 @@ import Login from './pages/Login/Login';
 import PageTitle from './components/Page-Title/pageTitle';
 import Product from './pages/Product/Product';
 import Error404 from './pages/404/404';
-<<<<<<< HEAD
-import Profile from './pages/Profile/Profile';
-// import Login from './pages/Login/Login';
-// import Register from './pages/Register/Register';
-import {Routes, Route, useLocation} from 'react-router-dom';
-=======
 ////////////////////////////////////////////////////////////////////////////////
 import {Routes, Route, useNavigate} from 'react-router-dom';
->>>>>>> 67e7c7b9f5943cdcb137ae539d3f9fccc7c64c5b
 import Admin from './admin/index';
 import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
