@@ -11,6 +11,10 @@ class Publisher extends Model
 
     public $timestamps = false;
     protected $table = 'publisher';
+    protected $fillable = [
+        'publisher_name',
+        'publisher_desc',
+    ];
 
     public function book()
     {

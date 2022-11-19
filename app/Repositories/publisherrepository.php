@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\models\Publisher;
 use App\Http\Requests\PublisherRequest;
+use App\Http\Requests\StorePublisherRequest;
 
 class PublisherRepository
 {
@@ -18,8 +19,13 @@ class PublisherRepository
     }
 
     // admin ---------------------------------------------------------
+    public function showPublisherAdmin()
+    {
+        $publisher = Publisher::orderBy('id','asc');
+        return $publisher->get();
+    }
     // thêm nhà cung cấp
-    public function insertPublisher(PublisherRequest $request)
+    public function insertPublisher(StorePublisherRequest $request)
     {
         $publisher = Publisher::create([
             'publisher_name' => $request->publisher_name,

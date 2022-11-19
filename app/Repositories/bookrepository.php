@@ -162,7 +162,7 @@ class BookRepository
             'book_title' => $request->book_title,
             'book_summary' => $request->book_summary,
             'book_price' => $request->book_price,
-            'book_cover_photo' => $request->book_cover_photo
+            'book_cover_photo' => $request->book1
         ]);
         return $books;
     }

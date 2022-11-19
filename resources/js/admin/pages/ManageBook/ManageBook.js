@@ -241,6 +241,26 @@ const ManageBook = () => {
         //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
     ];
+
+    const ModalUpdate = (id) => {
+        return (
+            <Modal
+                title="Update Information Book"
+                open={openUpdate}               
+                footer={null}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+            >
+                <p>ahihi</p>
+            </Modal>
+        );
+    }
+    const handleModalUpdate = (id) => {
+        console.log(id);
+        setOpenUpdate(true);
+        console.log(openUpdate);
+        <ModalUpdate id={id} />
+    }
     const data = [];
     bookListData.map((book) => {
         var dataItem = {
@@ -258,7 +278,7 @@ const ManageBook = () => {
                 src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
             />,   
             update: 
-                <Button type="text" icon={<SettingOutlined />} >
+                <Button type="text" onClick={() => handleModalUpdate(book.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
                 <Button type="text" icon={<CloseOutlined />}>
@@ -522,18 +542,17 @@ const ManageBook = () => {
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
                     </Form>
                 </Modal>
-
-                <Modal
-                    title="Update Information Book"
-                    open={openUpdate}               
-                    footer={null}
-                    confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
-                >
-                    
-                </Modal>
             </Col>
         </Row>
+        <Modal
+                title="Update Information Book"
+                open={openUpdate}               
+                footer={null}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancelUpdate}
+            >
+                <p>ahihi</p>
+            </Modal>
         <Table columns={columns} dataSource={data} onChange={onChange} />
       </Container>
     );

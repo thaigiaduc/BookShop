@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PublisherController;
+use App\Models\Publisher;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Manage author routing
     Route::get('/admin/ManageAuthor', [AuthorController::class,'getAuthorAdmin']);
     Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
+
     // Manage category routing
     Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
     Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
+
+    // Manage publisher routing
+    Route::get('/admin/ManagePublisher', [PublisherController::class,'showPublisher']);
+    Route::post('/admin/ManagePublisher/create', [PublisherController::class,'insertPubliserAdmin']);
