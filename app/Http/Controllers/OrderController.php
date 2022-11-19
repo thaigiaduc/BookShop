@@ -39,4 +39,8 @@ class OrderController extends Controller
         $res = $this->orderRepo->showOrderDetail($id);
         return response()->json($res, 200);
     }
+    public function updateStatusOrder(Request $request){
+        $res= $this->orderRepo->updateStatusOrder($request->id,$request->status);
+        return response()->json($res,200);
+    }
 }

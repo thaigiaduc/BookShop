@@ -18,6 +18,7 @@ function Header(){
             setIsLogin(true);
             setFullname(userLogin);
         }
+
     }, []);
     useEffect(() => {
         if(sessionStorage.getItem('item_cart'))
@@ -63,14 +64,16 @@ function Header(){
                     } to="/cart">Cart({cartAmount})</NavLink>
 
                     {
-                        isLogin ?
-                        <>
-                            <NavDropdown title={fullname} id="collasible-nav-dropdown">
-                                <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>
-                            </NavDropdown>
-                        </>
-                            :
-                            <NavLink className="nav-link"><Login text={'SignIn'}/></NavLink>
+                                isLogin ?
+                                <>
+                                    <NavDropdown title={fullname} id="collasible-nav-dropdown">
+                                    <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>
+                                        <NavDropdown.Item><NavLink className={'text-center nav-link'} to="/profile">Profile</NavLink></NavDropdown.Item>
+                                        <NavDropdown.Item onClick={() => handleLogout()} className={'text-center'}>Logout</NavDropdown.Item>
+                                    </NavDropdown>
+                                </>
+                                :
+                                <NavLink className="nav-link"><Login  text={'SignIn'}/></NavLink>
                     }
                 </Nav>         
                 </Navbar.Collapse>

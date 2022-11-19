@@ -26,7 +26,7 @@ class OrderRepository
             $order = Order::create([
                     'user_id' => $userID,
                     'order_date' => Carbon::now(),
-                      'order_amount' => $order_amount,
+                    'order_amount' => $order_amount,
             ]);
             foreach($orderItemArray as $item=>$value){
                 $orderItemArray[$item]['order_id']=$order->id;
@@ -58,5 +58,9 @@ class OrderRepository
     public function showOrderDetail($id)
     {
         return OrderItem::where('order_id',$id)->get();
+    }
+
+    public function updateStatusOrder($id,$status){
+        return Order::where('id',$id)->update(['status'=>$status]);
     }
 }

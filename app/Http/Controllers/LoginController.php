@@ -34,7 +34,7 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
+        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $user->access_token = $user->createToken("API_TOKEN")->plainTextToken;

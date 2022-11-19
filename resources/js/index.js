@@ -10,7 +10,9 @@ import Login from './pages/Login/Login';
 import PageTitle from './components/Page-Title/pageTitle';
 import Product from './pages/Product/Product';
 import Error404 from './pages/404/404';
-////////////////////////////////////////////////////////////////////////////////
+import Profile from './pages/Profile/Profile';
+// import Login from './pages/Login/Login';
+// import Register from './pages/Register/Register';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import Admin from './admin/index';
 import HomePage from './admin/pages/Home/Home';
@@ -53,6 +55,7 @@ function App() {
           </Route>
           <Route path="cart" element={<Cart />} />
           <Route path="about" element={<About />} />
+          <Route path="profile" element={<Profile/>}/>
           <Route path="*" element={<Error404 />} />
         </Routes>
       <Footer />
