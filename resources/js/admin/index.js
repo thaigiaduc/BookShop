@@ -22,7 +22,7 @@ import {Routes, Route } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
 function Admin() {
-  document.title = "welcome to admin";
+    document.title = "welcome to admin";
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const [theme, setTheme] = useState('dark');
@@ -158,8 +158,8 @@ function Admin() {
           }}
         >
           <Routes>
-            {/* <Route index path="admin" element={<HomePage />} /> */}
-            <Route index path="/" element={<ManageBook />} />
+            <Route index path="/" element={<HomePage />} />
+            {/* <Route index path="/" element={<ManageBook />} /> */}
             {/* <Route path="shop">
                       <Route path=":id" element={<Product />} />
                       <Route index element={<Shop />} />

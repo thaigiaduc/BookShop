@@ -11,6 +11,15 @@ class Book extends Model
 
     public $timestamps = false;
     protected $table = 'book';
+    protected $fillable = [
+        'category_id',
+        'author_id',
+        'publisher_id',
+        'book_title',
+        'book_summary',
+        'book_price',
+        'book_cover_photo',
+    ];
 
     public static function getFinalPrice($listing){
         return $listing->selectraw('case
@@ -27,13 +36,26 @@ class Book extends Model
         $res = $listing->get();
         return $res[0]->finalprice;
     }
+
     public function author(){
         return $this->belongsTo(Author::class);
     }
+
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
     public function publisher(){
         return $this->belongsTo(Publisher::class);
+    }
+
+    public function discount()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class);
     }
 }

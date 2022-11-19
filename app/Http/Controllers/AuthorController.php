@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\http\Resources\AuthorResource;
 use App\http\Resources\AuthorCollection;
 use App\Repositories\authorRepository;
-
+use App\Http\Requests\StoreAuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -17,18 +17,6 @@ class AuthorController extends Controller
         $this->authorRepo = $authorRepo;
     }
 
-
-    // public function getAuthorByBook($book_id){
-    //     try {
-    //         $authorres = $this->authorRepo->getAuthorByBook($book_id);
-    //         return response()->json(new AuthorResource($authorres),200);
-    //     } catch (\Exception $e) {
-    //         return response()->json('Uncessfully',500);
-    //     }
-        
-    // }
-
-
     public function getAuthor(){
         try {
             $authorres = $this->authorRepo->index();
@@ -38,7 +26,24 @@ class AuthorController extends Controller
         }
     }
 
+    // admin ---------------------------------------------------------------------------------
+    public function getAuthorAdmin()
+    {
+        try {
+            $authors = $this->authorRepo->showAuthor();
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 
-  
-
+    public function insertAuthorAdmin(StoreAuthorRequest $request)
+    {
+        try {
+            $authors = $this->authorRepo->insertAuthor($request);
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

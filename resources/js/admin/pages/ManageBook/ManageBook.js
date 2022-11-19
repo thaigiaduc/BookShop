@@ -4,6 +4,7 @@ import defaultBookCover from '../../../../assets/bookcover/defaultbook.png';
 import {Link} from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 import servicesForManageBook from '../../../Services/servicesForManageBook';
 import { 
     Table, 
@@ -26,38 +27,64 @@ import {
     SettingOutlined,
     CloseOutlined,
     PlusOutlined,
+    UploadOutlined,
 } from '@ant-design/icons';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageBook = () => {
     const [bookListData, setBookListData] = useState([]);
     const [open, setOpen] = useState(false);
+    const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [allAuthor, setAllAuthor] = useState([]);
     const [allCategory, setAllCategory] = useState([]);
     const [allPublisher, setAllPublisher] = useState([]);
-    const [defaultAuthor, setDefaultAuthor] = useState("");
-    const [defaultCategory, setDefaultCategory] = useState("");
-    const [defaultPublisher, setDefaultPublisher] = useState("");
-    const [modalText, setModalText] = useState('Content of the modal');
     const [componentDisabled, setComponentDisabled] = useState(false);
+    const [checkCategoryIS, setCheckCategoryIS] = useState(false);
+    const [messageCategoryIS, setMessageCategoryIS] = useState("");
+    const [checkAuthorIS, setCheckAuthorIS] = useState(false);
+    const [messageAuthorIS, setMessageAuthorIS] = useState("");
+    const [checkPublisherIS, setCheckPublisherIS] = useState(false);
+    const [messagePublisherIS, setMessagePublisherIS] = useState("");
+    const [checkBookTitleIS, setCheckBookTitleIS] = useState(false);
+    const [messageBookTitleIS, setMessageBookTitleIS] = useState("");
+    const [checkBookSummaryIS, setCheckBookSummaryIS] = useState(false);
+    const [messageBookSummaryIS, setMessageBookSummaryIS] = useState("");
+    const [checkQuantityIS, setCheckQuantityIS] = useState(false);
+    const [messageQuantityIS, setMessageQuantityIS] = useState("");
+    const [checkBookPriceIS, setCheckBookPriceIS] = useState(false);
+    const [messageBookPriceIS, setMessageBookPriceIS] = useState("");
+    const [dataInsert, setDataInsert] = useState({
+        category: 1,
+        author: 1,
+        publisher: 1,
+        book_title: "",
+        book_summary: "",
+        quantity: "",
+        book_price: "",
+        upload: "",
+
+    });
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
+
     const showModal = () => {
         setOpen(true);
     };
-    const handleOk = () => {
-        setConfirmLoading(true);
-        setTimeout(() => {
-        setOpen(false);
-        setConfirmLoading(false);
-        }, 2000);
+
+    const showModalUpdate = () => {
+        setOpenUpdate(true);
     };
+
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
+
+    const handleCancelUpdate = () => {
+        setOpenUpdate(false);
+    };
+
     useEffect(() => {
         const fetchProductList = async () => {
             const bookList = await servicesForManageBook.getBookAdmin();
@@ -68,9 +95,6 @@ const ManageBook = () => {
             setAllAuthor(resultAuthors.data);
             setAllCategory(resultCategories.data);
             setAllPublisher(resultPublishers.data);
-            setDefaultAuthor(resultAuthors.data[0].author_name);
-            setDefaultCategory(resultCategories.data[0].category_name);
-            setDefaultPublisher(resultPublishers.data[0].publisher_name);
         };
       fetchProductList();
     }, []);
@@ -234,7 +258,7 @@ const ManageBook = () => {
                 src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
             />,   
             update: 
-                <Button type="text" icon={<SettingOutlined />}>
+                <Button type="text" icon={<SettingOutlined />} >
                 </Button>,
             delete: 
                 <Button type="text" icon={<CloseOutlined />}>
@@ -248,7 +272,120 @@ const ManageBook = () => {
         console.log('params', pagination, filters, sorter, extra);
     };
 
-    
+    function handleSubmit(e) {
+        e.preventDefault();
+        const InsertBook = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                const c = await servicesForManageBook.insertBook({
+                    category_id: dataInsert.category,
+                    author_id: dataInsert.author,
+                    publisher_id: dataInsert.publisher,
+                    book_title: dataInsert.book_title,
+                    book_summary: dataInsert.book_summary,
+                    quantity: dataInsert.quantity,
+                    book_price: dataInsert.book_price,
+                    book_cover_photo: null,
+                });
+                if(c.status_code !== 422) {
+                    alert('success');
+                } else {
+                    if(typeof c.data.category_id !== "undefined") {
+                        setCheckCategoryIS(true);
+                        setMessageCategoryIS(c.data.category_id[0]);        
+                    } else {
+                        setCheckCategoryIS(false);
+                        setMessageCategoryIS("");     
+                    }
+
+                    if(typeof c.data.author_id !== "undefined") {
+                        setCheckAuthorIS(true);
+                        setMessageAuthorIS(c.data.author_id[0]); 
+                    } else {
+                        setCheckCategoryIS(false);
+                        setMessageCategoryIS(""); 
+                    }
+
+                    if(typeof c.data.publisher_id !== "undefined") {
+                        setCheckPublisherIS(true);
+                        setMessagePublisherIS(c.data.publisher_id[0]);        
+                    } else {
+                        setCheckPublisherIS(false);
+                        setMessagePublisherIS(""); 
+                    }
+                    
+                    if(typeof c.data.book_title !== "undefined") {
+                        setCheckBookTitleIS(true);
+                        setMessageBookTitleIS(c.data.book_title[0]);        
+                    } else {
+                        setCheckBookTitleIS(false);
+                        setMessageBookTitleIS("");     
+                    }
+
+                    if(typeof c.data.book_summary !== "undefined") {
+                        setCheckBookSummaryIS(true);
+                        setMessageBookSummaryIS(c.data.book_summary[0]);        
+                    } else {
+                        setCheckBookSummaryIS(false);
+                        setMessageBookSummaryIS("");     
+                    }
+
+                    if(typeof c.data.quantity !== "undefined") {
+                        setCheckQuantityIS(true);
+                        setMessageQuantityIS(c.data.quantity[0]);        
+                    } else {
+                        setCheckQuantityIS(false);
+                        setMessageQuantityIS("");     
+                    }
+
+                    if(typeof c.data.book_price !== "undefined") {
+                        setCheckBookPriceIS(true);
+                        setMessageBookPriceIS(c.data.book_price[0]);        
+                    } else {
+                        setCheckBookPriceIS(false);
+                        setMessageBookPriceIS("");     
+                    }
+                }        
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        InsertBook();
+    }
+
+    const props = {
+        action: '../../../../assets',
+        listType: 'picture',
+        beforeUpload(file) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              const img = document.createElement('img');
+              img.src = reader.result;
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                ctx.fillStyle = 'red';
+                ctx.textBaseline = 'middle';
+                ctx.font = '33px Arial';
+                ctx.fillText('Ant Design', 20, 20);
+                canvas.toBlob((result) => resolve(result));
+              };
+            };
+          });
+        },
+    };
+
+    function handle(e) {
+        let newData ={...dataInsert}
+        newData[e.target.id] = e.target.value;
+        setDataInsert(newData);
+    }
+
     return (
       <Container fluid>
         <Row>
@@ -262,6 +399,7 @@ const ManageBook = () => {
                     open={open}               
                     footer={null}
                     confirmLoading={confirmLoading}
+                    onCancel={handleCancel}
                 >
                     <Form
                         labelCol={{
@@ -275,68 +413,124 @@ const ManageBook = () => {
                           disabled={componentDisabled}
                     >
                         <Form.Item label="Book_title">
-                            <Input />
+                            <Input id="book_title" onChange={(e) => handle(e)} value={dataInsert.book_title} />
+                            {
+                                checkBookTitleIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookTitleIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
-
                         <Form.Item label="Book_summary">
-                            <TextArea rows={3} />
+                            <TextArea rows={3} id="book_summary" onChange={(e) => handle(e)} value={dataInsert.book_summary} />
+                            {
+                                checkBookSummaryIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookSummaryIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Quantity">
-                            <InputNumber min={1} max={50} defaultValue={1} />
+                            <Input id="quantity" onChange={(e) => handle(e)} value={dataInsert.quantity} />
+                            {
+                                checkQuantityIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageQuantityIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Book_price">
-                            <Input />
+                            <Input id="book_price" onChange={(e) => handle(e)} value={dataInsert.book_price} />
+                            {
+                                checkBookPriceIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageBookPriceIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
-                        <Form.Item label="Author">
-                            <Select defaultValue={defaultAuthor}>
+                        <Form.Item label="Author"> 
+                            <select className="form-select" id="author" onChange={(e) => handle(e)} value={dataInsert.author}>
                             {
                                 allAuthor.map((item,index) => (                                
-                                    <Select.Option key={index} value={item.author_name}>{item.author_name}</Select.Option>  
+                                    <option key={index} value={item.author_id}>{item.author_name}</option>
                                 ))
+                            }                    
+                            </select>
+                            {
+                                checkAuthorIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorIS}
+                                    </Alert> 
+                                </small> : ""
                             }
-                            </Select>
                         </Form.Item>
 
-                        <Form.Item label="Category">
-                            <Select defaultValue={defaultCategory}>
+                        <Form.Item label="Category"> 
+                            <select className="form-select" id="category" onChange={(e) => handle(e)} value={dataInsert.cactegory}>
                             {
                                 allCategory.map((item,index) => (                                
-                                    <Select.Option key={index} value={item.category_name}>{item.category_name}</Select.Option>  
+                                    <option key={index} value={item.category_id}>{item.category_name}</option> 
                                 ))
-                            }
-                            </Select>
+                            }                    
+                            </select>  
+                            {
+                                checkCategoryIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageCategoryIS}
+                                    </Alert> 
+                                </small> : ""
+                            }     
                         </Form.Item>
 
                         <Form.Item label="Publisher">
-                            <Select defaultValue={defaultPublisher}>
+                            <select className="form-select" id="publisher" onChange={(e) => handle(e)} value={dataInsert.publisher}>
                             {
                                 allPublisher.map((item,index) => (                                
-                                    <Select.Option key={index} value={item.publisher_name}>{item.publisher_name}</Select.Option>  
+                                    <option key={index} value={item.publisher_id}>{item.publisher_name}</option> 
                                 ))
+                            }                    
+                            </select> 
+                            {
+                                checkPublisherIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messagePublisherIS}
+                                    </Alert> 
+                                </small> : ""
                             }
-                            </Select>
                         </Form.Item>
 
                         <Form.Item label="Book_cover_photo" valuePropName="fileList">
-                            <Upload action="/upload.do" listType="picture-card">
-                                <div>
-                                <PlusOutlined />
-                                <div
-                                    style={{
-                                    marginTop: 8,
-                                    }}
-                                >
-                                    Upload
-                                </div>
-                                </div>
-                            </Upload>
+                        <Upload {...props}>
+                            <Button icon={<UploadOutlined />}>Upload</Button>
+                        </Upload>
                         </Form.Item>
                         <Button type="primary" onClick={handleCancel}>Cancle</Button>
-                        <Button type="submit" >Submit</Button>
+                        <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
                     </Form>
+                </Modal>
+
+                <Modal
+                    title="Update Information Book"
+                    open={openUpdate}               
+                    footer={null}
+                    confirmLoading={confirmLoading}
+                    onCancel={handleCancel}
+                >
+                    
                 </Modal>
             </Col>
         </Row>

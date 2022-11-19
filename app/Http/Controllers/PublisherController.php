@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\http\Resources\publisherResource;
 use App\http\Resources\publisherCollection;
 use App\Repositories\publisherRepository;
-
+use App\Http\Requests\StorePublisherRequest;
 
 class publisherController extends Controller
 {
