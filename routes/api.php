@@ -9,7 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PublisherController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,10 +25,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::delete('session', [LoginController::class, 'logout'])->name('api.logout');
 
+    //user routing
+    Route::patch('user/update/profile',[UserController::class,'editUserProfile']);
+    Route::patch('user/update/password',[UserController::class,'editPassword']);
+
+
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
     Route::get('/order',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+    Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
 });
 
     //login routing

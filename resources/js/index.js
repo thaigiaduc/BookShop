@@ -13,7 +13,7 @@ import Error404 from './pages/404/404';
 import Profile from './pages/Profile/Profile';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
-import {Routes, Route, useLocation} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import Admin from './admin/index';
 import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
