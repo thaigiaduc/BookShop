@@ -29,6 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('user/update/profile',[UserController::class,'editUserProfile']);
     Route::patch('user/update/password',[UserController::class,'editPassword']);
     Route::get('user/detail',[UserController::class,'getUserDetail']);
+  
+
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
@@ -39,6 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //login routing
     Route::post('session', [LoginController::class, 'login'])->name('api.login');
+    Route::post('user/create',[UserController::class,'store']);
 
     //author routing
     Route::get('/author',[AuthorController::class,'getAuthor']);

@@ -9,6 +9,10 @@ const serviceForLogin = {
    logout: () =>{
         const url = "/api/session";
         return api.delete(url);
+   },
+   register: (data) => {
+     const url = "/api/user/create";
+     return api.post(url,data);
    }
 }
 

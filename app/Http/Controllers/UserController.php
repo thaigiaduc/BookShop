@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Repositories\UserRepository as userRepo;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
 
 class UserController extends Controller
 {
@@ -32,6 +33,16 @@ class UserController extends Controller
 
     function getUserDetail(Request $request){
         return response()->json($request->user(),200);
+    }
+
+    function store(StoreUserRequest $request){
+        try {
+            
+            $userResult = $this->userRepo->store($request);
+            return response()->json($request->address,200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),400);
+        }
     }
     
 }

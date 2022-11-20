@@ -28,11 +28,29 @@ class UserRepository
     public function editPassword(Request $request){
         DB::beginTransaction();
         try {
-            
             if(!Hash::check($request->oldPassword,$request->user()->password))
                 throw new \Exception($request->oldPassword);
             $user = User::where('id',$request->user()->id)->update([
                 'password' => Hash::make($request->newPassword),
+            ]);          
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return throw new \Exception($e);
+        }
+    }
+    public function store(Request $request){
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'role' => $request->role ? $request->role : 1,
             ]);          
             DB::commit();
             return $user;
