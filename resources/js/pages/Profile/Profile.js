@@ -17,7 +17,6 @@ const Profile = () => {
             if(userLogin){
                 setIsLogin(true);
                 const userDetail = await serviceForProfile.getUserDetail();
-                console.log(userDetail.address);
                 setUserDetail(userDetail);
             }
         }

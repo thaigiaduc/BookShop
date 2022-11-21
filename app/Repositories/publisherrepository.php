@@ -36,14 +36,21 @@ class PublisherRepository
     }
 
     // sửa thông tin nhà cung cấp
-    public function updatePublisher(PublisherRequest $request, $id)
+    public function updatePublisher($request, $id)
     {
         $publisher = Publisher::where('id',$id)->update([
             'publisher_name' => $request->publisher_name,
-            'publisher_bio' => $request->publisher_bio
+            'publisher_desc' => $request->publisher_desc
         ]);
 
         return $publisher;
+    }
+
+    // show chi tiết nhà cung cấp
+    public function showDetailPublisher($id) 
+    {
+        $pb = Publisher::where('id',$id)->get();
+        return $pb;
     }
 
     // xóa nhà cung cấp

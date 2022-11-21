@@ -72,12 +72,15 @@ const ManageBook = () => {
         upload: "",
     });
     const [dataUpdate, setDataUpdate] = useState({
-        category_update: "",
-        author_update: "",
-        publisher_update: "",
+        category_update: 1,
+        author_update: 1,
+        publisher_update: 1,
+        category_name_update: "",
+        author_name_update: "",
+        publisher_name_update: "",
         book_title_update: "",
         book_summary_update: "",
-        quantity_update: "",
+        quantity_update: 1,
         book_price_update: "",
         upload_update: "",
     });
@@ -125,9 +128,12 @@ const ManageBook = () => {
             const bookdetails = await servicesForManageBook.getDetails(idUpdate);
             setBookDetailsData(bookdetails);
             setDataUpdate({
-                category_update: bookdetails[0].category_name,
-                author_update: bookdetails[0].author_name,
-                publisher_update: bookdetails[0].publisher_name,
+                category_update: bookdetails[0].category_id,
+                category_name_update: bookdetails[0].category_name,
+                author_update: bookdetails[0].author_id,
+                author_name_update: bookdetails[0].author_name,
+                publisher_update: bookdetails[0].publisher_id,
+                publisher_name_update: bookdetails[0].publisher_name,
                 book_title_update: bookdetails[0].book_title,
                 book_summary_update: bookdetails[0].book_summary,
                 quantity_update: bookdetails[0].quantity,
@@ -163,6 +169,10 @@ const ManageBook = () => {
             dataIndex: 'book_summary',
         },
         {
+            title: 'Quantity',
+            dataIndex: 'quantity',
+        },
+        {
             title: 'Book_price',
             dataIndex: 'book_price',
         },
@@ -190,6 +200,7 @@ const ManageBook = () => {
             publisher: book.publisher_name,
             book_title: book.book_title,
             book_summary: book.book_summary,
+            quantity: book.quantity,
             book_price: book.book_price,
             book_cover_photo: 
             <Image
@@ -435,7 +446,7 @@ const ManageBook = () => {
                             <select className="form-select" id="author" onChange={(e) => handle(e)} value={dataInsert.author}>
                             {
                                 allAuthor.map((item,index) => (                                
-                                    <option key={index} value={item.author_id}>{item.author_name}</option>
+                                    <option key={index} value={item.id}>{item.author_name}</option>
                                 ))
                             }                    
                             </select>
@@ -450,10 +461,10 @@ const ManageBook = () => {
                         </Form.Item>
 
                         <Form.Item label="Category"> 
-                            <select className="form-select" id="category" onChange={(e) => handle(e)} value={dataInsert.cactegory}>
+                            <select className="form-select" id="category" onChange={(e) => handle(e)} value={dataInsert.category}>
                             {
                                 allCategory.map((item,index) => (                                
-                                    <option key={index} value={item.category_id}>{item.category_name}</option> 
+                                    <option key={index} value={item.id}>{item.category_name}</option> 
                                 ))
                             }                    
                             </select>  
@@ -471,7 +482,7 @@ const ManageBook = () => {
                             <select className="form-select" id="publisher" onChange={(e) => handle(e)} value={dataInsert.publisher}>
                             {
                                 allPublisher.map((item,index) => (                                
-                                    <option key={index} value={item.publisher_id}>{item.publisher_name}</option> 
+                                    <option key={index} value={item.id}>{item.publisher_name}</option> 
                                 ))
                             }                    
                             </select> 
@@ -520,42 +531,45 @@ const ManageBook = () => {
                         </Form.Item>
 
                         <Form.Item label="Book_summary">
-                            <TextArea rows={3} id="book_summary_update" onChange={(e) => handle(e)} value={dataUpdate.book_summary_update} />
+                            <TextArea rows={3} id="book_summary_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.book_summary_update} />
                         </Form.Item>
 
                         <Form.Item label="Quantity">
-                            <Input id="quantity_update" onChange={(e) => handle(e)} value={dataUpdate.quantity_update} />
+                            <Input id="quantity_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.quantity_update} />
                         </Form.Item>
 
                         <Form.Item label="Book_price">
-                            <Input id="book_price_update" onChange={(e) => handle(e)} value={dataUpdate.book_price_update} />
+                            <Input id="book_price_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.book_price_update} />
                         </Form.Item>
 
                         <Form.Item label="Author"> 
-                            <select className="form-select" id="author_update" onChange={(e) => handle(e)} value={dataUpdate.author_update}>
+                            <select className="form-select" id="author_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_update}>
+                                <option onChange={(e) => handleUpdate(e)} defaultValue = {dataUpdate.author_update}>{dataUpdate.author_name_update}</option>
                             {
                                 allAuthor.map((item,index) => (                                
-                                    <option key={index} value={item.author_id}>{item.author_name}</option>
+                                    <option key={index} value={item.id}>{item.author_name}</option>
                                 ))
                             }                    
                             </select>
                         </Form.Item>
 
                         <Form.Item label="Category"> 
-                            <select className="form-select" id="category_update" onChange={(e) => handle(e)} value={dataUpdate.cactegory_update}>
+                            <select className="form-select" id="category_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.category_update}>
+                                <option defaultValue = {dataUpdate.category_update}>{dataUpdate.category_name_update}</option>
                             {
                                 allCategory.map((item,index) => (                                
-                                    <option key={index} value={item.category_id}>{item.category_name}</option> 
+                                    <option key={index} value={item.id}>{item.category_name}</option> 
                                 ))
                             }                    
                             </select>  
                         </Form.Item>
 
                         <Form.Item label="Publisher">
-                            <select className="form-select" id="publisher_update" onChange={(e) => handle(e)} value={dataUpdate.publisher_update}>
+                            <select className="form-select" id="publisher_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.publisher_update}>
+                            <option defaultValue = {dataUpdate.publisher_update}>{dataUpdate.publisher_name_update}</option>
                             {
                                 allPublisher.map((item,index) => (                                
-                                    <option key={index} value={item.publisher_id}>{item.publisher_name}</option> 
+                                    <option key={index} value={item.id}>{item.publisher_name}</option> 
                                 ))
                             }                    
                             </select> 

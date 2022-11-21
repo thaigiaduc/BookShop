@@ -32,7 +32,9 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManagePublisher = () => {
+    const [idUpdate, setIdUpdate] = useState(1);
     const [publisherListData, setPublisherListData] = useState([]);
+    const [publisherDetailsData, setpublisherDetailsData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -41,6 +43,10 @@ const ManagePublisher = () => {
     const [dataInsert, setDataInsert] = useState({
         publisher_name: "",
         publisher_desc: "",
+    });
+    const [dataUpdate, setDataUpdate] = useState({
+        publisher_name_update: "",
+        publisher_desc_update: "",
     });
     const [checkPublisherNameIS, setCheckPublisherNameIS] = useState(false);
     const [messagePublisherNameIS, setMessagePublisherNameIS] = useState("");
@@ -66,6 +72,11 @@ const ManagePublisher = () => {
         setOpenUpdate(false);
     };
 
+    const handleModalUpdate = (id) => {
+        setIdUpdate(id);
+        setOpenUpdate(true);
+    }
+
     useEffect(() => {
         const fetchProductList = async () => {
             const publisherList = await servicesForManagePublisher.getPublisherAdmin();
@@ -73,81 +84,39 @@ const ManagePublisher = () => {
         };
       fetchProductList();
     }, []);
+
+    useEffect(() => {
+        const fetchPublisherDetails = async () => {
+            const publisherdetails = await servicesForManagePublisher.getDetails(idUpdate);
+            setpublisherDetailsData(publisherdetails);
+            setDataUpdate({
+                publisher_name_update: publisherdetails[0].publisher_name,
+                publisher_desc_update: publisherdetails[0].publisher_desc,
+            })
+        };
+        fetchPublisherDetails();
+    }, [idUpdate]);
+
     const columns = [
         {
           title: 'Id',
           dataIndex: 'id',
-        //   filters: [
-        //     {
-        //       text: 'Joe',
-        //       value: 'Joe',
-        //     },
-        //     {
-        //       text: 'Jim',
-        //       value: 'Jim',
-        //     },
-        //     {
-        //       text: 'Submenu',
-        //       value: 'Submenu',
-        //       children: [
-        //         {
-        //           text: 'Green',
-        //           value: 'Green',
-        //         },
-        //         {
-        //           text: 'Black',
-        //           value: 'Black',
-        //         },
-        //       ],
-        //     },
-        //   ],
-          // specify the condition of filtering result
-          // here is that finding the name started with `value`
-        //   onFilter: (value, record) => record.name.indexOf(value) === 0,
-        //   sorter: (a, b) => a.name.length - b.name.length,
-        //   sortDirections: ['descend'],
         },
         {
             title: 'Publisher Name',
             dataIndex: 'publisher_name',
-        //   defaultSortOrder: 'descend',
-        //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Publisher desc',
             dataIndex: 'publisher_desc',
-          //   defaultSortOrder: 'descend',
-          //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Update',
             dataIndex: 'update',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Delete',
             dataIndex: 'delete',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
     ];
     const data = [];
@@ -158,7 +127,7 @@ const ManagePublisher = () => {
             publisher_name: pb.publisher_name,
             publisher_desc: pb.publisher_desc,
             update: 
-                <Button type="text" icon={<SettingOutlined />} >
+                <Button type="text" onClick={() => handleModalUpdate(pb.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
                 <Button type="text" icon={<CloseOutlined />}>
@@ -208,10 +177,37 @@ const ManagePublisher = () => {
         InsertPublisher();
     }
 
+    function handleSubmitUpdate(e) {
+        e.preventDefault();
+        const UpdatePublisher = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                const c = await servicesForManagePublisher.updatePublisher({
+                    publisher_name: dataUpdate.publisher_name_update,
+                    publisher_desc: dataUpdate.publisher_desc_update,
+                },idUpdate);
+                if(c.status_code !== 422) {
+                    alert('success');
+                } else {
+                    alert('failed');
+                }        
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        UpdatePublisher();
+    }
+
     function handle(e) {
         let newData ={...dataInsert}
         newData[e.target.id] = e.target.value;
         setDataInsert(newData);
+    }
+
+    function handleUpdate(e) {
+        let newData ={...dataUpdate}
+        newData[e.target.id] = e.target.value;
+        setDataUpdate(newData);
     }
 
     return (
@@ -269,13 +265,34 @@ const ManagePublisher = () => {
                 </Modal>
 
                 <Modal
-                    title="Update Information Book"
+                    title="Update Information Publisher"
                     open={openUpdate}               
                     footer={null}
                     confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
+                    onCancel={handleCancelUpdate}
                 >
-                    
+                    <Form
+                        labelCol={{
+                            span: 8,
+                          }}
+                          wrapperCol={{
+                            span: 14,
+                          }}
+                          layout="horizontal"
+                          onValuesChange={onFormLayoutChange}
+                          disabled={componentDisabled}
+                    >
+                        <h5>ID: {idUpdate}</h5>
+                        <Form.Item label="Publisher Name">
+                            <Input id="publisher_name_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.publisher_name_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Publisher Desc">
+                            <TextArea rows={3} id="publisher_desc_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.publisher_desc_update} />
+                        </Form.Item>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancle</Button>
+                        <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
+                    </Form>
                 </Modal>
             </Col>
         </Row>

@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
-    Route::get('/order',[OrderController::class,'showOrder']);
+    Route::get('/showorder',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
     Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
 });
@@ -73,11 +73,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Manage author routing
     Route::get('/admin/ManageAuthor', [AuthorController::class,'getAuthorAdmin']);
     Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
+    Route::get('/admin/ManageAuthor/details/{id}',[AuthorController::class,'showDetailAuthor']);
+    Route::post('/admin/ManageAuthor/update/{id}',[AuthorController::class,'updateAuthor']);
 
     // Manage category routing
     Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
     Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
+    Route::get('/admin/ManageCategory/details/{id}',[CategoryController::class,'showDetailCategory']);
+    Route::post('/admin/ManageCategory/update/{id}',[CategoryController::class,'updateCategory']);
 
     // Manage publisher routing
     Route::get('/admin/ManagePublisher', [PublisherController::class,'showPublisher']);
     Route::post('/admin/ManagePublisher/create', [PublisherController::class,'insertPubliserAdmin']);
+    Route::get('/admin/ManagePublisher/details/{id}',[PublisherController::class,'showDetailPublisher']);
+    Route::post('/admin/ManagePublisher/update/{id}',[PublisherController::class,'updatePublisher']);

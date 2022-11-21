@@ -59,4 +59,23 @@ class publisherController extends Controller
         }
     }
 
+    public function showDetailPublisher($id)
+    {
+        try {
+            $cate = $this->publisherRepo->showDetailPublisher($id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function updatePublisher(StorePublisherRequest $request, $id)
+    {
+        try {
+            $cate = $this->publisherRepo->updatePublisher($request,$id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

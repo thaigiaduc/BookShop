@@ -69,7 +69,7 @@ class BookController extends Controller
     public function updateBookAdmin(StoreProductRequest $request ,$id)
     {
         try {
-            $res = $this->bookrepo->getDetailBookAdmin($request,$id);
+            $res = $this->bookrepo->updateBook($request,$id);
             return response()->json($res,200);
         } catch(\Exception $e) {
             return response()->json($e->getMessage(),500);
