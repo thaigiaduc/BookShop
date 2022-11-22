@@ -289,7 +289,7 @@ const ManageAuthor = () => {
                         <Form.Item label="Author Bio">
                             <TextArea rows={3} id="author_bio_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_bio_update} />
                         </Form.Item>
-                        <Button type="primary" onClick={handleCancelUpdate}>Cancle</Button>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
                     </Form>
                 </Modal>

@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\DiscountController;
 use App\Models\Publisher;
 use App\Http\Controllers\UserController;
 /*
@@ -87,3 +88,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/admin/ManagePublisher/create', [PublisherController::class,'insertPubliserAdmin']);
     Route::get('/admin/ManagePublisher/details/{id}',[PublisherController::class,'showDetailPublisher']);
     Route::post('/admin/ManagePublisher/update/{id}',[PublisherController::class,'updatePublisher']);
+
+    // Manage discount routing
+    Route::get('/admin/ManageDiscount', [DiscountController::class,'showDiscount']);
+    Route::post('/admin/ManageDiscount/create', [DiscountController::class,'insertDiscountAdmin']);
+    Route::get('/admin/ManageDiscount/details/{id}',[DiscountController::class,'showDetailDiscount']);
+    Route::post('/admin/ManageDiscount/update/{id}',[DiscountController::class,'updateDiscount']);

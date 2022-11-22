@@ -206,6 +206,7 @@ function App() {
               <Route path="admin/ManageAuthor" element={<ManageAuthor />} />
               <Route path="admin/ManageCategory" element={<ManageCategory />} />
               <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
+              <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
             </Routes> 
           </Content>
         </Layout>

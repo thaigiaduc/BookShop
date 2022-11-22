@@ -580,7 +580,7 @@ const ManageBook = () => {
                             <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
                         </Form.Item>
-                        <Button type="primary" onClick={handleCancelUpdate}>Cancle</Button>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
                     </Form>
         </Modal>

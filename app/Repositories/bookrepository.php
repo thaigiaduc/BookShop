@@ -188,4 +188,20 @@ class BookRepository
         $books = Book::where('id',$id)->delete();
         return $books;
     }
+
+    // tìm kiếm
+    public function searchBook($request)
+    {
+        $books = Book::select('book.id','category_id','author_id','publisher_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name','quantity')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+        ->where('id', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_title', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_summary', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('category_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('author_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('publisher_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_title', 'LIKE', '%' . $request->search . '%');
+    }
 }

@@ -290,7 +290,7 @@ const ManageCategory = () => {
                         <Form.Item label="Category Desc">
                             <TextArea rows={3} id="category_desc_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.category_desc_update} />
                         </Form.Item>
-                        <Button type="primary" onClick={handleCancelUpdate}>Cancle</Button>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
                     </Form>
                 </Modal>
