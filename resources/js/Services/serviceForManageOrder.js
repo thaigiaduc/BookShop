@@ -7,13 +7,18 @@ const serviceForManageOrder = {
     },
     
     getOrderDetail: (id) => {
-        const url = "/api/order/detail"+id;
+        const url = "/api/order/detail/"+id;
         return api.get(url);
     },
 
-    updateOrderStatus: (data) => {
-        const url = "/api/author";
-        return api.patch(url,data);
+    updateOrderStatus: (id, value) => {
+        const url = "/api/order/update/status";
+        const data = {
+            id: id,
+            order_status: value,
+        }
+        console.log(data);
+        return api.post(url,data);
     },
 
 }

@@ -35,6 +35,8 @@ const ManageOrder = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [componentDisabled, setComponentDisabled] = useState(false);
+    const [showOrderDetail, setShowOrderDetail] = useState(false);
+    const [allOrderItems, setAllOrderItems] = useState([]);
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -43,10 +45,19 @@ const ManageOrder = () => {
     useEffect(() => {
         const fetchProductList = async () => {
             const allOrder = await serviceForManageOrder.getOrderAdmin();
-            setAllOrder(allOrder);
+            setAllOrder(allOrder.data);
         };
       fetchProductList();
     }, []);
+    const handleShowDetail = async(id) =>{
+        const res = await serviceForManageOrder.getOrderDetail(id);
+         await setAllOrderItems(res.data);
+         await setShowOrderDetail(true);
+         
+    }
+    const handleBack = () =>{
+        setShowOrderDetail(false);
+    }
     const columns = [
         {
           title: 'Id',
@@ -75,9 +86,28 @@ const ManageOrder = () => {
         {
             title: 'Detail',
             dataIndex: 'detail',
+        }, 
+    ];
+    const columns2 = [
+        {
+          title: 'order_id',
+          dataIndex: 'id',
+        },
+        {
+            title: 'book',
+            dataIndex: 'book',
+        },
+        {
+            title: 'quantity',
+            dataIndex: 'quantity',
+        },
+        {
+            title: 'price',
+            dataIndex: 'price',
         },
     ];
     const data = [];
+    if(!showOrderDetail)
     allOrder.map((order) => {
         var dataItem = {
             key: order.id,
@@ -87,34 +117,52 @@ const ManageOrder = () => {
             date: order.order_date,
             status: order.order_status,
             update: 
-            <>
             <Dropdown>
             <Dropdown.Toggle variant="secondary">
-                         {order.status ? 'Accepted': 'Awaitting accept'}
+                         {order.order_status}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item  eventKey="1">Awaiting accept</Dropdown.Item>
-                      <Dropdown.Item  eventKey="2">Accepted</Dropdown.Item>
-                      <Dropdown.Item  eventKey="3">Shipped</Dropdown.Item>
-                      <Dropdown.Item  eventKey="4">Cancelled</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,3)} eventKey="3">Shipped</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,4)} eventKey="4">Cancelled</Dropdown.Item>
                     </Dropdown.Menu>
-            </Dropdown>
-            <Button type="text" icon={<SettingOutlined />} >
-            </Button>
-            </>,
+            </Dropdown>,
             detail: 
-            <Button type="text" icon={<SettingOutlined />} >
+            <Button onClick={()=>handleShowDetail(order.id)} type="text" icon={<SettingOutlined />} >
             </Button>,
         }
         data.push(dataItem);
     }); 
-        
+    else {
+        allOrderItems.map((orderItem) => {
+            var dataItem = {
+                key: orderItem.order_id,
+                id: orderItem.order_id,
+                orderID: orderItem.order_id,
+                book: orderItem.book_title,
+                quantity: orderItem.quantity,
+                price: orderItem.price,
+
+            }
+            data.push(dataItem);
+        }); 
+    }
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
 
+    const handleUpdateStatus = async (id, value) => {
+        try{
+            const res = await serviceForManageOrder.updateOrderStatus(id, value);
+            const allOrder = await serviceForManageOrder.getOrderAdmin();
+            setAllOrder(allOrder.data);
+            alert('Edit update success');
+        }catch(error){
 
+        }
+    }
    
    
     return (
@@ -123,8 +171,9 @@ const ManageOrder = () => {
             <Col xs lg={10}>
                 <h2>Manage Book</h2>
             </Col>
+            <Col> <Button type="primary" onClick={()=>handleBack()} hidden={!showOrderDetail ? true : false} >Back</Button></Col>
          </Row>
-        <Table columns={columns} dataSource={data} onChange={onChange} />
+        <Table columns={showOrderDetail ? columns2 : columns} dataSource={data} onChange={onChange} />
       </Container>
     );
 }
