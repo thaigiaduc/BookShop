@@ -42,7 +42,10 @@ const { Header, Sider, Content } = Layout;
 
 function App() {
   const test = window.location.href;
-  
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate('/');
+  }
   const RouteClient = () => {
     return (
       <>
@@ -68,7 +71,6 @@ function App() {
 
   const RouteAdmin = () => {
       document.title = "welcome to admin";
-      const navigate = useNavigate();
       const [collapsed, setCollapsed] = useState(false);
       const [theme, setTheme] = useState('dark');
       const [current, setCurrent] = useState('1');
@@ -103,7 +105,7 @@ function App() {
             navigate('/admin/ManagePublisher');
             break;
           case '9':
-            
+            navigate('/admin/ManageDiscount');
             break;
           default:
             break;
@@ -118,7 +120,7 @@ function App() {
           <Menu
             theme={theme}
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['3']}
             onClick = {onClick}
             selectedKeys={[current]}
             style={{height: "900px"}}
@@ -189,8 +191,8 @@ function App() {
             checkedChildren="Dark"
             unCheckedChildren="Light"
           />
-          <Button variant="light" style={{marginLeft: "1500px"}}>
-            <UserOutlined />Log in
+          <Button variant="light" style={{marginLeft: "1500px"}} onClick={handleLogout}>
+            <UserOutlined />Log out
           </Button>
           </Header>
           <Content

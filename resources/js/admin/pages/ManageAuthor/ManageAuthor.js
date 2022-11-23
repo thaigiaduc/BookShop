@@ -48,10 +48,17 @@ const ManageAuthor = () => {
         author_name_update: "",
         author_bio_update: "",
     });
+    //////////////////////////////////////////////////////////////////////////////
     const [checkAuthorNameIS, setCheckAuthorNameIS] = useState(false);
     const [messageAuthorNameIS, setMessageAuthorNameIS] = useState("");
     const [checkAuthorBioIS, setCheckAuthorBioIS] = useState(false);
     const [messageAuthorBioIS, setMessageAuthorBioIS] = useState("");
+    //////////////////////////////////////////////////////////////////////////////
+    const [checkAuthorNameUpIS, setCheckAuthorNameUpIS] = useState(false);
+    const [messageAuthorNameUpIS, setMessageAuthorNameUpIS] = useState("");
+    const [checkAuthorBioUpIS, setCheckAuthorBioUpIS] = useState(false);
+    const [messageAuthorBioUpIS, setMessageAuthorBioUpIS] = useState("");
+    //////////////////////////////////////////////////////////////////////////////
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -284,10 +291,26 @@ const ManageAuthor = () => {
                         <h5>ID: {idUpdate}</h5>
                         <Form.Item label="Author Name">
                             <Input id="author_name_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_name_update} />
+                            {
+                                checkAuthorNameUpIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorNameUpIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
 
                         <Form.Item label="Author Bio">
                             <TextArea rows={3} id="author_bio_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_bio_update} />
+                            {
+                                checkAuthorBioUpIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorBioUpIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
                         </Form.Item>
                         <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>

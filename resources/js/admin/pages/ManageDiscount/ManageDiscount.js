@@ -42,16 +42,12 @@ const ManageDiscount = () => {
     // title update
     // const [upBookTitle, setUpBookTitle] = useState("");
     // check lỗi insert
-    // const [dataInsert, setDataInsert] = useState({
-    //     category: 1,
-    //     author: 1,
-    //     publisher: 1,
-    //     book_title: "",
-    //     book_summary: "",
-    //     quantity: "",
-    //     book_price: "",
-    //     upload: "",
-    // });
+    const [dataInsert, setDataInsert] = useState({
+        book_id: "",
+        discount_start_date: "",
+        discount_end_date: "",
+        discount_price: "",
+    });
     // const [dataUpdate, setDataUpdate] = useState({
     //     category_update: "",
     //     author_update: "",
@@ -123,12 +119,12 @@ const ManageDiscount = () => {
             dataIndex: 'book_id',
         },
         {
-            title: 'Discount start_day',
-            dataIndex: 'discount_start_day',
+            title: 'Discount start_date',
+            dataIndex: 'discount_start_date',
         },
         {
-            title: 'Discount end_day',
-            dataIndex: 'discount_end_day',
+            title: 'Discount end_date',
+            dataIndex: 'discount_end_date',
         },
         {
             title: 'Discount price',
@@ -150,8 +146,8 @@ const ManageDiscount = () => {
             key: discount.id,
             id: discount.id,
             book_id: discount.book_id,
-            discount_start_day: discount.discount_start_day,
-            discount_end_day: discount.discount_end_day,
+            discount_start_date: discount.discount_start_date,
+            discount_end_date: discount.discount_end_date,
             discount_price: discount.discount_price,
             update: 
                 <Button type="text" onClick={() => handleModalUpdate(discount.id)} icon={<SettingOutlined />} >
@@ -238,7 +234,7 @@ const ManageDiscount = () => {
       <Container fluid>
         <Row>
             <Col xs lg={10}>
-                <h2>Manage Book</h2>
+                <h2>Manage Discount</h2>
             </Col>
             <Col xs lg={2}>
                 <Button color="secondary" onClick={showModal}>Create new Discount</Button>
@@ -260,51 +256,17 @@ const ManageDiscount = () => {
                           onValuesChange={onFormLayoutChange}
                           disabled={componentDisabled}
                     >
-                        <Form.Item label="Book_title">
-                            <Input id="book_title" onChange={(e) => handle(e)} value={dataInsert.book_title} />
-                            {
-                                checkBookTitleIS != false ? 
-                                <small>
-                                    <Alert variant="danger">
-                                        {messageBookTitleIS}
-                                    </Alert> 
-                                </small> : ""
-                            }
+                        <Form.Item label="Book_id">
+                            <Input id="book_id" onChange={(e) => handle(e)} value={dataInsert.book_id} />
                         </Form.Item>
-                        <Form.Item label="Book_summary">
-                            <TextArea rows={3} id="book_summary" onChange={(e) => handle(e)} value={dataInsert.book_summary} />
-                            {
-                                checkBookSummaryIS != false ? 
-                                <small>
-                                    <Alert variant="danger">
-                                        {messageBookSummaryIS}
-                                    </Alert> 
-                                </small> : ""
-                            }
+                        <Form.Item label="Discount start_date">
+                            <DatePicker id="discount_start_date" onChange={(e) => handle(e)} value={dataInsert.discount_end_date} />
                         </Form.Item>
-
-                        <Form.Item label="Quantity">
-                            <Input id="quantity" onChange={(e) => handle(e)} value={dataInsert.quantity} />
-                            {
-                                checkQuantityIS != false ? 
-                                <small>
-                                    <Alert variant="danger">
-                                        {messageQuantityIS}
-                                    </Alert> 
-                                </small> : ""
-                            }
+                        <Form.Item label="Discount end_date">
+                            <DatePicker id="discount_end_date" onChange={(e) => handle(e)} value={dataInsert.discount_end_date} />
                         </Form.Item>
-
                         <Form.Item label="Book_price">
                             <Input id="book_price" onChange={(e) => handle(e)} value={dataInsert.book_price} />
-                            {
-                                checkBookPriceIS != false ? 
-                                <small>
-                                    <Alert variant="danger">
-                                        {messageBookPriceIS}
-                                    </Alert> 
-                                </small> : ""
-                            }
                         </Form.Item>
                         <Button type="primary" onClick={handleCancel}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
