@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Resources\OrderCollection;
+use App\Http\Resources\OrderDetailCollection;
 use Illuminate\Http\Request;
 use App\Repositories\orderrepository;
 class OrderController extends Controller
@@ -37,7 +39,7 @@ class OrderController extends Controller
     public function showOrderDetail($id)
     {
         $res = $this->orderRepo->showOrderDetail($id);
-        return response()->json($res, 200);
+        return new OrderDetailCollection($res);
     }
     public function updateStatusOrder(Request $request){
         $res= $this->orderRepo->updateStatusOrder($request->id,$request->status);
@@ -45,6 +47,6 @@ class OrderController extends Controller
     }
     public function showOrder(){
         $res= $this->orderRepo->showOrder();
-        return response()->json($res,200);
+        return new OrderCollection($res);
     }
 }
