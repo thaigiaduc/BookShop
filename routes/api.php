@@ -34,8 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
-    Route::get('/order',[OrderController::class,'showOrder']);
-    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+    Route::get('/order',[OrderController::class,'showOrderUser']);
     Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
 });
 
@@ -76,3 +75,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Manage category routing
     Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
     Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
+
+    //Manage Order Routing
+    Route::get('/admin/order',[OrderController::class,'showOrder']);
+    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+

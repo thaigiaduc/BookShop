@@ -29,7 +29,7 @@ class OrderController extends Controller
        
     }
 
-    public function showOrder(Request $request)
+    public function showOrderUser(Request $request)
     {
         $res = $this->orderRepo->showOrderUser($request->user()->id);
         return response()->json($res, 200);
@@ -41,6 +41,10 @@ class OrderController extends Controller
     }
     public function updateStatusOrder(Request $request){
         $res= $this->orderRepo->updateStatusOrder($request->id,$request->status);
+        return response()->json($res,200);
+    }
+    public function showOrder(){
+        $res= $this->orderRepo->showOrder();
         return response()->json($res,200);
     }
 }

@@ -55,6 +55,11 @@ class OrderRepository
         return Order::where('user_id',$id)->get();
     }
 
+    public function showOrder()
+    {
+        return Order::get();
+    }
+
     public function showOrderDetail($id)
     {
         return OrderItem::where('order_id',$id)->get();
