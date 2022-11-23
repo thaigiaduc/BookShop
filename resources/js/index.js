@@ -22,6 +22,7 @@ import ManageAuthor from './admin/pages/ManageAuthor/ManageAuthor';
 import ManageCategory from './admin/pages/ManageCategory/ManageCategory';
 import ManagePublisher from './admin/pages/ManagePublisher/ManagePublisher';
 import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
+import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
@@ -90,7 +91,7 @@ function App() {
             
             break;
           case '5':
-            
+            navigate('/admin/ManageOrder');
             break;
           case '6':
             navigate('/admin/ManageCategory');
@@ -207,6 +208,7 @@ function App() {
               <Route path="admin/ManageCategory" element={<ManageCategory />} />
               <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
               <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
+              <Route path="admin/ManageOrder" element={<ManageOrder />} />
             </Routes> 
           </Content>
         </Layout>

@@ -31,16 +31,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('user/update/profile',[UserController::class,'editUserProfile']);
     Route::patch('user/update/password',[UserController::class,'editPassword']);
     Route::get('user/detail',[UserController::class,'getUserDetail']);
+  
+
 
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
     Route::get('/showorder',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
     Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
-});
 
     //login routing
     Route::post('session', [LoginController::class, 'login'])->name('api.login');
+    Route::post('user/create',[UserController::class,'store']);
 
     //author routing
     Route::get('/author',[AuthorController::class,'getAuthor']);
@@ -94,3 +96,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/admin/ManageDiscount/create', [DiscountController::class,'insertDiscountAdmin']);
     Route::get('/admin/ManageDiscount/details/{id}',[DiscountController::class,'showDetailDiscount']);
     Route::post('/admin/ManageDiscount/update/{id}',[DiscountController::class,'updateDiscount']);
+
+    //Manage Order Routing
+    Route::get('/admin/order',[OrderController::class,'showOrder']);
+    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+
+});

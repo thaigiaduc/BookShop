@@ -4,6 +4,7 @@ import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import HomePage from '../../../pages/Home/Home';
 import ManageBook from '../../../pages/ManageBook/ManageBook';
+import ManageOrder from '../../../pages/ManageOrder/ManageOrder';
 import { useNavigate } from 'react-router-dom';
 import {
   MenuFoldOutlined,

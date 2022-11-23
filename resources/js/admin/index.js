@@ -47,7 +47,7 @@ function Admin() {
           
           break;
         case 5:
-          
+          navigate('/ManageOrder');
           break;
         case 6:
           
