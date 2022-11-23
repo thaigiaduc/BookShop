@@ -98,3 +98,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Manage Order Routing
     Route::get('/admin/order',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+    Route::post('/order/update/status',[OrderController::class,'updateStatusOrder']);

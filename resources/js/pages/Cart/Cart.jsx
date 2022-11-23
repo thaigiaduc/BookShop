@@ -99,7 +99,7 @@ function Cart(){
                         setCart([]);
                         toast.success("Success", {
                             position: "top-right",
-                            autoClose: 10000,
+                            autoClose: 5000,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: false,
@@ -108,7 +108,7 @@ function Cart(){
                           });
                           setTimeout(function(){
                             window.location.reload();
-                         }, 10000);
+                         }, 5000);
                         console.log(response);
                     } catch (error) {
                         if(error.response.status === 422){
@@ -136,7 +136,7 @@ function Cart(){
                                 })
                                 toast.error("error", {
                                     position: "top-right",
-                                    autoClose: 10000,
+                                    autoClose: 5000,
                                     hideProgressBar: false,
                                     closeOnClick: true,
                                     pauseOnHover: false,
