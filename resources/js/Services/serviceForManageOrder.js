@@ -2,7 +2,7 @@ import api from "./api";
 
 const serviceForManageOrder = {
     getOrderAdmin: () => {
-        const url = "api/admin/order";
+        const url = "/api/admin/order";
         return api.get(url);
     },
     

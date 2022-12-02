@@ -191,32 +191,33 @@ const ManageBook = () => {
     ];
 
     const data = [];
-    bookListData.map((book) => {
-        var dataItem = {
-            key: book.id,
-            id: book.id,
-            category: book.category_name,
-            author: book.author_name,
-            publisher: book.publisher_name,
-            book_title: book.book_title,
-            book_summary: book.book_summary,
-            quantity: book.quantity,
-            book_price: book.book_price,
-            book_cover_photo: 
-            <Image
-                width={200}
-                src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
-            />,   
-            update: 
-                <Button type="text" onClick={() => handleModalUpdate(book.id)} icon={<SettingOutlined />} >
-                </Button>,
-            delete: 
-                <Button type="text" icon={<CloseOutlined />}>
-                </Button>,
-        }
-        data.push(dataItem);
-    }); 
-        
+    if(bookListData.length > 0) {
+        bookListData.map((book) => {
+            var dataItem = {
+                key: book.id,
+                id: book.id,
+                category: book.category_name,
+                author: book.author_name,
+                publisher: book.publisher_name,
+                book_title: book.book_title,
+                book_summary: book.book_summary,
+                quantity: book.quantity,
+                book_price: book.book_price,
+                book_cover_photo: 
+                <Image
+                    width={200}
+                    src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
+                />,   
+                update: 
+                    <Button type="text" onClick={() => handleModalUpdate(book.id)} icon={<SettingOutlined />} >
+                    </Button>,
+                delete: 
+                    <Button type="text" icon={<CloseOutlined />}>
+                    </Button>,
+            }
+            data.push(dataItem);
+        }); 
+    }
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);

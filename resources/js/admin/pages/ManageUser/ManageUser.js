@@ -89,22 +89,24 @@ const ManageOrder = () => {
         }, 
     ];
     const data = [];
-    allUser.map((user) => {
-        var dataItem = {
-            key: user.id,
-            id: user.id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            address: user.address,
-            phone: user.phone,
-            status: user.status ? (<label className='text-primary'>avalable</label>): (<label className='text-danger'>unavalable</label>),
-            block: 
-            <Button onClick={()=>handleUpdateStatus(user.id,user.status)}>
-                Change
-            </Button>,
-        }
-        data.push(dataItem);
-    }); 
+    if(allUser.length > 0){
+        allUser.map((user) => {
+            var dataItem = {
+                key: user.id,
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                address: user.address,
+                phone: user.phone,
+                status: user.status ? (<label className='text-primary'>avalable</label>): (<label className='text-danger'>unavalable</label>),
+                block: 
+                <Button onClick={()=>handleUpdateStatus(user.id,user.status)}>
+                    Change
+                </Button>,
+            }
+            data.push(dataItem);
+        }); 
+    }
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };

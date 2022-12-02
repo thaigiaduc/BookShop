@@ -141,25 +141,26 @@ const ManageDiscount = () => {
     ];
 
     const data = [];
-    discountListData.map((discount) => {
-        var dataItem = {
-            key: discount.id,
-            id: discount.id,
-            book_id: discount.book_id,
-            discount_start_date: discount.discount_start_date,
-            discount_end_date: discount.discount_end_date,
-            discount_price: discount.discount_price,
-            update: 
-                <Button type="text" onClick={() => handleModalUpdate(discount.id)} icon={<SettingOutlined />} >
-                </Button>,
-            delete: 
-                <Button type="text" icon={<CloseOutlined />}>
-                </Button>,
-        }
-        data.push(dataItem);
-    }); 
+    if(discountListData.length > 0) {
+        discountListData.map((discount) => {
+            var dataItem = {
+                key: discount.id,
+                id: discount.id,
+                book_id: discount.book_id,
+                discount_start_date: discount.discount_start_date,
+                discount_end_date: discount.discount_end_date,
+                discount_price: discount.discount_price,
+                update: 
+                    <Button type="text" onClick={() => handleModalUpdate(discount.id)} icon={<SettingOutlined />} >
+                    </Button>,
+                delete: 
+                    <Button type="text" icon={<CloseOutlined />}>
+                    </Button>,
+            }
+            data.push(dataItem);
+        }); 
+    }
         
-
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
