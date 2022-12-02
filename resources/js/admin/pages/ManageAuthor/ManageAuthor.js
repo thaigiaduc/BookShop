@@ -195,7 +195,21 @@ const ManageAuthor = () => {
                 if(c.status_code !== 422) {
                     alert('success');
                 } else {
-                    alert('failed');
+                    if(typeof c.data.author_name !== "undefined") {
+                        setCheckAuthorNameUpIS(true);
+                        setMessageAuthorNameUpIS(c.data.author_name[0]);        
+                    } else {
+                        setCheckAuthorNameUpIS(false);
+                        setMessageAuthorNameUpIS("");     
+                    }
+
+                    if(typeof c.data.author_bio !== "undefined") {
+                        setCheckAuthorBioUpIS(true);
+                        setMessageAuthorBioUpIS(c.data.author_bio[0]);        
+                    } else {
+                        setCheckAuthorBioUpIS(false);
+                        setMessageAuthorBioUpIS("");     
+                    }
                 }        
             } catch (error) {
                 console.log(error);

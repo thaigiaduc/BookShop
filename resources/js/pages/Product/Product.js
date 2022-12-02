@@ -113,7 +113,7 @@ const Product = () =>{
 }
     return(
         <section className="detail-page flex-grow-1">
-      <div className="container">
+      <div className="container" style={{marginBottom: '200px'}}>
       <div className="title-section">
         <h3>{bookDetail.category_name}</h3>
       </div>

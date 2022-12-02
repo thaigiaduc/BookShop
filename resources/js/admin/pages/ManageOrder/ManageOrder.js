@@ -169,7 +169,7 @@ const ManageOrder = () => {
       <Container fluid>
         <Row>
             <Col xs lg={10}>
-                <h2>Manage Book</h2>
+                <h2>Manage Order</h2>
             </Col>
             <Col> <Button type="primary" onClick={()=>handleBack()} hidden={!showOrderDetail ? true : false} >Back</Button></Col>
          </Row>

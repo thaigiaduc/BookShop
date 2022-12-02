@@ -79,7 +79,7 @@ const Profile = () => {
         <section>
         { isLogin ? 
                 (
-                    <div className="row">
+                    <div className="row" style={{marginBottom: '500px'}}>
                         <ChangePassword show={isShow} onHide={() => setIsShow(false)} />
                     <Col>
                     <div className="px-3">

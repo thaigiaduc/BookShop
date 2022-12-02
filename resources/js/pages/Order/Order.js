@@ -53,7 +53,8 @@ const Order = () => {
             if(userLogin){
                 setIsLogin(true);
                 const orders = await servicesForOrder.getOrder();
-                setOrder(orders);
+                setOrder(orders.data);
+                console.log(orders);
             }
         }
        fetchOrderData()
@@ -65,7 +66,7 @@ const Order = () => {
             if(userLogin){
                 setIsLogin(true);
                 const orderDetails = await servicesForOrder.getOrderDetail(idDetails);
-                setOrderDetail(orderDetails);
+                setOrderDetail(orderDetails.data);
             }
         }
        fetchOrderDetailsData()
@@ -112,8 +113,8 @@ const Order = () => {
             dataIndex: 'order_id',
         },
         {
-            title: 'Book Id',
-            dataIndex: 'book_id',
+            title: 'Book',
+            dataIndex: 'book_title',
         },
         {
             title: 'Quantity',
@@ -157,7 +158,7 @@ const Order = () => {
                 key: ord.id,
                 id: ord.id,
                 order_id: ord.order_id,
-                book_id: ord.book_id,
+                book_title: ord.book_title,
                 quantity: ord.quantity,
                 price: ord.price,
             }
@@ -168,7 +169,7 @@ const Order = () => {
         <section>
         { isLogin ? 
             (
-                <div className="row">
+                <div className="row" style={{marginBottom: '500px'}}>
                     <Col>
                         <div className="col-xxl-8 mb-5 mb-xxl-0">		        
 							<h4 className="mb-4 mt-0">Order detail</h4>

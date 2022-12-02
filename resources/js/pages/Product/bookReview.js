@@ -67,11 +67,20 @@ function BookReview({ id }) {
     };
 
     const handleRatingChange = (rating) => {
+        if(rating<6)
         setFilterParams({
             ...filterParams,
             rating: rating,
             page: 1
         });
+        else {
+            delete filterParams['rating'];
+        setFilterParams({
+            ...filterParams,
+            
+        });
+        }
+        console.log(filterParams);
     };
 
     const convertDate = (dateTypeTimestamp) => {
@@ -154,7 +163,7 @@ function BookReview({ id }) {
                                     <Row className="reviews__statistics">
                                         <Col xs={12} md={2} lg={1}>
                                             <h3>{(rating.avg*1.0).toFixed(1)}</h3>
-                                            <span className='reviews__statistics__filtertext' onClick={() => handleRatingChange(null)}>({rating.total})</span>
+                                            <span className='reviews__statistics__filtertext' onClick={() => handleRatingChange(6)}>({rating.total})</span>
                                         </Col>
                                         <Col xs={12} md={10} lg={11}>
                                             <h3>Star</h3>

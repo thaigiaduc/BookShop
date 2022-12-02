@@ -42,10 +42,7 @@ const { Header, Sider, Content } = Layout;
 
 function App() {
   const test = window.location.href;
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    navigate('/');
-  }
+ 
   const RouteClient = () => {
     return (
       <>
@@ -69,8 +66,13 @@ function App() {
     );
   }
 
-  const RouteAdmin = () => {
+  const RouteAdmin = () => {   
+    const handleLogout = () => {
+      navigate('/');
+      window.location.reload();
+    }
       document.title = "welcome to admin";
+      const navigate = useNavigate();
       const [collapsed, setCollapsed] = useState(false);
       const [theme, setTheme] = useState('dark');
       const [current, setCurrent] = useState('1');
