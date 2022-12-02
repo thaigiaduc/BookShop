@@ -25,6 +25,16 @@ class UserRepository
             return throw new \Exception($e);
         }
     }
+    public function updateStatus(Request $request){
+        $user = User::where('id',$request->id)->update([
+            'status' => $request->status,
+        ]);
+        return $user;
+    }
+    public function index(Request $request){
+        $user = User::where('id','!=',$request->user()->id)->orderby('id','asc')->get();
+        return $user;
+    }
     public function editPassword(Request $request){
         DB::beginTransaction();
         try {

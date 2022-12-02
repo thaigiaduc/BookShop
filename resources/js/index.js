@@ -23,6 +23,7 @@ import ManageCategory from './admin/pages/ManageCategory/ManageCategory';
 import ManagePublisher from './admin/pages/ManagePublisher/ManagePublisher';
 import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
+import ManageUser from './admin/pages/ManageUser/ManageUser';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
@@ -86,27 +87,24 @@ function App() {
             navigate('/admin');
             break;
           case '2':
-            console.log('2');
+            navigate('/admin/ManageUser');
             break;
           case '3':
             navigate('/admin/ManageBook');
             break;
           case '4':
-            
-            break;
-          case '5':
             navigate('/admin/ManageOrder');
             break;
-          case '6':
+          case '5':
             navigate('/admin/ManageCategory');
             break;
-          case '7':
+          case '6':
             navigate('/admin/ManageAuthor');
             break;
-          case '8':
+          case '7':
             navigate('/admin/ManagePublisher');
             break;
-          case '9':
+          case '8':
             navigate('/admin/ManageDiscount');
             break;
           default:
@@ -144,31 +142,26 @@ function App() {
               },
               {
                 key: '4',
-                icon: <BarChartOutlined />,
-                label: 'Statistic',
-              },
-              {
-                key: '5',
                 icon: <ReconciliationOutlined />,
                 label: 'Manage Order',
               },
               {
-                key: '6',
+                key: '5',
                 icon: <FormOutlined />,
                 label: 'Manage Category',
               },
               {
-                key: '7',
+                key: '6',
                 icon: <FormOutlined />,
                 label: 'Manage Author',
               },
               {
-                key: '8',
+                key: '7',
                 icon: <FormOutlined />,
                 label: 'Manage Publisher',
               },
               {
-                key: '9',
+                key: '8',
                 icon: <DollarCircleOutlined />,
                 label: 'Manage Promotion',
               },
@@ -213,6 +206,7 @@ function App() {
               <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
               <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
               <Route path="admin/ManageOrder" element={<ManageOrder />} />
+              <Route path="admin/ManageUser" element={<ManageUser />} />
             </Routes> 
           </Content>
         </Layout>
@@ -222,7 +216,7 @@ function App() {
   return (
       <div className="d-flex flex-column m-height-100"> 
         {
-          test.indexOf('admin', 0) != -1 ? <RouteAdmin /> : <RouteClient />
+          test.indexOf('admin', 0) != -1 && sessionStorage.getItem('adminIsLogin')  ? <RouteAdmin /> : <RouteClient />
         }
       </div>
   );

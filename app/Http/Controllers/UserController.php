@@ -30,7 +30,18 @@ class UserController extends Controller
             return response()->json($e->getMessage(),422);
         }
     }
-
+    function updateStatus(Request $request){
+       try {
+        $res = $this->userRepo->updateStatus($request);
+        return response()->json($res,200);
+       } catch (\Exception $e) {
+            return response()->json($e->getMessage(),422);
+       }
+    }
+    function index(Request $request){
+        $res = $this->userRepo->index($request);
+        return $res;
+    }
     function getUserDetail(Request $request){
         return response()->json($request->user(),200);
     }

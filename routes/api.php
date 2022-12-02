@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
@@ -34,35 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
-    Route::get('/showorder',[OrderController::class,'showOrder']);
-    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
-    Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
-});
-    //login routing
-    Route::post('session', [LoginController::class, 'login'])->name('api.login');
-    Route::post('user/create',[UserController::class,'store']);
-
-    //author routing
-    Route::get('/author',[AuthorController::class,'getAuthor']);
-
-    
-    // book routing
-    Route::get('/book/detail',[BookController::class,'getBookByID']); 
-    Route::get('/book/shop',[BookController::class,'indexshop']);
-    Route::get('/home/onsale',[BookController::class,'showHomeBookOnSale']);
-    Route::get('/home/popular',[BookController::class,'showHomeBookPopular']); 
-    Route::get('/home/recommended',[BookController::class,'showHomeBookRecommended']); 
-
-    // category routing
-    Route::get('/category',[CategoryController::class,'index']);
-
-    // publisher routing
-    Route::get('/publisher',[PublisherController::class,'getPublisher']);
-
-    // review routing
-    Route::get('/review',[ReviewController::class,'getReviewByBook']);
-    Route::post('/review/create',[ReviewController::class,'createReview']);
-    Route::get('/review/rating', [ReviewController::class, 'getRating']);
+    Route::get('/order',[OrderController::class,'showOrderUser']);
 
     // admin ----------------------------------------------------------------------------------------
     // Manage book routing
@@ -95,7 +66,36 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/admin/ManageDiscount/details/{id}',[DiscountController::class,'showDetailDiscount']);
     Route::post('/admin/ManageDiscount/update/{id}',[DiscountController::class,'updateDiscount']);
 
-    //Manage Order Routing
-    Route::get('/admin/order',[OrderController::class,'showOrder']);
+    //Manage User Routing
+    Route::get('admin/user',[UserController::class,'index']);
+    Route::patch('admin/user/update',[UserController::class,'updateStatus']);
+   
+    Route::get('/showorder',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
-    Route::post('/order/update/status',[OrderController::class,'updateStatusOrder']);
+    Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
+});
+    //login routing
+    Route::post('session', [LoginController::class, 'login'])->name('api.login');
+    Route::post('user/create',[UserController::class,'store']);
+
+    //author routing
+    Route::get('/author',[AuthorController::class,'getAuthor']);
+
+    
+    // book routing
+    Route::get('/book/detail',[BookController::class,'getBookByID']); 
+    Route::get('/book/shop',[BookController::class,'indexshop']);
+    Route::get('/home/onsale',[BookController::class,'showHomeBookOnSale']);
+    Route::get('/home/popular',[BookController::class,'showHomeBookPopular']); 
+    Route::get('/home/recommended',[BookController::class,'showHomeBookRecommended']); 
+
+    // category routing
+    Route::get('/category',[CategoryController::class,'index']);
+
+    // publisher routing
+    Route::get('/publisher',[PublisherController::class,'getPublisher']);
+
+    // review routing
+    Route::get('/review',[ReviewController::class,'getReviewByBook']);
+    Route::post('/review/create',[ReviewController::class,'createReview']);
+    Route::get('/review/rating', [ReviewController::class, 'getRating']);
