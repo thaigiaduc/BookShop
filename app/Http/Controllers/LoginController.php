@@ -38,7 +38,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $user->access_token = $user->createToken("API_TOKEN")->plainTextToken;
-            return response()->json($user,200);
+            if($user->status) return response()->json($user,200);
+            
         }
         return response()->json('Login failed: Invalid username or password.', 422);
     }

@@ -35,6 +35,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //order routing
     Route::post('/order',[OrderController::class,'createorder']);
     Route::get('/order',[OrderController::class,'showOrderUser']);
+
+     // admin ----------------------------------------------------------------------------------------
+    // Manage book routing
+    Route::get('/admin/ManageBook',[BookController::class,'showBookAdmin']);
+    Route::post('/admin/ManageBook/create',[BookController::class,'insertBookAdmin']);
+
+    // Manage author routing
+    Route::get('/admin/ManageAuthor', [AuthorController::class,'getAuthorAdmin']);
+    Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
+    // Manage category routing
+    Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
+    Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
+
+    //Manage Order Routing
+    Route::get('/admin/order',[OrderController::class,'showOrder']);
+    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
+    Route::post('/order/update/status',[OrderController::class,'updateStatusOrder']);
+
+    //Manage User Routing
+    Route::get('admin/user',[UserController::class,'index']);
+    Route::patch('admin/user/update',[UserController::class,'updateStatus']);
    
 });
 
@@ -64,19 +85,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/review/create',[ReviewController::class,'createReview']);
     Route::get('/review/rating', [ReviewController::class, 'getRating']);
 
-    // admin ----------------------------------------------------------------------------------------
-    // Manage book routing
-    Route::get('/admin/ManageBook',[BookController::class,'showBookAdmin']);
-    Route::post('/admin/ManageBook/create',[BookController::class,'insertBookAdmin']);
-
-    // Manage author routing
-    Route::get('/admin/ManageAuthor', [AuthorController::class,'getAuthorAdmin']);
-    Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
-    // Manage category routing
-    Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
-    Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
-
-    //Manage Order Routing
-    Route::get('/admin/order',[OrderController::class,'showOrder']);
-    Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
-    Route::post('/order/update/status',[OrderController::class,'updateStatusOrder']);
+   

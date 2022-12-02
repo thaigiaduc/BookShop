@@ -21,6 +21,7 @@ import ManageAuthor from './admin/pages/ManageAuthor/ManageAuthor';
 import ManageCategory from './admin/pages/ManageCategory/ManageCategory';
 import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
+import ManageUser from './admin/pages/ManageUser/ManageUser';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
@@ -79,7 +80,7 @@ function App() {
             navigate('/admin');
             break;
           case '2':
-            console.log('2');
+            navigate('/admin/ManageUser');
             break;
           case '3':
             navigate('/admin/ManageBook');
@@ -204,6 +205,7 @@ function App() {
               <Route path="admin/ManageAuthor" element={<ManageAuthor />} />
               <Route path="admin/ManageCategory" element={<ManageCategory />} />
               <Route path="admin/ManageOrder" element={<ManageOrder />} />
+              <Route path="admin/ManageUser" element={<ManageUser />} />
             </Routes> 
           </Content>
         </Layout>
@@ -213,7 +215,7 @@ function App() {
   return (
       <div className="d-flex flex-column m-height-100"> 
         {
-          test.indexOf('admin', 0) != -1 ? <RouteAdmin /> : <RouteClient />
+          test.indexOf('admin', 0) != -1 && sessionStorage.getItem('adminIsLogin')  ? <RouteAdmin /> : <RouteClient />
         }
       </div>
   );

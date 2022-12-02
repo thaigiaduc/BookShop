@@ -2,8 +2,9 @@
 import axios from 'axios';
 
 var token = '';
-if(sessionStorage.getItem('userLogin')){
+if(sessionStorage.getItem('userLogin')||sessionStorage.getItem('adminIsLogin')){
     token = sessionStorage.getItem('token');
+ 
 }
 
 const api = axios.create({
