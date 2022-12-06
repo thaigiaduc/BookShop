@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\ImportController;
 use App\Models\Publisher;
 use App\Http\Controllers\UserController;
 /*
@@ -73,6 +74,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/showorder',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
     Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
+
+    //Manage Import Routing
+    Route::post('/admin/import',[ImportController::class,'store']);
 });
     //login routing
     Route::post('session', [LoginController::class, 'login'])->name('api.login');

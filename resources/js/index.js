@@ -87,26 +87,31 @@ function App() {
             navigate('/admin');
             break;
           case '2':
+              navigate('/admin/ImportBook');
+              break;
+          case '3':
             navigate('/admin/ManageUser');
             break;
-          case '3':
+          case '4':
             navigate('/admin/ManageBook');
             break;
-          case '4':
+          case '5':
             navigate('/admin/ManageOrder');
             break;
-          case '5':
+          case '6':
             navigate('/admin/ManageCategory');
             break;
-          case '6':
+          case '7':
             navigate('/admin/ManageAuthor');
             break;
-          case '7':
+          case '8':
             navigate('/admin/ManagePublisher');
             break;
-          case '8':
+          case '9':
             navigate('/admin/ManageDiscount');
             break;
+          case '10':
+            navigate('/admin/Statistic');
           default:
             break;
         }
@@ -132,38 +137,48 @@ function App() {
               },
               {
                 key: '2',
+                icon: <BookOutlined />,
+                label: 'Import Book',
+              },
+              {
+                key: '3',
                 icon: <UserOutlined />,
                 label: 'Manage User',
               },
               {
-                key: '3',
+                key: '4',
                 icon: <BookOutlined />,
                 label: 'Manage Book',
               },
               {
-                key: '4',
+                key: '5',
                 icon: <ReconciliationOutlined />,
                 label: 'Manage Order',
               },
               {
-                key: '5',
+                key: '6',
                 icon: <FormOutlined />,
                 label: 'Manage Category',
               },
               {
-                key: '6',
+                key: '7',
                 icon: <FormOutlined />,
                 label: 'Manage Author',
               },
               {
-                key: '7',
+                key: '8',
                 icon: <FormOutlined />,
                 label: 'Manage Publisher',
               },
               {
-                key: '8',
+                key: '9',
                 icon: <DollarCircleOutlined />,
                 label: 'Manage Promotion',
+              },
+              {
+                key: '10',
+                icon: <BookOutlined />,
+                label: 'Statistic',
               },
               
             ]}
