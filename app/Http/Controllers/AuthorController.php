@@ -46,4 +46,24 @@ class AuthorController extends Controller
             return response()->json($e->getMessage(),404);
         }
     }
+
+    public function showDetailAuthor($id)
+    {
+        try {
+            $authors = $this->authorRepo->showDetailAuthor($id);
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function updateAuthor(StoreAuthorRequest $request, $id)
+    {
+        try {
+            $authors = $this->authorRepo->updateAuthor($request,$id);
+            return response()->json($authors,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

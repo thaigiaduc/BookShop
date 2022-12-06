@@ -99,7 +99,7 @@ function Cart(){
                         setCart([]);
                         toast.success("Success", {
                             position: "top-right",
-                            autoClose: 10000,
+                            autoClose: 5000,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: false,
@@ -108,7 +108,7 @@ function Cart(){
                           });
                           setTimeout(function(){
                             window.location.reload();
-                         }, 10000);
+                         }, 5000);
                         console.log(response);
                     } catch (error) {
                         if(error.response.status === 422){
@@ -136,7 +136,7 @@ function Cart(){
                                 })
                                 toast.error("error", {
                                     position: "top-right",
-                                    autoClose: 10000,
+                                    autoClose: 5000,
                                     hideProgressBar: false,
                                     closeOnClick: true,
                                     pauseOnHover: false,
@@ -157,7 +157,7 @@ function Cart(){
 
     return(
         <section className="cart-page flex-grow-1">
-    <div className="container">
+    <div className="container" style={{marginBottom: '500px'}}>
       <div className="title-section">
         <p className="title-page font-22px">Your cart: {Object.keys(cart).length > 1 ? Object.keys(cart).length +" items":Object.keys(cart).length +" item"}</p>
       </div>
@@ -225,7 +225,7 @@ function Cart(){
                                     <Col xs={12} md={12} lg={2} className="d-flex justify-content-center flex-column">
                                         <h3 className="cart__price__final">${(item.book.final_price * item.quantity).toFixed(2)}</h3>
                                     </Col>
-                                    <hr className="mt-3"/>
+                                    <hr className="mt-3" style = {{width: '95%', align: 'center'}}/>
                                 </Row>
                             );
                         }

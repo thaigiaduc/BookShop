@@ -17,6 +17,7 @@ class Book extends Model
         'publisher_id',
         'book_title',
         'book_summary',
+        'quantity',
         'book_price',
         'book_cover_photo',
     ];

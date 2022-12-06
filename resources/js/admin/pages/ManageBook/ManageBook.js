@@ -32,7 +32,9 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageBook = () => {
+    const [idUpdate, setIdUpdate] = useState(1);
     const [bookListData, setBookListData] = useState([]);
+    const [bookDetailsData, setBookDetailsData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -40,6 +42,10 @@ const ManageBook = () => {
     const [allCategory, setAllCategory] = useState([]);
     const [allPublisher, setAllPublisher] = useState([]);
     const [componentDisabled, setComponentDisabled] = useState(false);
+    // title update
+    const [upBookTitle, setUpBookTitle] = useState("");
+    // check lỗi insert
+    /////////////////////////////////////////////////////////////////////
     const [checkCategoryIS, setCheckCategoryIS] = useState(false);
     const [messageCategoryIS, setMessageCategoryIS] = useState("");
     const [checkAuthorIS, setCheckAuthorIS] = useState(false);
@@ -54,6 +60,7 @@ const ManageBook = () => {
     const [messageQuantityIS, setMessageQuantityIS] = useState("");
     const [checkBookPriceIS, setCheckBookPriceIS] = useState(false);
     const [messageBookPriceIS, setMessageBookPriceIS] = useState("");
+    ////////////////////////////////////////////////////////////////////
     const [dataInsert, setDataInsert] = useState({
         category: 1,
         author: 1,
@@ -63,7 +70,19 @@ const ManageBook = () => {
         quantity: "",
         book_price: "",
         upload: "",
-
+    });
+    const [dataUpdate, setDataUpdate] = useState({
+        category_update: 1,
+        author_update: 1,
+        publisher_update: 1,
+        category_name_update: "",
+        author_name_update: "",
+        publisher_name_update: "",
+        book_title_update: "",
+        book_summary_update: "",
+        quantity_update: 1,
+        book_price_update: "",
+        upload_update: "",
     });
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
@@ -85,6 +104,11 @@ const ManageBook = () => {
         setOpenUpdate(false);
     };
 
+    const handleModalUpdate = (id) => {
+        setIdUpdate(id);
+        setOpenUpdate(true);
+    }
+
     useEffect(() => {
         const fetchProductList = async () => {
             const bookList = await servicesForManageBook.getBookAdmin();
@@ -98,175 +122,102 @@ const ManageBook = () => {
         };
       fetchProductList();
     }, []);
+
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            const bookdetails = await servicesForManageBook.getDetails(idUpdate);
+            setBookDetailsData(bookdetails);
+            setDataUpdate({
+                category_update: bookdetails[0].category_id,
+                category_name_update: bookdetails[0].category_name,
+                author_update: bookdetails[0].author_id,
+                author_name_update: bookdetails[0].author_name,
+                publisher_update: bookdetails[0].publisher_id,
+                publisher_name_update: bookdetails[0].publisher_name,
+                book_title_update: bookdetails[0].book_title,
+                book_summary_update: bookdetails[0].book_summary,
+                quantity_update: bookdetails[0].quantity,
+                book_price_update: bookdetails[0].book_price,
+                upload_update: bookdetails[0].book_cover_photo,
+            })
+        };
+        fetchProductDetails();
+    }, [idUpdate]);
     const columns = [
         {
           title: 'Id',
           dataIndex: 'id',
-        //   filters: [
-        //     {
-        //       text: 'Joe',
-        //       value: 'Joe',
-        //     },
-        //     {
-        //       text: 'Jim',
-        //       value: 'Jim',
-        //     },
-        //     {
-        //       text: 'Submenu',
-        //       value: 'Submenu',
-        //       children: [
-        //         {
-        //           text: 'Green',
-        //           value: 'Green',
-        //         },
-        //         {
-        //           text: 'Black',
-        //           value: 'Black',
-        //         },
-        //       ],
-        //     },
-        //   ],
-          // specify the condition of filtering result
-          // here is that finding the name started with `value`
-        //   onFilter: (value, record) => record.name.indexOf(value) === 0,
-        //   sorter: (a, b) => a.name.length - b.name.length,
-        //   sortDirections: ['descend'],
         },
         {
             title: 'Category',
             dataIndex: 'category',
-        //   defaultSortOrder: 'descend',
-        //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Author',
             dataIndex: 'author',
-          //   defaultSortOrder: 'descend',
-          //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Publisher',
             dataIndex: 'publisher',
-          //   defaultSortOrder: 'descend',
-          //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Book_title',
             dataIndex: 'book_title',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Book_summary',
             dataIndex: 'book_summary',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
+        },
+        {
+            title: 'Quantity',
+            dataIndex: 'quantity',
         },
         {
             title: 'Book_price',
             dataIndex: 'book_price',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Book_cover_photo',
             dataIndex: 'book_cover_photo',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Update',
             dataIndex: 'update',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Delete',
             dataIndex: 'delete',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
     ];
+
     const data = [];
-    bookListData.map((book) => {
-        var dataItem = {
-            key: book.id,
-            id: book.id,
-            category: book.category_name,
-            author: book.author_name,
-            publisher: book.publisher_name,
-            book_title: book.book_title,
-            book_summary: book.book_summary,
-            book_price: book.book_price,
-            book_cover_photo: 
-            <Image
-                width={200}
-                src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
-            />,   
-            update: 
-                <Button type="text" icon={<SettingOutlined />} >
-                </Button>,
-            delete: 
-                <Button type="text" icon={<CloseOutlined />}>
-                </Button>,
-        }
-        data.push(dataItem);
-    }); 
-        
+    if(bookListData.length > 0) {
+        bookListData.map((book) => {
+            var dataItem = {
+                key: book.id,
+                id: book.id,
+                category: book.category_name,
+                author: book.author_name,
+                publisher: book.publisher_name,
+                book_title: book.book_title,
+                book_summary: book.book_summary,
+                quantity: book.quantity,
+                book_price: book.book_price,
+                book_cover_photo: 
+                <Image
+                    width={200}
+                    src={book.book_cover_photo ? Images[book.book_cover_photo]:Images['defaultBook']}
+                />,   
+                update: 
+                    <Button type="text" onClick={() => handleModalUpdate(book.id)} icon={<SettingOutlined />} >
+                    </Button>,
+                delete: 
+                    <Button type="text" icon={<CloseOutlined />}>
+                    </Button>,
+            }
+            data.push(dataItem);
+        }); 
+    }
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
@@ -353,6 +304,33 @@ const ManageBook = () => {
         InsertBook();
     }
 
+    function handleSubmitUpdate(e) {
+        e.preventDefault();
+        const UpdateBook = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                const c = await servicesForManageBook.updateBook({
+                    category_id: dataUpdate.category_update,
+                    author_id: dataUpdate.author_update,
+                    publisher_id: dataUpdate.publisher_update,
+                    book_title: dataUpdate.book_title_update,
+                    book_summary: dataUpdate.book_summary_update,
+                    quantity: dataUpdate.quantity_update,
+                    book_price: dataUpdate.book_price_update,
+                    book_cover_photo: null,
+                },idUpdate);
+                if(c.status_code !== 422) {
+                    alert('success');
+                } else {
+                    alert('failed');
+                }        
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        UpdateBook();
+    }
+
     const props = {
         action: '../../../../assets',
         listType: 'picture',
@@ -384,6 +362,12 @@ const ManageBook = () => {
         let newData ={...dataInsert}
         newData[e.target.id] = e.target.value;
         setDataInsert(newData);
+    }
+
+    function handleUpdate(e) {
+        let newData ={...dataUpdate}
+        newData[e.target.id] = e.target.value;
+        setDataUpdate(newData);
     }
 
     return (
@@ -463,7 +447,7 @@ const ManageBook = () => {
                             <select className="form-select" id="author" onChange={(e) => handle(e)} value={dataInsert.author}>
                             {
                                 allAuthor.map((item,index) => (                                
-                                    <option key={index} value={item.author_id}>{item.author_name}</option>
+                                    <option key={index} value={item.id}>{item.author_name}</option>
                                 ))
                             }                    
                             </select>
@@ -478,10 +462,10 @@ const ManageBook = () => {
                         </Form.Item>
 
                         <Form.Item label="Category"> 
-                            <select className="form-select" id="category" onChange={(e) => handle(e)} value={dataInsert.cactegory}>
+                            <select className="form-select" id="category" onChange={(e) => handle(e)} value={dataInsert.category}>
                             {
                                 allCategory.map((item,index) => (                                
-                                    <option key={index} value={item.category_id}>{item.category_name}</option> 
+                                    <option key={index} value={item.id}>{item.category_name}</option> 
                                 ))
                             }                    
                             </select>  
@@ -499,7 +483,7 @@ const ManageBook = () => {
                             <select className="form-select" id="publisher" onChange={(e) => handle(e)} value={dataInsert.publisher}>
                             {
                                 allPublisher.map((item,index) => (                                
-                                    <option key={index} value={item.publisher_id}>{item.publisher_name}</option> 
+                                    <option key={index} value={item.id}>{item.publisher_name}</option> 
                                 ))
                             }                    
                             </select> 
@@ -522,18 +506,85 @@ const ManageBook = () => {
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
                     </Form>
                 </Modal>
-
-                <Modal
-                    title="Update Information Book"
-                    open={openUpdate}               
-                    footer={null}
-                    confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
-                >
-                    
-                </Modal>
             </Col>
         </Row>
+        <Modal
+            title="Update Information Book"
+            open={openUpdate}               
+            footer={null}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancelUpdate}
+        >
+            <Form
+                        labelCol={{
+                            span: 8,
+                          }}
+                          wrapperCol={{
+                            span: 14,
+                          }}
+                          layout="horizontal"
+                          onValuesChange={onFormLayoutChange}
+                          disabled={componentDisabled}
+            >
+                        <h5>ID: {idUpdate}</h5>
+                        <Form.Item label="Book_title">
+                            <Input id="book_title_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.book_title_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Book_summary">
+                            <TextArea rows={3} id="book_summary_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.book_summary_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Quantity">
+                            <Input id="quantity_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.quantity_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Book_price">
+                            <Input id="book_price_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.book_price_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Author"> 
+                            <select className="form-select" id="author_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_update}>
+                                <option onChange={(e) => handleUpdate(e)} defaultValue = {dataUpdate.author_update}>{dataUpdate.author_name_update}</option>
+                            {
+                                allAuthor.map((item,index) => (                                
+                                    <option key={index} value={item.id}>{item.author_name}</option>
+                                ))
+                            }                    
+                            </select>
+                        </Form.Item>
+
+                        <Form.Item label="Category"> 
+                            <select className="form-select" id="category_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.category_update}>
+                                <option defaultValue = {dataUpdate.category_update}>{dataUpdate.category_name_update}</option>
+                            {
+                                allCategory.map((item,index) => (                                
+                                    <option key={index} value={item.id}>{item.category_name}</option> 
+                                ))
+                            }                    
+                            </select>  
+                        </Form.Item>
+
+                        <Form.Item label="Publisher">
+                            <select className="form-select" id="publisher_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.publisher_update}>
+                            <option defaultValue = {dataUpdate.publisher_update}>{dataUpdate.publisher_name_update}</option>
+                            {
+                                allPublisher.map((item,index) => (                                
+                                    <option key={index} value={item.id}>{item.publisher_name}</option> 
+                                ))
+                            }                    
+                            </select> 
+                        </Form.Item>
+
+                        <Form.Item label="Book_cover_photo" valuePropName="fileList">
+                        <Upload {...props}>
+                            <Button icon={<UploadOutlined />}>Upload</Button>
+                        </Upload>
+                        </Form.Item>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
+                        <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
+                    </Form>
+        </Modal>
         <Table columns={columns} dataSource={data} onChange={onChange} />
       </Container>
     );

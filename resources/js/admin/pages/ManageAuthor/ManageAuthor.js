@@ -32,7 +32,9 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageAuthor = () => {
+    const [idUpdate, setIdUpdate] = useState(1);
     const [authorListData, setAuthorListData] = useState([]);
+    const [authorDetailsData, setauthorDetailsData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -42,10 +44,21 @@ const ManageAuthor = () => {
         author_name: "",
         author_bio: "",
     });
+    const [dataUpdate, setDataUpdate] = useState({
+        author_name_update: "",
+        author_bio_update: "",
+    });
+    //////////////////////////////////////////////////////////////////////////////
     const [checkAuthorNameIS, setCheckAuthorNameIS] = useState(false);
     const [messageAuthorNameIS, setMessageAuthorNameIS] = useState("");
     const [checkAuthorBioIS, setCheckAuthorBioIS] = useState(false);
     const [messageAuthorBioIS, setMessageAuthorBioIS] = useState("");
+    //////////////////////////////////////////////////////////////////////////////
+    const [checkAuthorNameUpIS, setCheckAuthorNameUpIS] = useState(false);
+    const [messageAuthorNameUpIS, setMessageAuthorNameUpIS] = useState("");
+    const [checkAuthorBioUpIS, setCheckAuthorBioUpIS] = useState(false);
+    const [messageAuthorBioUpIS, setMessageAuthorBioUpIS] = useState("");
+    //////////////////////////////////////////////////////////////////////////////
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -66,88 +79,51 @@ const ManageAuthor = () => {
         setOpenUpdate(false);
     };
 
+    const handleModalUpdate = (id) => {
+        setIdUpdate(id);
+        setOpenUpdate(true);
+    }
+
     useEffect(() => {
-        const fetchProductList = async () => {
+        const fetchAuthorList = async () => {
             const authorList = await servicesForManageAuthor.getAuthorAdmin();
             setAuthorListData(authorList);      
         };
-      fetchProductList();
+      fetchAuthorList();
     }, []);
+
+    useEffect(() => {
+        const fetchAuthorDetails = async () => {
+            const authordetails = await servicesForManageAuthor.getDetails(idUpdate);
+            setauthorDetailsData(authordetails);
+            setDataUpdate({
+                author_name_update: authordetails[0].author_name,
+                author_bio_update: authordetails[0].author_bio,
+            })
+        };
+        fetchAuthorDetails();
+    }, [idUpdate]);
+
     const columns = [
         {
           title: 'Id',
           dataIndex: 'id',
-        //   filters: [
-        //     {
-        //       text: 'Joe',
-        //       value: 'Joe',
-        //     },
-        //     {
-        //       text: 'Jim',
-        //       value: 'Jim',
-        //     },
-        //     {
-        //       text: 'Submenu',
-        //       value: 'Submenu',
-        //       children: [
-        //         {
-        //           text: 'Green',
-        //           value: 'Green',
-        //         },
-        //         {
-        //           text: 'Black',
-        //           value: 'Black',
-        //         },
-        //       ],
-        //     },
-        //   ],
-          // specify the condition of filtering result
-          // here is that finding the name started with `value`
-        //   onFilter: (value, record) => record.name.indexOf(value) === 0,
-        //   sorter: (a, b) => a.name.length - b.name.length,
-        //   sortDirections: ['descend'],
         },
         {
             title: 'Author Name',
             dataIndex: 'author_name',
-        //   defaultSortOrder: 'descend',
-        //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Author Bio',
             dataIndex: 'author_bio',
-          //   defaultSortOrder: 'descend',
-          //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Update',
             dataIndex: 'update',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Delete',
             dataIndex: 'delete',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
     ];
     const data = [];
@@ -158,7 +134,7 @@ const ManageAuthor = () => {
             author_name: author.author_name,
             author_bio: author.author_bio,
             update: 
-                <Button type="text" icon={<SettingOutlined />} >
+                <Button type="text" onClick={() => handleModalUpdate(author.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
                 <Button type="text" icon={<CloseOutlined />}>
@@ -207,10 +183,51 @@ const ManageAuthor = () => {
         InsertAuthor();
     }
 
+    function handleSubmitUpdate(e) {
+        e.preventDefault();
+        const UpdateAuthor = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                const c = await servicesForManageAuthor.updateAuthor({
+                    author_name: dataUpdate.author_name_update,
+                    author_bio: dataUpdate.author_bio_update,
+                },idUpdate);
+                if(c.status_code !== 422) {
+                    alert('success');
+                } else {
+                    if(typeof c.data.author_name !== "undefined") {
+                        setCheckAuthorNameUpIS(true);
+                        setMessageAuthorNameUpIS(c.data.author_name[0]);        
+                    } else {
+                        setCheckAuthorNameUpIS(false);
+                        setMessageAuthorNameUpIS("");     
+                    }
+
+                    if(typeof c.data.author_bio !== "undefined") {
+                        setCheckAuthorBioUpIS(true);
+                        setMessageAuthorBioUpIS(c.data.author_bio[0]);        
+                    } else {
+                        setCheckAuthorBioUpIS(false);
+                        setMessageAuthorBioUpIS("");     
+                    }
+                }        
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        UpdateAuthor();
+    }
+
     function handle(e) {
         let newData ={...dataInsert}
         newData[e.target.id] = e.target.value;
         setDataInsert(newData);
+    }
+
+    function handleUpdate(e) {
+        let newData ={...dataUpdate}
+        newData[e.target.id] = e.target.value;
+        setDataUpdate(newData);
     }
 
     return (
@@ -268,13 +285,50 @@ const ManageAuthor = () => {
                 </Modal>
 
                 <Modal
-                    title="Update Information Book"
+                    title="Update Information Author"
                     open={openUpdate}               
                     footer={null}
                     confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
+                    onCancel={handleCancelUpdate}
                 >
-                    
+                    <Form
+                        labelCol={{
+                            span: 8,
+                          }}
+                          wrapperCol={{
+                            span: 14,
+                          }}
+                          layout="horizontal"
+                          onValuesChange={onFormLayoutChange}
+                          disabled={componentDisabled}
+                    >
+                        <h5>ID: {idUpdate}</h5>
+                        <Form.Item label="Author Name">
+                            <Input id="author_name_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_name_update} />
+                            {
+                                checkAuthorNameUpIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorNameUpIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
+                        </Form.Item>
+
+                        <Form.Item label="Author Bio">
+                            <TextArea rows={3} id="author_bio_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.author_bio_update} />
+                            {
+                                checkAuthorBioUpIS != false ? 
+                                <small>
+                                    <Alert variant="danger">
+                                        {messageAuthorBioUpIS}
+                                    </Alert> 
+                                </small> : ""
+                            }
+                        </Form.Item>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
+                        <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
+                    </Form>
                 </Modal>
             </Col>
         </Row>

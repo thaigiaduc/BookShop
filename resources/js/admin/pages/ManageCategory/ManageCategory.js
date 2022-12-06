@@ -32,7 +32,9 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageCategory = () => {
+    const [idUpdate, setIdUpdate] = useState(1);
     const [categoryListData, setCategoryListData] = useState([]);
+    const [categoryDetailsData, setcategoryDetailsData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -41,6 +43,10 @@ const ManageCategory = () => {
     const [dataInsert, setDataInsert] = useState({
         category_name: "",
         category_desc: "",
+    });
+    const [dataUpdate, setDataUpdate] = useState({
+        category_name_update: "",
+        category_desc_update: "",
     });
     const [checkCategoryNameIS, setCheckCategoryNameIS] = useState(false);
     const [messageCategoryNameIS, setMessageCategoryNameIS] = useState("");
@@ -66,88 +72,51 @@ const ManageCategory = () => {
         setOpenUpdate(false);
     };
 
+    const handleModalUpdate = (id) => {
+        setIdUpdate(id);
+        setOpenUpdate(true);
+    }
+
     useEffect(() => {
-        const fetchProductList = async () => {
+        const fetchCategoryList = async () => {
             const categoryList = await servicesForManageCategory.getCategoryAdmin();
             setCategoryListData(categoryList);      
         };
-      fetchProductList();
+      fetchCategoryList();
     }, []);
+
+    useEffect(() => {
+        const fetchCategoryDetails = async () => {
+            const categorydetails = await servicesForManageCategory.getDetails(idUpdate);
+            setcategoryDetailsData(categorydetails);
+            setDataUpdate({
+                category_name_update: categorydetails[0].category_name,
+                category_desc_update: categorydetails[0].category_desc,
+            })
+        };
+        fetchCategoryDetails();
+    }, [idUpdate]);
+
     const columns = [
         {
           title: 'Id',
           dataIndex: 'id',
-        //   filters: [
-        //     {
-        //       text: 'Joe',
-        //       value: 'Joe',
-        //     },
-        //     {
-        //       text: 'Jim',
-        //       value: 'Jim',
-        //     },
-        //     {
-        //       text: 'Submenu',
-        //       value: 'Submenu',
-        //       children: [
-        //         {
-        //           text: 'Green',
-        //           value: 'Green',
-        //         },
-        //         {
-        //           text: 'Black',
-        //           value: 'Black',
-        //         },
-        //       ],
-        //     },
-        //   ],
-          // specify the condition of filtering result
-          // here is that finding the name started with `value`
-        //   onFilter: (value, record) => record.name.indexOf(value) === 0,
-        //   sorter: (a, b) => a.name.length - b.name.length,
-        //   sortDirections: ['descend'],
         },
         {
             title: 'Category Name',
             dataIndex: 'category_name',
-        //   defaultSortOrder: 'descend',
-        //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Category desc',
             dataIndex: 'category_desc',
-          //   defaultSortOrder: 'descend',
-          //   sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Update',
             dataIndex: 'update',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
         {
             title: 'Delete',
             dataIndex: 'delete',
-        //   filters: [
-        //     {
-        //       text: 'London',
-        //       value: 'London',
-        //     },
-        //     {
-        //       text: 'New York',
-        //       value: 'New York',
-        //     },
-        //   ],
-        //  onFilter: (value, record) => record.address.indexOf(value) === 0,
         },
     ];
     const data = [];
@@ -158,7 +127,7 @@ const ManageCategory = () => {
             category_name: category.category_name,
             category_desc: category.category_desc,
             update: 
-                <Button type="text" icon={<SettingOutlined />} >
+                <Button type="text" onClick={() => handleModalUpdate(category.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
                 <Button type="text" icon={<CloseOutlined />}>
@@ -208,10 +177,37 @@ const ManageCategory = () => {
         InsertCategory();
     }
 
+    function handleSubmitUpdate(e) {
+        e.preventDefault();
+        const UpdateCategory = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                const c = await servicesForManageCategory.updateCategory({
+                    category_name: dataUpdate.category_name_update,
+                    category_desc: dataUpdate.category_desc_update,
+                },idUpdate);
+                if(c.status_code !== 422) {
+                    alert('success');
+                } else {
+                    alert('failed');
+                }        
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        UpdateCategory();
+    }
+
     function handle(e) {
         let newData ={...dataInsert}
         newData[e.target.id] = e.target.value;
         setDataInsert(newData);
+    }
+
+    function handleUpdate(e) {
+        let newData ={...dataUpdate}
+        newData[e.target.id] = e.target.value;
+        setDataUpdate(newData);
     }
 
     return (
@@ -269,13 +265,34 @@ const ManageCategory = () => {
                 </Modal>
 
                 <Modal
-                    title="Update Information Book"
+                    title="Update Information Category"
                     open={openUpdate}               
                     footer={null}
                     confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
+                    onCancel={handleCancelUpdate}
                 >
-                    
+                    <Form
+                        labelCol={{
+                            span: 8,
+                          }}
+                          wrapperCol={{
+                            span: 14,
+                          }}
+                          layout="horizontal"
+                          onValuesChange={onFormLayoutChange}
+                          disabled={componentDisabled}
+                    >
+                        <h5>ID: {idUpdate}</h5>
+                        <Form.Item label="Category Name">
+                            <Input id="category_name_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.category_name_update} />
+                        </Form.Item>
+
+                        <Form.Item label="Category Desc">
+                            <TextArea rows={3} id="category_desc_update" onChange={(e) => handleUpdate(e)} value={dataUpdate.category_desc_update} />
+                        </Form.Item>
+                        <Button type="primary" onClick={handleCancelUpdate}>Cancel</Button>
+                        <Button type="submit" onClick={(e) => handleSubmitUpdate(e)}>Update</Button>
+                    </Form>
                 </Modal>
             </Col>
         </Row>

@@ -46,4 +46,24 @@ class CategoryController extends Controller
             return response()->json($e->getMessage(),404);
         }
     }
+
+    public function showDetailCategory($id)
+    {
+        try {
+            $cate = $this->categoryRepo->showDetailCategory($id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function updateCategory(StoreCategoryRequest $request, $id)
+    {
+        try {
+            $cate = $this->categoryRepo->updateCategory($request,$id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

@@ -37,13 +37,20 @@ class CategoryRepository
     }
 
     // sửa danh mục sản phẩm
-    public function updateCategory(CategoryRequest $request, $id)
+    public function updateCategory($request, $id)
     {
         $category = Category::where('id',$id)->update([
             'category_name' => $request->category_name,
             'category_desc' => $request->category_desc
         ]);
 
+        return $category;
+    }
+
+    // show chi tiết danh mục sản phẩm
+    public function showDetailCategory($id) 
+    {
+        $category = Category::where('id',$id)->get();
         return $category;
     }
 

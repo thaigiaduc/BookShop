@@ -201,7 +201,7 @@ const handleFilter = (value,name,key) => {
 }
   return (
       <section className="shop-page flex-grow-1">
-        <div className="container">
+        <div className="container" style={{marginBottom: '200px'}}>
           <div className="title-page">
             <p>
               Books <span>(Filtered by {handleshowing()})</span>
