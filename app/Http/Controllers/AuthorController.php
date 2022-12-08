@@ -27,10 +27,10 @@ class AuthorController extends Controller
     }
 
     // admin ---------------------------------------------------------------------------------
-    public function getAuthorAdmin()
+    public function getAuthorAdmin(Request $request)
     {
         try {
-            $authors = $this->authorRepo->showAuthor();
+            $authors = $this->authorRepo->showAuthor($request);
             return response()->json($authors,200);
         } catch(\Exception $e) {
             return response()->json($e->getMessage(),404);

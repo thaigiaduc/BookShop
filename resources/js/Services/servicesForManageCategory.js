@@ -1,9 +1,9 @@
 import api from "./api";
 
 const serviceForManageCategory = {
-    getCategoryAdmin: () => {
+    getCategoryAdmin: (params) => {
         const url = "/api/admin/ManageCategory";
-        return api.get(url);
+        return api.get(url, {params});
     },
 
     insertCategory: (object) => {

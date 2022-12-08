@@ -40,9 +40,9 @@ class BookController extends Controller
     }
 
     // admin -----------------------------------------------
-    public function showBookAdmin()
+    public function showBookAdmin(Request $request)
     {
-        $res = $this->bookrepo->showBook();
+        $res = $this->bookrepo->showBook($request);
         return response()->json($res,200);
     }
 

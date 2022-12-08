@@ -19,9 +19,9 @@ class PublisherRepository
     }
 
     // admin ---------------------------------------------------------
-    public function showPublisherAdmin()
+    public function showPublisherAdmin($request)
     {
-        $publisher = Publisher::orderBy('id','asc');
+        $publisher = Publisher::orderBy('id','asc')->search($request);
         return $publisher->get();
     }
     // thêm nhà cung cấp

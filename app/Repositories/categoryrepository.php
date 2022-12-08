@@ -20,9 +20,9 @@ class CategoryRepository
     }
 
     // admin ----------------------------------------------------------
-    public function showCategory()
+    public function showCategory($request)
     {
-        $category = Category::orderBy('id','asc')->get();
+        $category = Category::orderBy('id','asc')->search($request)->get();
         return $category;
     }
     // thêm danh mục sản phẩm

@@ -1,9 +1,9 @@
 import api from "./api";
 
 const serviceForManageBook = {
-    getBookAdmin: () => {
-        const url = "/api/admin/ManageBook";
-        return api.get(url);
+    getBookAdmin: (params) => {
+        const url = `/api/admin/ManageBook`;
+        return api.get(url, {params});
     },
     
     getCategory: () => {

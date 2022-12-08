@@ -39,10 +39,10 @@ class publisherController extends Controller
     }
 
     // admin ---------------------------------------------------------------------------------------
-    public function showPublisher()
+    public function showPublisher(Request $request)
     {
         try {
-            $publisherres = $this->publisherRepo->showPublisherAdmin();
+            $publisherres = $this->publisherRepo->showPublisherAdmin($request);
             return response()->json($publisherres,200);
         } catch(\Exception $e) {
             return response()->json(500);

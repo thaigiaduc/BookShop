@@ -32,8 +32,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user/detail',[UserController::class,'getUserDetail']);
   
     //order routing
-    Route::post('/order',[OrderController::class,'createorder']);
-    Route::get('/order',[OrderController::class,'showOrderUser']);
+    Route::post('/admin/order',[OrderController::class,'createorder']);
+    Route::get('/admin/order',[OrderController::class,'showOrderUser']);
 
     // admin ----------------------------------------------------------------------------------------
     // Manage book routing

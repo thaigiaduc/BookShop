@@ -27,10 +27,10 @@ class CategoryController extends Controller
     }
 
     //admin ------------------------------------------------------------------------------
-    public function getCategoryAdmin()
+    public function getCategoryAdmin(Request $request)
     {
         try {
-            $cate = $this->categoryRepo->showCategory();
+            $cate = $this->categoryRepo->showCategory($request);
             return response()->json($cate,200);
         } catch(\Exception $e) {
             return response()->json($e->getMessage(),404);

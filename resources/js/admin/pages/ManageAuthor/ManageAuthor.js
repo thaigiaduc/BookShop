@@ -32,6 +32,10 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageAuthor = () => {
+    const [params, setParams] = useState({
+        ...params,
+        search: '',
+    });
     const [idUpdate, setIdUpdate] = useState(1);
     const [authorListData, setAuthorListData] = useState([]);
     const [authorDetailsData, setauthorDetailsData] = useState([]);
@@ -86,11 +90,11 @@ const ManageAuthor = () => {
 
     useEffect(() => {
         const fetchAuthorList = async () => {
-            const authorList = await servicesForManageAuthor.getAuthorAdmin();
+            const authorList = await servicesForManageAuthor.getAuthorAdmin(params);
             setAuthorListData(authorList);      
         };
       fetchAuthorList();
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         const fetchAuthorDetails = async () => {
@@ -230,11 +234,57 @@ const ManageAuthor = () => {
         setDataUpdate(newData);
     }
 
+    function handleSearch(e) {
+        const se = document.getElementById('search').value;
+        setParams({
+            ...params,
+            search: se,
+        })
+        console.log(se);
+    }
+
+    function handleSearchPro(e) {
+        const se = document.getElementById('search').value;
+        console.log(se);
+        setParams({
+            ...params,
+            search: se,
+        })
+    }
+
     return (
       <Container fluid>
         <Row>
             <Col xs lg={10}>
-                <h2>Manage Author</h2>
+                <div style={{display: "flex"}}>
+                    <h2 style={{paddingRight: "100px"}}>Manage Author</h2>
+                    <Form
+                        name="basic"
+                        // labelCol={{
+                        //     span: 8,
+                        // }}
+                        // wrapperCol={{
+                        //     span: 16,
+                        // }}
+                        autoComplete="off"
+                        >
+                        <Form.Item
+                            label="Search"
+                            nam="search"
+                        >
+                            <Input.Search
+                                allowClear
+                                style={{
+                                width: '100%',
+                                }}
+                                id="search"
+                                placeholder="Search..."
+                                // onChange = {(e) => handleSearchPro(e)}
+                                onSearch = {(e) => handleSearch(e)}
+                            />
+                        </Form.Item>
+                    </Form>
+                </div>
             </Col>
             <Col xs lg={2}>
                 <Button color="secondary" onClick={showModal}>Create new Author</Button>

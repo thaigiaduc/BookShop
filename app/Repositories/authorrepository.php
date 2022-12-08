@@ -19,13 +19,12 @@ class AuthorRepository
     }
 
     // admin ---------------------------------------------------------
-    // thêm tác giả
-    public function showAuthor()
+    public function showAuthor($request)
     {
-        $author = Author::orderBy('id','asc')->get();
+        $author = Author::orderBy('id','asc')->search($request)->get();
         return $author;
     }
-
+    // thêm tác giả
     public function insertAuthor(Request $request)
     {
         $author = Author::create([

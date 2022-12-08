@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
@@ -58,5 +59,18 @@ class Book extends Model
     public function review()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function scopeSearch($query, $request)
+    {
+        $query->when($request->has('search'), function ($query) use ($request) {
+            $query->where(DB::raw('lower(book_title)'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ->orWhere(DB::raw('lower(book_summary)'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ->orWhere(DB::raw('lower(author_name)'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ->orWhere(DB::raw('lower(category_name)'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ->orWhere(DB::raw('lower(publisher_name)'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ->orWhere(DB::raw('book_price'), 'like', '%' . strtolower($request->input('search')) . '%')
+                ;
+        });
     }
 }

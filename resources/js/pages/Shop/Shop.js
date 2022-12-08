@@ -8,7 +8,17 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from "react-router-dom";
 import queryString from 'query-string';
 import { Dropdown } from 'react-bootstrap';
-  
+import Row from 'react-bootstrap/Row';
+import {
+  SettingOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  UploadOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup'
+import Button from 'react-bootstrap/Button';
 const Shop = () => {
   const Navigate = useNavigate();
   const [total, setTotal] = useState(0);
@@ -25,6 +35,7 @@ const Shop = () => {
     sort: 1,
     page: 1,
     limit: 15,
+    search: '',
 });
 const sortby = {
     "1": "On Sale",
@@ -199,13 +210,45 @@ const handleFilter = (value,name,key) => {
       }
     setCurrentPage(1);
 }
+
+function handleSearch(e) {
+  e.preventDefault();
+  const se = document.getElementById('search').value;
+  console.log(se);
+  setFilter({
+    ...filter,
+    search: se,
+  });
+} 
   return (
       <section className="shop-page flex-grow-1">
         <div className="container" style={{marginBottom: '200px'}}>
-          <div className="title-page">
-            <p>
-              Books <span>(Filtered by {handleshowing()})</span>
-            </p>
+          <div className="row">
+            <div className="col">
+                <div className="title-page">
+                  <p>
+                    Books <span>(Filtered by {handleshowing()})</span>
+                  </p>
+                </div>
+            </div>
+            <div className="col">
+              <div style={{padding: '2rem 0', display: 'flex'}}>
+              <Form.Group as={Row} className="mb-3" controlId="search">
+                <Form.Label column sm="2" >
+                  Search: 
+                </Form.Label>
+                <Col sm="10">
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="Search..."
+                    
+                  />
+                  <Button variant="outline-secondary" onClick={(e) => handleSearch(e)}><SearchOutlined /></Button>
+                </InputGroup>
+                </Col>
+              </Form.Group>
+              </div>
+            </div>
           </div>
 
           <div className="book-list">

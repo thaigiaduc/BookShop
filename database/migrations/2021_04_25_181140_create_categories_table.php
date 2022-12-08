@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('category_name', 120);
             $table->string('category_desc', 255)->nullable();
-            $table->softDeletes();
+            $table->boolean('isdelete');
         });
     }
 

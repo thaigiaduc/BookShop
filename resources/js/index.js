@@ -70,6 +70,7 @@ function App() {
   const RouteAdmin = () => {   
     const handleLogout = () => {
       navigate('/');
+      sessionStorage.clear();
       window.location.reload();
     }
       document.title = "welcome to admin";
@@ -187,7 +188,7 @@ function App() {
             unCheckedChildren="Light"
           />
           <Button variant="light" style={{marginLeft: "1500px"}} onClick={handleLogout}>
-            <UserOutlined />Log out
+            Log out
           </Button>
           </Header>
           <Content

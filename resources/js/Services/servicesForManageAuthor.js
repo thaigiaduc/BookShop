@@ -1,9 +1,9 @@
 import api from "./api";
 
 const serviceForManageAuthor = {
-    getAuthorAdmin: () => {
+    getAuthorAdmin: (params) => {
         const url = "/api/admin/ManageAuthor";
-        return api.get(url);
+        return api.get(url, {params});
     },
 
     insertAuthor: (object) => {

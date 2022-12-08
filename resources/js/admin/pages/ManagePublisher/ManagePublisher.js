@@ -32,6 +32,10 @@ import {
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManagePublisher = () => {
+    const [params, setParams] = useState({
+        ...params,
+        search: '',
+    })
     const [idUpdate, setIdUpdate] = useState(1);
     const [publisherListData, setPublisherListData] = useState([]);
     const [publisherDetailsData, setpublisherDetailsData] = useState([]);
@@ -79,11 +83,11 @@ const ManagePublisher = () => {
 
     useEffect(() => {
         const fetchProductList = async () => {
-            const publisherList = await servicesForManagePublisher.getPublisherAdmin();
+            const publisherList = await servicesForManagePublisher.getPublisherAdmin(params);
             setPublisherListData(publisherList);      
         };
       fetchProductList();
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         const fetchPublisherDetails = async () => {
@@ -210,11 +214,57 @@ const ManagePublisher = () => {
         setDataUpdate(newData);
     }
 
+    function handleSearch(e) {
+        const se = document.getElementById('search').value;
+        setParams({
+            ...params,
+            search: se,
+        })
+        console.log(se);
+    }
+
+    function handleSearchPro(e) {
+        const se = document.getElementById('search').value;
+        console.log(se);
+        setParams({
+            ...params,
+            search: se,
+        })
+    }
+    
     return (
       <Container fluid>
         <Row>
             <Col xs lg={10}>
-                <h2>Manage Publisher</h2>
+                <div style={{display: "flex"}}>
+                    <h2 style={{paddingRight: "100px"}}>Manage Publisher</h2>
+                    <Form
+                        name="basic"
+                        // labelCol={{
+                        //     span: 8,
+                        // }}
+                        // wrapperCol={{
+                        //     span: 16,
+                        // }}
+                        autoComplete="off"
+                        >
+                        <Form.Item
+                            label="Search"
+                            nam="search"
+                        >
+                            <Input.Search
+                                allowClear
+                                style={{
+                                width: '100%',
+                                }}
+                                id="search"
+                                placeholder="Search..."
+                                // onChange = {(e) => handleSearchPro(e)}
+                                onSearch = {(e) => handleSearch(e)}
+                            />
+                        </Form.Item>
+                    </Form>
+                </div>
             </Col>
             <Col xs lg={2}>
                 <Button color="secondary" onClick={showModal}>Create new Publisher</Button>

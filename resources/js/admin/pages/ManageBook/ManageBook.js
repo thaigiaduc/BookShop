@@ -28,10 +28,17 @@ import {
     CloseOutlined,
     PlusOutlined,
     UploadOutlined,
+    SearchOutlined,
 } from '@ant-design/icons';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ManageBook = () => {
+    const [params, setParams] = useState({
+        search: '',
+    });
+    const [dataSearch, setDataSearch] = useState({
+        search: '',
+    });
     const [idUpdate, setIdUpdate] = useState(1);
     const [bookListData, setBookListData] = useState([]);
     const [bookDetailsData, setBookDetailsData] = useState([]);
@@ -111,7 +118,7 @@ const ManageBook = () => {
 
     useEffect(() => {
         const fetchProductList = async () => {
-            const bookList = await servicesForManageBook.getBookAdmin();
+            const bookList = await servicesForManageBook.getBookAdmin(params);
             const resultAuthors = await servicesForManageBook.getAuthor();
             const resultCategories = await servicesForManageBook.getCategory();
             const resultPublishers = await servicesForManageBook.getPublisher();
@@ -121,7 +128,7 @@ const ManageBook = () => {
             setAllPublisher(resultPublishers.data);
         };
       fetchProductList();
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -332,7 +339,7 @@ const ManageBook = () => {
     }
 
     const props = {
-        action: '../../../../assets',
+        action: '/',
         listType: 'picture',
         beforeUpload(file) {
           return new Promise((resolve) => {
@@ -370,11 +377,57 @@ const ManageBook = () => {
         setDataUpdate(newData);
     }
 
+    function handleSearch(e) {
+        const se = document.getElementById('search').value;
+        setParams({
+            ...params,
+            search: se,
+        })
+        console.log(se);
+    }
+
+    function handleSearchPro(e) {
+        const se = document.getElementById('search').value;
+        console.log(se);
+        setParams({
+            ...params,
+            search: se,
+        })
+    }
+
     return (
       <Container fluid>
         <Row>
             <Col xs lg={10}>
-                <h2>Manage Book</h2>
+                <div style={{display: "flex"}}>
+                    <h2 style={{paddingRight: "100px"}}>Manage Book</h2>
+                    <Form
+                        name="basic"
+                        // labelCol={{
+                        //     span: 8,
+                        // }}
+                        // wrapperCol={{
+                        //     span: 16,
+                        // }}
+                        autoComplete="off"
+                        >
+                        <Form.Item
+                            label="Search"
+                            nam="search"
+                        >
+                            <Input.Search
+                                allowClear
+                                style={{
+                                width: '100%',
+                                }}
+                                id="search"
+                                placeholder="Search..."
+                                // onChange = {(e) => handleSearchPro(e)}
+                                onSearch = {(e) => handleSearch(e)}
+                            />
+                        </Form.Item>
+                    </Form>
+                </div>
             </Col>
             <Col xs lg={2}>
                 <Button color="secondary" onClick={showModal}>Create new Book</Button>

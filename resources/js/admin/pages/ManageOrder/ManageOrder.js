@@ -41,7 +41,6 @@ const ManageOrder = () => {
         setComponentDisabled(disabled);
     };
 
-
     useEffect(() => {
         const fetchProductList = async () => {
             const allOrder = await serviceForManageOrder.getOrderAdmin();
@@ -107,46 +106,48 @@ const ManageOrder = () => {
         },
     ];
     const data = [];
-    if(!showOrderDetail)
-    allOrder.map((order) => {
-        var dataItem = {
-            key: order.id,
-            id: order.id,
-            user: order.user_id,
-            amount: order.order_amount,
-            date: order.order_date,
-            status: order.order_status,
-            update: 
-            <Dropdown>
-            <Dropdown.Toggle variant="secondary">
-                         {order.order_status}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,3)} eventKey="3">Shipped</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,4)} eventKey="4">Cancelled</Dropdown.Item>
-                    </Dropdown.Menu>
-            </Dropdown>,
-            detail: 
-            <Button onClick={()=>handleShowDetail(order.id)} type="text" icon={<SettingOutlined />} >
-            </Button>,
+    if(typeof allOrder != 'undefined') {
+        if(!showOrderDetail){
+            allOrder.map((order) => {
+                var dataItem = {
+                    key: order.id,
+                    id: order.id,
+                    user: order.user_id,
+                    amount: order.order_amount,
+                    date: order.order_date,
+                    status: order.order_status,
+                    update: 
+                    <Dropdown>
+                    <Dropdown.Toggle variant="secondary">
+                                 {order.order_status}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
+                              <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
+                              <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,3)} eventKey="3">Shipped</Dropdown.Item>
+                              <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,4)} eventKey="4">Cancelled</Dropdown.Item>
+                            </Dropdown.Menu>
+                    </Dropdown>,
+                    detail: 
+                    <Button onClick={()=>handleShowDetail(order.id)} type="text" icon={<SettingOutlined />} >
+                    </Button>,
+                }
+                data.push(dataItem);
+            });
+        } 
+        else {
+            allOrderItems.map((orderItem) => {
+                var dataItem = {
+                    key: orderItem.order_id,
+                    id: orderItem.order_id,
+                    orderID: orderItem.order_id,
+                    book: orderItem.book_title,
+                    quantity: orderItem.quantity,
+                    price: orderItem.price,
+                }
+                data.push(dataItem);
+            }); 
         }
-        data.push(dataItem);
-    }); 
-    else {
-        allOrderItems.map((orderItem) => {
-            var dataItem = {
-                key: orderItem.order_id,
-                id: orderItem.order_id,
-                orderID: orderItem.order_id,
-                book: orderItem.book_title,
-                quantity: orderItem.quantity,
-                price: orderItem.price,
-
-            }
-            data.push(dataItem);
-        }); 
     }
 
     const onChange = (pagination, filters, sorter, extra) => {

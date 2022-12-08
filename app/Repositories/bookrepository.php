@@ -11,15 +11,19 @@ class BookRepository
 {
      public function filterrequest(Request $request)
     {
-
-
-                $listing = Book::select('book.*')
+                $listing = Book::select('book.*', 'author_name', 'category_name', 'publisher_name')
                 ->where('quantity','>',0)
                 ->leftjoin('discount','book.id','=','discount.book_id')
                 ->leftjoin('review','book.id','=','review.book_id')
+                ->leftjoin('author','author.id','=','book.author_id')
+                ->leftjoin('category','category.id','=','book.category_id')
+                ->leftjoin('publisher','publisher.id','=','book.publisher_id')
                 ->groupBy('book.id','discount.discount_price',
                           'discount.discount_start_date',
-                          'discount.discount_end_date')
+                          'discount.discount_end_date',
+                          'author.author_name',
+                          'category.category_name',
+                          'publisher.publisher_name')
                 ->selectraw('case
                           when ( discount.discount_price isnull ) then book.book_price
                           else discount.discount_price 
@@ -53,8 +57,7 @@ class BookRepository
                             $listing->orderBy('finalprice','asc');
                             break;
                 }
-                
-        $res = $listing->paginate($request->limit);
+        $res = $listing->search($request)->paginate($request->limit);
            return $res;    
     }
     public function getDetailBook($id){
@@ -107,13 +110,14 @@ class BookRepository
     }
 
     // admin -----------------------------------------------------------------------------------------------
-    public function showBook() 
+    public function showBook($request) 
     {
         $books = Book::select('book.id','category_id','author_id','book_title','book_summary','quantity','book_price','book_cover_photo','author_name','category_name','publisher_name')
         ->leftJoin('category','book.category_id','=','category.id')
         ->leftJoin('author','book.author_id','=','author.id')
         ->leftJoin('publisher','book.publisher_id','=','publisher.id')
-        ->orderBy('id','asc');
+        ->orderBy('id','asc')
+        ->search($request);
         return $books->get();
     }
 
