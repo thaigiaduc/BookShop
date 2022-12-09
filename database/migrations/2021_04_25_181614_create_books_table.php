@@ -23,7 +23,7 @@ class CreateBooksTable extends Migration
             $table->unsignedTinyInteger('quantity')->default(25);
             $table->decimal('book_price', 5, 2, true);
             $table->string('book_cover_photo', 20)->nullable();
-            $table->boolean('isdelete');
+            $table->boolean('isdelete')->default(false);
         });
     }
 

@@ -19,7 +19,7 @@ class CreateDiscountsTable extends Migration
             $table->date('discount_start_date');
             $table->date('discount_end_date')->nullable();
             $table->decimal('discount_price', 5, 2, true);
-            $table->boolean('isdelete');
+            $table->boolean('isdelete')->default(false);
         });
     }
 

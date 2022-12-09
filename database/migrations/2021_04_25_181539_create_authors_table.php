@@ -17,7 +17,7 @@ class CreateAuthorsTable extends Migration
             $table->id();
             $table->tinyText('author_name');
             $table->text('author_bio')->nullable();
-            $table->boolean('isdelete');
+            $table->boolean('isdelete')->default(false);
         });
     }
 
