@@ -9,3 +9,21 @@
         color: #000;
     }
 }
+.modal-login {
+    .modal-body{
+        padding: 0 !important;
+    }
+    .input {
+        margin-top: 20px !important;
+    }
+    
+    .input_item {
+        margin-top: 15px !important;
+    }
+    
+    .d_flex_center {
+        display: flex !important;
+        align-items: center !important;
+        flex-direction: column;
+    }
+}
