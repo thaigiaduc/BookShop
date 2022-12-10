@@ -34,6 +34,11 @@ const serviceForManageBook = {
     updateBook: (object,id) => {
         const url = `/api/admin/ManageBook/update/${id}`;
         return api.post(url,object);
+    },
+
+    deleteBook: (id) => {
+        const url = `/api/admin/ManageBook/delete/${id}`;
+        return api.post(url);
     }
 }
 

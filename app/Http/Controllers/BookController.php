@@ -52,7 +52,7 @@ class BookController extends Controller
             $res = $this->bookrepo->insertBook($request);
             return response()->json($res,200);
         } catch(\Exception $e) {
-            return response()->json($e->getMessage(),404);
+            return response()->json($e->getMessage(),422);
         }
     }
 
@@ -62,7 +62,7 @@ class BookController extends Controller
             $res = $this->bookrepo->getDetailBookAdmin($id);
             return response()->json($res,200);
         } catch(\Exception $e) {
-            return response()->json($e->getMessage(),500);
+            return response()->json($e->getMessage(), 404);
         }
     }
 
@@ -72,7 +72,17 @@ class BookController extends Controller
             $res = $this->bookrepo->updateBook($request,$id);
             return response()->json($res,200);
         } catch(\Exception $e) {
-            return response()->json($e->getMessage(),500);
+            return response()->json($e->getMessage(),422);
+        }
+    }
+
+    public function deleteBookAdmin($id)
+    {
+        try {
+            $res = $this->bookrepo->deleteBook($id);
+            return response()->json($res,200);
+        } catch(\Exception $e) {
+           return response()->json($e->getMessage(), 422); 
         }
     }
 }   

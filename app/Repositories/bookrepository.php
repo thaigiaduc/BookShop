@@ -57,11 +57,11 @@ class BookRepository
                             $listing->orderBy('finalprice','asc');
                             break;
                 }
-        $res = $listing->search($request)->paginate($request->limit);
+        $res = $listing->where('book.isdelete', false)->search($request)->paginate($request->limit);
            return $res;    
     }
     public function getDetailBook($id){
-        return Book::find($id);
+        return Book::find($id)->where('book.isdelete', false);
     }
     public function getHomeBookOnSale(){
         $listing = Book::select('book.id','book_title','book_cover_photo','book_price','category_id')
@@ -74,7 +74,7 @@ class BookRepository
                   when ( discount.discount_price isnull ) then 0
                   else book_price - discount.discount_price 
                   end
-                  '))
+                  '))->where('book.isdelete', false)
                   ;
         return $listing->take(10)->get();
     }
@@ -92,7 +92,7 @@ class BookRepository
         else Round(avg(rating_start),1)
         end
         '))
-        ->orderBy('finalprice','asc');
+        ->orderBy('finalprice','asc')->where('book.isdelete', false);
         return $listing->take(8)->get();
     }
 
@@ -105,7 +105,7 @@ class BookRepository
                   'discount.discount_end_date');
         $listing = Book::getFinalPrice($listing);
         $listing->orderByDesc(DB::raw('count(rating_start)'))
-        ->orderBy('finalprice','asc');
+        ->orderBy('finalprice','asc')->where('book.isdelete', false);
         return $listing->take(8)->get();
     }
 
@@ -116,7 +116,7 @@ class BookRepository
         ->leftJoin('category','book.category_id','=','category.id')
         ->leftJoin('author','book.author_id','=','author.id')
         ->leftJoin('publisher','book.publisher_id','=','publisher.id')
-        ->orderBy('id','asc')
+        ->orderBy('id','asc')->where('book.isdelete', false)
         ->search($request);
         return $books->get();
     }
@@ -152,7 +152,8 @@ class BookRepository
             'book_summary' => $request->book_summary,
             'quantity' => $request->quantity,
             'book_price' => $request->book_price,
-            'book_cover_photo' => $request->book_cover_photo
+            'book_cover_photo' => $request->book_cover_photo,
+            'isdelete' => false,
         ]);
 
         return $books;
@@ -189,7 +190,9 @@ class BookRepository
     // xóa sách khỏi database
     public function deleteBook($id)
     {
-        $books = Book::where('id',$id)->delete();
+        $books = Book::where('id',$id)->update([
+            'isdelete' => true,
+        ]);
         return $books;
     }
 

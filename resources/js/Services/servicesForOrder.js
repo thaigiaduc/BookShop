@@ -2,7 +2,7 @@ import api from "./api";
 
 const servicesForOrder = {
     getOrder: () => {
-        const url = "/api/showorder";
+        const url = "/api/admin/order";
         return api.get(url);
     },
 
