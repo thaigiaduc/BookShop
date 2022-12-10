@@ -60,7 +60,7 @@ class UserRepository
                 'password' => Hash::make($request->password),
                 'address' => $request->address,
                 'phone' => $request->phone,
-                'role' => $request->role ? $request->role : 1,
+                'role' => $request->role ? 2 : 1,
             ]);          
             DB::commit();
             return $user;

@@ -24,6 +24,7 @@ import ManagePublisher from './admin/pages/ManagePublisher/ManagePublisher';
 import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
 import ManageUser from './admin/pages/ManageUser/ManageUser';
+import Statistic from './admin/pages/Statistic/Statistic';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
@@ -108,6 +109,8 @@ function App() {
           case '8':
             navigate('/admin/ManageDiscount');
             break;
+          case '9':
+            navigate('/admin/Statistic');
           default:
             break;
         }
@@ -166,6 +169,11 @@ function App() {
                 icon: <DollarCircleOutlined />,
                 label: 'Manage Promotion',
               },
+              {
+                key: '9',
+                icon: <BookOutlined />,
+                label: 'Statistic',
+              },
               
             ]}
           />
@@ -208,6 +216,7 @@ function App() {
               <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
               <Route path="admin/ManageOrder" element={<ManageOrder />} />
               <Route path="admin/ManageUser" element={<ManageUser />} />
+              <Route path="admin/Statistic" element={<Statistic />} />
             </Routes> 
           </Content>
         </Layout>

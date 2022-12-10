@@ -46,7 +46,7 @@ class OrderController extends Controller
         $res= $this->orderRepo->updateStatusOrder($request->id,$request->order_status);
         return response()->json($res,200);
     }
-    public function showOrder(Request $request){
+    public function showOrder(){
         $res= $this->orderRepo->showOrderAdmin();
         return new OrderCollection($res);
     }
