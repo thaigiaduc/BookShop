@@ -32,7 +32,8 @@ class Book extends Model
     public static function getFinalPriceByBook($id){
         $listing=Book::where('book.id',$id)
                       ->leftjoin('discount','book.id','=','discount.book_id')
-                      ->groupBy('book.id','discount.discount_price');
+                      ->groupBy('book.id','discount.discount_price')
+                      ->orderBy('discount.discount_price','asc');
         $listing=Book::getFinalPrice($listing);
         $res = $listing->get();
         return $res[0]->finalprice;

@@ -72,7 +72,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('admin/user',[UserController::class,'index']);
     Route::patch('admin/user/update',[UserController::class,'updateStatus']);
    
-    Route::get('/showorder',[OrderController::class,'showOrder']);
+    Route::get('/admin/order',[OrderController::class,'showOrder']);
     Route::get('/order/detail/{id}',[OrderController::class,'showOrderDetail']);
     Route::patch('/order/update/status',[OrderController::class,'updateStatusOrder']);
 

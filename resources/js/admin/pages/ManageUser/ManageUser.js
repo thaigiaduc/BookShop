@@ -4,6 +4,7 @@ import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import serviceForManageUser from '../../../Services/serviceForManageUser';
+import CreateUser from './CreateUser';
 import { 
     Table, 
     Image, 
@@ -35,6 +36,7 @@ const ManageOrder = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [componentDisabled, setComponentDisabled] = useState(false);
+    const [isShow, setIsShow] = useState(false);
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -110,15 +112,25 @@ const ManageOrder = () => {
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
-
-
-   
-   
+    const handleCreateUser = async () => {
+        if(!isShow) await setIsShow(true);
+        else{
+            
+            await setIsShow(false);
+            await setIsShow(true);
+        }
+    }
     return (
       <Container fluid>
+        <CreateUser show={isShow} onHide={() => setIsShow(false)} />
         <Row>
-            <Col xs lg={10}>
+            <Col xs lg={3}>
                 <h2>Manage User</h2>
+            </Col>
+            <Col xs lg={7}>
+                <Button onClick={handleCreateUser}>
+                    Create New Admin
+                </Button>
             </Col>
          </Row>
         <Table columns={columns} dataSource={data} onChange={onChange} />

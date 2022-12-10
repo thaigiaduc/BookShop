@@ -45,6 +45,7 @@ const ManageOrder = () => {
     useEffect(() => {
         const fetchProductList = async () => {
             const allOrder = await serviceForManageOrder.getOrderAdmin();
+            console.log(allOrder);
             setAllOrder(allOrder.data);
         };
       fetchProductList();
@@ -116,17 +117,19 @@ const ManageOrder = () => {
             amount: order.order_amount,
             date: order.order_date,
             status: order.order_status,
-            update: 
+            update:
             <Dropdown>
             <Dropdown.Toggle variant="secondary">
                          {order.order_status}
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,3)} eventKey="3">Shipped</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,4)} eventKey="4">Cancelled</Dropdown.Item>
-                    </Dropdown.Menu>
+                    {(order.order_status != 'accepted' && order.order_status != 'cancelled') && (
+                           <Dropdown.Menu>
+                           <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
+                           <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
+                           <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,3)} eventKey="3">Shipped</Dropdown.Item>
+                           <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,4)} eventKey="4">Cancelled</Dropdown.Item>
+                         </Dropdown.Menu>
+                    )}
             </Dropdown>,
             detail: 
             <Button onClick={()=>handleShowDetail(order.id)} type="text" icon={<SettingOutlined />} >
