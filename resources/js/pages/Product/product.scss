@@ -10,6 +10,17 @@
         border-bottom-left-radius: 0.5rem;
     }
 }
+.product-detail-body img {
+    margin-left: 8% !important;
+    margin-right: 10% !important;
+    max-width: 100% !important;
+    height: auto
+}
+
+.detail__boder {
+    border: solid 1px rgb(215, 215, 215);
+    border-radius: 10px;
+}
 
 .detail__author {
     margin-top: 20px;
