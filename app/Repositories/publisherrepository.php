@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\models\Publisher;
 use App\Http\Requests\PublisherRequest;
+use App\Http\Requests\StorePublisherRequest;
 
 class PublisherRepository
 {
@@ -18,8 +19,13 @@ class PublisherRepository
     }
 
     // admin ---------------------------------------------------------
+    public function showPublisherAdmin()
+    {
+        $publisher = Publisher::orderBy('id','asc');
+        return $publisher->get();
+    }
     // thêm nhà cung cấp
-    public function insertPublisher(PublisherRequest $request)
+    public function insertPublisher(StorePublisherRequest $request)
     {
         $publisher = Publisher::create([
             'publisher_name' => $request->publisher_name,
@@ -30,14 +36,21 @@ class PublisherRepository
     }
 
     // sửa thông tin nhà cung cấp
-    public function updatePublisher(PublisherRequest $request, $id)
+    public function updatePublisher($request, $id)
     {
         $publisher = Publisher::where('id',$id)->update([
             'publisher_name' => $request->publisher_name,
-            'publisher_bio' => $request->publisher_bio
+            'publisher_desc' => $request->publisher_desc
         ]);
 
         return $publisher;
+    }
+
+    // show chi tiết nhà cung cấp
+    public function showDetailPublisher($id) 
+    {
+        $pb = Publisher::where('id',$id)->get();
+        return $pb;
     }
 
     // xóa nhà cung cấp

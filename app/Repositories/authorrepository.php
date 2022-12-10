@@ -37,16 +37,21 @@ class AuthorRepository
     }
 
     // sửa thông tin tác giả
-    public function updateAuthor(AuthorRequest $request, $id)
+    public function updateAuthor($request, $id)
     {
         $author = Author::where('id',$id)->update([
             'author_name' => $request->author_name,
             'author_bio' => $request->author_bio
         ]);
-
         return $author;
     }
 
+    // chi tiết tác giả
+    public function showDetailAuthor($id) 
+    {
+        $author = Author::where('id',$id)->get();
+        return $author;
+    }
     // xóa tác giả
     public function deleteAuthor($id)
     {

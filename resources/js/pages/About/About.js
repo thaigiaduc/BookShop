@@ -3,7 +3,7 @@ import "./about.css";
 function About(){
 return(
 <section className="about-page flex-grow-1 d-flex align-items-center">
-    <div className="container">
+    <div className="container" style={{marginBottom: '500px'}}>
     
     <div className="row py-3 px-5">
         <div className="col-md-12">

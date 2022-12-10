@@ -56,7 +56,12 @@ class OrderRepository
         return Order::where('user_id',$id)->get();
     }
 
-    public function showOrder()
+    public function showOrder(Request $request)
+    {
+        return Order::where('user_id',$request->user()->id)->get();
+    }
+
+    public function showOrderAdmin()
     {
         return Order::get();
     }

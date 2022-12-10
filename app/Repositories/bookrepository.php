@@ -109,7 +109,7 @@ class BookRepository
     // admin -----------------------------------------------------------------------------------------------
     public function showBook() 
     {
-        $books = Book::select('book.id','category_id','author_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name')
+        $books = Book::select('book.id','category_id','author_id','book_title','book_summary','quantity','book_price','book_cover_photo','author_name','category_name','publisher_name')
         ->leftJoin('category','book.category_id','=','category.id')
         ->leftJoin('author','book.author_id','=','author.id')
         ->leftJoin('publisher','book.publisher_id','=','publisher.id')
@@ -155,16 +155,30 @@ class BookRepository
     }
 
     /// cập nhật lại thông tin của sách
-    public function updateBook(BookRequest $request, $id)
-    {
+    public function updateBook($request, $id)
+    {   
+        $book_cover = Book::select('book_cover_photo')->where('id',$id)->get();
         $books = Book::where('id',$id)->update([
             'category_id' => $request->category_id,
             'author_id' => $request->author_id,
+            'publisher_id' => $request->publisher_id,
             'book_title' => $request->book_title,
             'book_summary' => $request->book_summary,
+            'quantity' => $request->quantity,
             'book_price' => $request->book_price,
-            'book_cover_photo' => $request->book_cover_photo
+            'book_cover_photo' => $book_cover[0]->book_cover_photo,
         ]);
+        return $books;
+    }
+
+    // lấy chi tiết sản phẩm
+    public function getDetailBookAdmin($id)
+    {
+        $books = Book::select('book.id','category_id','author_id','publisher_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name','quantity')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+        ->where('book.id',$id)->get();
         return $books;
     }
 
@@ -173,5 +187,21 @@ class BookRepository
     {
         $books = Book::where('id',$id)->delete();
         return $books;
+    }
+
+    // tìm kiếm
+    public function searchBook($request)
+    {
+        $books = Book::select('book.id','category_id','author_id','publisher_id','book_title','book_summary','book_price','book_cover_photo','author_name','category_name','publisher_name','quantity')
+        ->leftJoin('category','book.category_id','=','category.id')
+        ->leftJoin('author','book.author_id','=','author.id')
+        ->leftJoin('publisher','book.publisher_id','=','publisher.id')
+        ->where('id', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_title', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_summary', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('category_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('author_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('publisher_name', 'LIKE', '%' . $request->search . '%')
+        ->orwhere('book_title', 'LIKE', '%' . $request->search . '%');
     }
 }

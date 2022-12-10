@@ -4,6 +4,7 @@ import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import serviceForManageUser from '../../../Services/serviceForManageUser';
+import CreateUser from './CreateUser';
 import { 
     Table, 
     Image, 
@@ -35,6 +36,7 @@ const ManageOrder = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [componentDisabled, setComponentDisabled] = useState(false);
+    const [isShow, setIsShow] = useState(false);
     const onFormLayoutChange = ({ disabled }) => {
         setComponentDisabled(disabled);
     };
@@ -89,34 +91,46 @@ const ManageOrder = () => {
         }, 
     ];
     const data = [];
-    allUser.map((user) => {
-        var dataItem = {
-            key: user.id,
-            id: user.id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            address: user.address,
-            phone: user.phone,
-            status: user.status ? (<label className='text-primary'>avalable</label>): (<label className='text-danger'>unavalable</label>),
-            block: 
-            <Button onClick={()=>handleUpdateStatus(user.id,user.status)}>
-                Change
-            </Button>,
-        }
-        data.push(dataItem);
-    }); 
+    if(allUser.length > 0){
+        allUser.map((user) => {
+            var dataItem = {
+                key: user.id,
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                address: user.address,
+                phone: user.phone,
+                status: user.status ? (<label className='text-primary'>avalable</label>): (<label className='text-danger'>unavalable</label>),
+                block: 
+                <Button onClick={()=>handleUpdateStatus(user.id,user.status)}>
+                    Change
+                </Button>,
+            }
+            data.push(dataItem);
+        }); 
+    }
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
-
-
-   
-   
+    const handleCreateUser = async () => {
+        if(!isShow) await setIsShow(true);
+        else{
+            
+            await setIsShow(false);
+            await setIsShow(true);
+        }
+    }
     return (
       <Container fluid>
+        <CreateUser show={isShow} onHide={() => setIsShow(false)} />
         <Row>
-            <Col xs lg={10}>
+            <Col xs lg={3}>
                 <h2>Manage User</h2>
+            </Col>
+            <Col xs lg={7}>
+                <Button onClick={handleCreateUser}>
+                    Create New Admin
+                </Button>
             </Col>
          </Row>
         <Table columns={columns} dataSource={data} onChange={onChange} />

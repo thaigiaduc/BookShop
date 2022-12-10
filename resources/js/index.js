@@ -11,6 +11,7 @@ import PageTitle from './components/Page-Title/pageTitle';
 import Product from './pages/Product/Product';
 import Error404 from './pages/404/404';
 import Profile from './pages/Profile/Profile';
+import Order from './pages/Order/Order';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
 import {Routes, Route, useNavigate} from 'react-router-dom';
@@ -19,9 +20,11 @@ import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
 import ManageAuthor from './admin/pages/ManageAuthor/ManageAuthor';
 import ManageCategory from './admin/pages/ManageCategory/ManageCategory';
+import ManagePublisher from './admin/pages/ManagePublisher/ManagePublisher';
 import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
 import ManageUser from './admin/pages/ManageUser/ManageUser';
+import Statistic from './admin/pages/Statistic/Statistic';
 import {Button} from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
@@ -41,7 +44,7 @@ const { Header, Sider, Content } = Layout;
 
 function App() {
   const test = window.location.href;
-  
+ 
   const RouteClient = () => {
     return (
       <>
@@ -57,6 +60,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="about" element={<About />} />
           <Route path="profile" element={<Profile/>}/>
+          <Route path="order" element={<Order/>} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       <Footer />
@@ -64,7 +68,11 @@ function App() {
     );
   }
 
-  const RouteAdmin = () => {
+  const RouteAdmin = () => {   
+    const handleLogout = () => {
+      navigate('/');
+      window.location.reload();
+    }
       document.title = "welcome to admin";
       const navigate = useNavigate();
       const [collapsed, setCollapsed] = useState(false);
@@ -86,23 +94,22 @@ function App() {
             navigate('/admin/ManageBook');
             break;
           case '4':
-            
-            break;
-          case '5':
             navigate('/admin/ManageOrder');
             break;
-          case '6':
+          case '5':
             navigate('/admin/ManageCategory');
             break;
-          case '7':
+          case '6':
             navigate('/admin/ManageAuthor');
             break;
+          case '7':
+            navigate('/admin/ManagePublisher');
+            break;
           case '8':
-            
+            navigate('/admin/ManageDiscount');
             break;
           case '9':
-            
-            break;
+            navigate('/admin/Statistic');
           default:
             break;
         }
@@ -116,7 +123,7 @@ function App() {
           <Menu
             theme={theme}
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['3']}
             onClick = {onClick}
             selectedKeys={[current]}
             style={{height: "900px"}}
@@ -138,33 +145,33 @@ function App() {
               },
               {
                 key: '4',
-                icon: <BarChartOutlined />,
-                label: 'Statistic',
-              },
-              {
-                key: '5',
                 icon: <ReconciliationOutlined />,
                 label: 'Manage Order',
               },
               {
-                key: '6',
+                key: '5',
                 icon: <FormOutlined />,
                 label: 'Manage Category',
               },
               {
-                key: '7',
+                key: '6',
                 icon: <FormOutlined />,
                 label: 'Manage Author',
               },
               {
-                key: '8',
+                key: '7',
                 icon: <FormOutlined />,
                 label: 'Manage Publisher',
               },
               {
-                key: '9',
+                key: '8',
                 icon: <DollarCircleOutlined />,
                 label: 'Manage Promotion',
+              },
+              {
+                key: '9',
+                icon: <BookOutlined />,
+                label: 'Statistic',
               },
               
             ]}
@@ -187,8 +194,8 @@ function App() {
             checkedChildren="Dark"
             unCheckedChildren="Light"
           />
-          <Button variant="light" style={{marginLeft: "1500px"}}>
-            <UserOutlined />Log in
+          <Button variant="light" style={{marginLeft: "1500px"}} onClick={handleLogout}>
+            <UserOutlined />Log out
           </Button>
           </Header>
           <Content
@@ -204,8 +211,11 @@ function App() {
               <Route path="admin/ManageBook" element={<ManageBook />} />
               <Route path="admin/ManageAuthor" element={<ManageAuthor />} />
               <Route path="admin/ManageCategory" element={<ManageCategory />} />
+              <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
+              <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
               <Route path="admin/ManageOrder" element={<ManageOrder />} />
               <Route path="admin/ManageUser" element={<ManageUser />} />
+              <Route path="admin/Statistic" element={<Statistic />} />
             </Routes> 
           </Content>
         </Layout>

@@ -38,7 +38,44 @@ class publisherController extends Controller
         }
     }
 
+    // admin ---------------------------------------------------------------------------------------
+    public function showPublisher()
+    {
+        try {
+            $publisherres = $this->publisherRepo->showPublisherAdmin();
+            return response()->json($publisherres,200);
+        } catch(\Exception $e) {
+            return response()->json(500);
+        }
+    }
 
-  
+    public function insertPubliserAdmin(StorePublisherRequest $request)
+    {
+        try {
+            $publisherres = $this->publisherRepo->insertPublisher($request);
+            return response()->json($publisherres,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),500);
+        }
+    }
 
+    public function showDetailPublisher($id)
+    {
+        try {
+            $cate = $this->publisherRepo->showDetailPublisher($id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function updatePublisher(StorePublisherRequest $request, $id)
+    {
+        try {
+            $cate = $this->publisherRepo->updatePublisher($request,$id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),404);
+        }
+    }
 }

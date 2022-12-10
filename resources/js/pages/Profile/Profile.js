@@ -17,7 +17,6 @@ const Profile = () => {
             if(userLogin){
                 setIsLogin(true);
                 const userDetail = await serviceForProfile.getUserDetail();
-                console.log(userDetail.address);
                 setUserDetail(userDetail);
             }
         }
@@ -80,7 +79,7 @@ const Profile = () => {
         <section>
         { isLogin ? 
                 (
-                    <div className="row">
+                    <div className="row" style={{marginBottom: '500px'}}>
                         <ChangePassword show={isShow} onHide={() => setIsShow(false)} />
                     <Col>
                     <div className="px-3">

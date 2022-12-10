@@ -47,7 +47,7 @@ class OrderController extends Controller
         return response()->json($res,200);
     }
     public function showOrder(){
-        $res= $this->orderRepo->showOrder();
+        $res= $this->orderRepo->showOrderAdmin();
         return new OrderCollection($res);
     }
 }

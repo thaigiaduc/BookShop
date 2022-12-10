@@ -2,7 +2,7 @@ import api from "./api";
 
 const serviceForManageUser = {
     getAllUsers: () => {
-        const url = "api/admin/user";
+        const url = "/api/admin/user";
         return api.get(url);
     },
     updateUserStatus: (id, value) => {

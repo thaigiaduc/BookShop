@@ -11,6 +11,12 @@ class Discount extends Model
 
     public $timestamps = false;
     protected $table = 'discount';
+    protected $fillable = [
+        'book_id',
+        'discount_start_date',
+        'discount_end_date',
+        'discount_price',
+    ];
 
     public function Book()
     {

@@ -1,5 +1,8 @@
 footer {
     display: flex;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 footer>.logo>img {
