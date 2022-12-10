@@ -219,7 +219,7 @@ const ManageBook = () => {
                     <Button type="text" onClick={() => handleModalUpdate(book.id)} icon={<SettingOutlined />} >
                     </Button>,
                 delete: 
-                    <Button type="text" icon={<CloseOutlined />}>
+                    <Button type="text" icon={<CloseOutlined />} onClick={()=>handleDelete(book.id)}>
                     </Button>,
             }
             data.push(dataItem);
@@ -393,6 +393,25 @@ const ManageBook = () => {
             ...params,
             search: se,
         })
+    }
+
+    function handleDelete(id) {
+        const DeleteBook = async () => {
+            try {
+                if(confirm('Are you sure?') == true) {
+                    const c = await servicesForManageBook.deleteBook(id);
+                    if(c.status_code !== 422) {
+                        alert('success');
+                        setParams({...params});
+                    } else {
+                        alert('failed');
+                    }        
+                } 
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        DeleteBook();
     }
 
     return (
