@@ -26,6 +26,7 @@
     display: flex;
     justify-content: space-between;
     background-color: #999;
+    color: rgba(228, 228, 228, 0.781);
     h6 {
         cursor: pointer;
         font-size: 28px;
@@ -52,6 +53,24 @@
     &:hover {
         cursor: pointer;
     }
+}
+.cart__checkput {
+    button {
+        width: 100%;
+    }
+    .border-btn-black {
+        border: 1px solid rgb(0, 0, 0) !important;
+    
+    }
+    
+    .btn-bg-white {
+        background-color: white !important;
+        color: black !important;
+    }
+    .btn-bg-black {
+        background-color: black !important;
+        color: white !important;
+      }
 }
 .cart_total{
     // Align center

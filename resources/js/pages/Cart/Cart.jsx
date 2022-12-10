@@ -8,22 +8,53 @@ import Login from '../Login/Login';
 import serviceForCart from '../../Services/serviceForCart';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paper from '@mui/material/Paper';
+import TableRow from '@mui/material/TableRow';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import { makeStyles } from '@material-ui/core';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { IconButton, Table, TableCell, TableContainer, TableHead, TableBody, TextField, Button } from '@mui/material';
+const useStyles = makeStyles({
+    input: {
+        '& input[type=number]': {
+            '-moz-appearance': 'textfield',
+        },
+        '& input[type=number]::-webkit-outer-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0,
+        },
+        '& input[type=number]::-webkit-inner-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0,
+        },
+    },
+});
 function Cart() {
+    const classes = useStyles();
     const [cart, setCart] = useState([]);
     const [isShow, setIsShow] = useState(false);
     const [total, setTotal] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const [expanded, setExpanded] = useState('panel1');
+
     const navigate = useNavigate();
     useEffect(() => {
         if (sessionStorage.getItem('item_cart')) {
             setCart(JSON.parse(sessionStorage.getItem('item_cart')));
         }
     }, []);
+
     useEffect(() => {
         let total = 0;
+        let quantity = 0;
         let flag = 0;
         cart.forEach((item) => {
             if (item.book.id != null) {
                 total += item.book.final_price * item.quantity;
+                quantity += item.quantity;
             } else {
                 cart.splice(flag, 1);
                 sessionStorage.setItem('item_cart', JSON.stringify(cart));
@@ -32,7 +63,12 @@ function Cart() {
             flag++;
         });
         setTotal(total);
+        setQuantity(quantity);
     }, [cart]);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : 'panel1');
+    };
 
     const handleAddQuantity = (id) => {
         cart.map((item) => {
@@ -149,98 +185,147 @@ function Cart() {
         <section className="cart-page flex-grow-1">
             <div className="container" style={{ marginBottom: '500px' }}>
                 <div className="title-section">
-                    <p className="title-page font-22px">Your cart: {Object.keys(cart).length > 1 ? Object.keys(cart).length + ' items' : Object.keys(cart).length + ' item'}</p>
+                    <p className="title-page font-22px">
+                        Your cart: {Object.keys(cart).length > 1 ? Object.keys(cart).length + ' items' : Object.keys(cart).length + ' item'}
+                    </p>
                 </div>
 
                 <div>
                     <div className="row">
                         <Login show={isShow} onHide={() => setIsShow(false)} />
                         <Col>
+                            <TableContainer component={Paper} sx={{ maxHeight: '40rem' }}>
+                                <Table sx={{ width: '100%' }} aria-label="customized table">
+                                    <TableHead style={{ backgroundColor: 'rgba(228, 228, 228, 0.781)' }}>
+                                        <TableRow>
+                                            <TableCell>Product</TableCell>
+                                            <TableCell align="left">Price</TableCell>
+                                            <TableCell align="left">Quantity</TableCell>
+                                            <TableCell align="left">Total</TableCell>
+                                            <TableCell align="left"></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {cart.map((item, index) => (
+                                            <TableRow key={index} className="pt-3 pb-5" style={{ height: '13rem' }}>
+                                                <TableCell component="th" scope="row">
+                                                    <div className="d-flex align-item-center">
+                                                        <img
+                                                            style={{ maxWidth: '27%' }}
+                                                            src={
+                                                                item.book.book_cover_photo ? Image[item.book.book_cover_photo] : Image['defaultBook']
+                                                            }
+                                                            alt=""
+                                                        />
+                                                        <div className="ms-3">{item.book.book_title}</div>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    {item.book.book_price === item.book.final_price ? (
+                                                        <h6>${item.book.final_price}</h6>
+                                                    ) : (
+                                                        <>
+                                                            <div>${item.book.final_price}</div>
+                                                            <strike>${item.book.book_price}</strike>
+                                                        </>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <TextField
+                                                        id="standard-name"
+                                                        value={item.quantity}
+                                                        InputProps={{
+                                                            startAdornment: (
+                                                                <IconButton
+                                                                    sx={{ borderRadius: 0 }}
+                                                                    edge="start"
+                                                                    onClick={() => handleRemoveQuantity(item.book.id)}
+                                                                >
+                                                                    <RemoveIcon sx={{ stroke: '#ffffff', strokeWidth: 1 }} />
+                                                                </IconButton>
+                                                            ),
+                                                            endAdornment: (
+                                                                <IconButton
+                                                                    sx={{ borderRadius: 0 }}
+                                                                    edge="end"
+                                                                    onClick={() => handleAddQuantity(item.book.id)}
+                                                                >
+                                                                    <AddIcon sx={{ stroke: '#ffffff', strokeWidth: 1 }} />
+                                                                </IconButton>
+                                                            ),
+                                                        }}
+                                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', readOnly: true }}
+                                                        type="number"
+                                                        className={classes.input}
+                                                        style={{ width: '6.5rem' }}
+                                                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                                        //     handleInput(item.formatId, item.productId, e)
+                                                        // }
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="left">${(item.book.final_price * item.quantity).toFixed(2)}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                             <ToastContainer />
-                            <Card>
-                                <Card.Header>
-                                    <Row className="cart__header">
-                                        <Col md={12} lg={5}>
-                                            <h6>Product</h6>
-                                        </Col>
-                                        <Col md={12} lg={2}>
-                                            <h6>Price</h6>
-                                        </Col>
-                                        <Col md={12} lg={3}>
-                                            <h6>Quantity</h6>
-                                        </Col>
-                                        <Col md={12} lg={2}>
-                                            <h6>Total</h6>
-                                        </Col>
-                                    </Row>
-                                </Card.Header>
-                                <Card.Body>
-                                    {cart.length == 0 ? (
-                                        <div className="cart__empty p-2">
-                                            <h5>Your cart is empty</h5>
-                                        </div>
-                                    ) : (
-                                        cart.map((item, index) => {
-                                            return (
-                                                <Row key={index}>
-                                                    <Col xs={12} md={12} lg={5}>
-                                                        <div className="cart__booktitle d-flex">
-                                                            <img
-                                                                onClick={() => handleClick(item.book)}
-                                                                style={{ width: 150 }}
-                                                                className="cart__image"
-                                                                src={item.book.book_cover_photo ? Image[item.book.book_cover_photo] : Image['defaultBook']}
-                                                                alt="book"
-                                                            />
-                                                            <div className="ms-3 d-flex justify-content-center flex-column">
-                                                                <h6>{item.book.book_title}</h6>
-                                                                <p>{item.book.book_author_name}</p>
-                                                            </div>
-                                                        </div>
-                                                    </Col>
-                                                    <Col xs={12} md={12} lg={2} className="d-flex justify-content-center flex-column">
-                                                        {item.book.book_price === item.book.final_price ? (
-                                                            <h6>${item.book.final_price}</h6>
-                                                        ) : (
-                                                            <React.Fragment>
-                                                                <h6 className="cart__price__final">${item.book.final_price}</h6>
-                                                                <h6 className="cart__price__discount">${item.book.book_price}</h6>
-                                                            </React.Fragment>
-                                                        )}
-                                                    </Col>
-                                                    <Col xs={12} md={12} lg={3} className="d-flex justify-content-center flex-column">
-                                                        <div className="cart__quantity">
-                                                            <button className="cart__quantity__button" onClick={() => handleRemoveQuantity(item.book.id)}>
-                                                                -
-                                                            </button>
-                                                            <h6 className="cart__quantity__number">{item.quantity}</h6>
-                                                            <button className="cart__quantity__button" onClick={() => handleAddQuantity(item.book.id)}>
-                                                                +
-                                                            </button>
-                                                        </div>
-                                                    </Col>
-                                                    <Col xs={12} md={12} lg={2} className="d-flex justify-content-center flex-column">
-                                                        <h3 className="cart__price__final">${(item.book.final_price * item.quantity).toFixed(2)}</h3>
-                                                    </Col>
-                                                    <hr className="mt-3" style={{ width: '95%', align: 'center' }} />
-                                                </Row>
-                                            );
-                                        })
-                                    )}
-                                </Card.Body>
-                                ds
-                            </Card>
                         </Col>
                         <Col lg={4}>
-                            <Card>
-                                <Card.Header className="d-flex justify-content-center">
-                                    <h6>Cart Total</h6>
-                                </Card.Header>
-                                <Card.Body className="cart_total">
-                                    <h3>${total.toFixed(2)}</h3>
-                                    <button onClick={handlePlaceOrder}>Place order</button>
-                                </Card.Body>
-                            </Card>
+                            <div>
+                                <Accordion
+                                    expanded={expanded === 'panel1'}
+                                    onChange={handleChange('panel1')}
+                                    disableGutters={true}
+                                    defaultExpanded={true}
+                                >
+                                    <AccordionSummary
+                                        expandIcon={expanded === 'panel1' ? <RemoveIcon /> : <AddIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <h5 className="px-3 pt-2 pb-2">
+                                            <div>Cart Totals</div>
+                                        </h5>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <div className="px-3  d-flex" style={{ justifyContent: 'space-between' }}>
+                                            <div>Quantity</div>
+                                            {quantity}
+                                        </div>
+                                    </AccordionDetails>
+                                    <AccordionDetails>
+                                        <div className="px-3  d-flex" style={{ justifyContent: 'space-between' }}>
+                                            <div>Total</div>${total.toFixed(2)}
+                                        </div>
+                                    </AccordionDetails>
+                                </Accordion>
+                                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} disableGutters={true}>
+                                    <AccordionSummary
+                                        expandIcon={expanded === 'panel2' ? <RemoveIcon /> : <AddIcon />}
+                                        aria-controls="panel2a-content"
+                                        id="panel2a-header"
+                                    >
+                                        <h5 className="px-3 pt-2 pb-2">
+                                            <div>Coupon</div>
+                                        </h5>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <div className="p-4" style={{ textAlign: 'center' }}>
+                                            <h5>Coming soon</h5>
+                                        </div>
+                                    </AccordionDetails>
+                                </Accordion>
+                            </div>
+                            <div className="mt-4 cart__checkput">
+                                <Button
+                                    variant="contained"
+                                    className="border-btn-black btn-bg-black btn-proceed pt-3 pb-3"
+                                    onClick={handlePlaceOrder}
+                                >
+                                    Proceed to checkout
+                                </Button>
+                            </div>
                         </Col>
                     </div>
                 </div>
