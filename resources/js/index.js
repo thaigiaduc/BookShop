@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 // import ReactDOM from 'react-dom';
 import Home from './pages/Home/Home';
 import HeaderF from './components/layout/Header/Header';
@@ -14,7 +14,7 @@ import Profile from './pages/Profile/Profile';
 import Order from './pages/Order/Order';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Admin from './admin/index';
 import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
@@ -25,211 +25,212 @@ import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
 import ManageUser from './admin/pages/ManageUser/ManageUser';
 import Statistic from './admin/pages/Statistic/Statistic';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'antd/dist/antd.css';
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  BookOutlined,
-  BarChartOutlined,
-  ReconciliationOutlined,
-  FormOutlined,
-  DollarCircleOutlined,
-  HomeOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UploadOutlined,
+    UserOutlined,
+    BookOutlined,
+    BarChartOutlined,
+    ReconciliationOutlined,
+    FormOutlined,
+    DollarCircleOutlined,
+    HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Switch } from 'antd';
 const { Header, Sider, Content } = Layout;
 
 function App() {
-  const test = window.location.href;
- 
-  const RouteClient = () => {
-    return (
-      <>
-      <HeaderF />
-        {/* Config Routes pages */}
-        <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route path="home" element={<Home />} />
-          <Route path="shop">
-            <Route path=":id" element={<Product />} />
-            <Route index element={<Shop />} />
-          </Route>
-          <Route path="cart" element={<Cart />} />
-          <Route path="about" element={<About />} />
-          <Route path="profile" element={<Profile/>}/>
-          <Route path="order" element={<Order/>} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      <Footer />
-      </>
-    );
-  }
+    const test = window.location.href;
 
-  const RouteAdmin = () => {   
-    const handleLogout = () => {
-      navigate('/');
-      sessionStorage.clear();
-      window.location.reload();
-    }
-      document.title = "welcome to admin";
-      const navigate = useNavigate();
-      const [collapsed, setCollapsed] = useState(false);
-      const [theme, setTheme] = useState('dark');
-      const [current, setCurrent] = useState('1');
-      const changeTheme = (value) => {
-        setTheme(value ? 'dark' : 'light');
-      };
-      const onClick = (e) => {
-        var i = e.key;
-        switch (i) {
-          case '1':
-            navigate('/admin');
-            break;
-          case '2':
-            navigate('/admin/ManageUser');
-            break;
-          case '3':
-            navigate('/admin/ManageBook');
-            break;
-          case '4':
-            navigate('/admin/ManageOrder');
-            break;
-          case '5':
-            navigate('/admin/ManageCategory');
-            break;
-          case '6':
-            navigate('/admin/ManageAuthor');
-            break;
-          case '7':
-            navigate('/admin/ManagePublisher');
-            break;
-          case '8':
-            navigate('/admin/ManageDiscount');
-            break;
-          case '9':
-            navigate('/admin/Statistic');
-          default:
-            break;
-        }
-        setCurrent(i);
-      };
-      
+    const RouteClient = () => {
+        return (
+            <>
+                <HeaderF />
+                {/* Config Routes pages */}
+                <Routes>
+                    <Route index path="/" element={<Home />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="shop">
+                        <Route path=":id" element={<Product />} />
+                        <Route index element={<Shop />} />
+                    </Route>
+                    <Route path="cart" element={<Cart />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="order" element={<Order />} />
+                    <Route path="*" element={<Error404 />} />
+                </Routes>
+                <Footer />
+            </>
+        );
+    };
+
+    const RouteAdmin = () => {
+        const handleLogout = () => {
+            navigate('/');
+            sessionStorage.clear();
+            window.location.reload();
+        };
+        document.title = 'welcome to admin';
+        const navigate = useNavigate();
+        const [collapsed, setCollapsed] = useState(false);
+        const [theme, setTheme] = useState('dark');
+        const [current, setCurrent] = useState('1');
+        const changeTheme = (value) => {
+            setTheme(value ? 'dark' : 'light');
+        };
+        const onClick = (e) => {
+            var i = e.key;
+            switch (i) {
+                case '1':
+                    navigate('/admin');
+                    break;
+                case '2':
+                    navigate('/admin/ManageUser');
+                    break;
+                case '3':
+                    navigate('/admin/ManageBook');
+                    break;
+                case '4':
+                    navigate('/admin/ManageOrder');
+                    break;
+                case '5':
+                    navigate('/admin/ManageCategory');
+                    break;
+                case '6':
+                    navigate('/admin/ManageAuthor');
+                    break;
+                case '7':
+                    navigate('/admin/ManagePublisher');
+                    break;
+                case '8':
+                    navigate('/admin/ManageDiscount');
+                    break;
+                case '9':
+                    navigate('/admin/Statistic');
+                default:
+                    break;
+            }
+            setCurrent(i);
+        };
+
+        return (
+            <Layout>
+                <Sider trigger={null} collapsible collapsed={collapsed}>
+                    <div className="logo" />
+                    <Menu
+                        theme={theme}
+                        mode="inline"
+                        defaultSelectedKeys={['3']}
+                        onClick={onClick}
+                        selectedKeys={[current]}
+                        style={{ height: '900px' }}
+                        items={[
+                            {
+                                key: '1',
+                                icon: <HomeOutlined />,
+                                label: 'Home',
+                            },
+                            {
+                                key: '2',
+                                icon: <UserOutlined />,
+                                label: 'Manage User',
+                            },
+                            {
+                                key: '3',
+                                icon: <BookOutlined />,
+                                label: 'Manage Book',
+                            },
+                            {
+                                key: '4',
+                                icon: <ReconciliationOutlined />,
+                                label: 'Manage Order',
+                            },
+                            {
+                                key: '5',
+                                icon: <FormOutlined />,
+                                label: 'Manage Category',
+                            },
+                            {
+                                key: '6',
+                                icon: <FormOutlined />,
+                                label: 'Manage Author',
+                            },
+                            {
+                                key: '7',
+                                icon: <FormOutlined />,
+                                label: 'Manage Publisher',
+                            },
+                            {
+                                key: '8',
+                                icon: <DollarCircleOutlined />,
+                                label: 'Manage Promotion',
+                            },
+                            {
+                                key: '9',
+                                icon: <BookOutlined />,
+                                label: 'Statistic',
+                            },
+                        ]}
+                    />
+                </Sider>
+                <Layout id="contentAdmin" className="site-layout" style={{ padding: '60px 20px 0px 20px' }}>
+                    <Header
+                        className="site-layout-background"
+                        style={{
+                            padding: 0,
+                            display: 'flex',
+                            height: '55px',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <div>
+                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: 'trigger',
+                                onClick: () => setCollapsed(!collapsed),
+                            })}
+                            <Switch checked={theme === 'dark'} onChange={changeTheme} checkedChildren="Dark" unCheckedChildren="Light" />
+                        </div>
+                        <div style={{ display: 'flex', height: '55px', alignItems: 'center' }}>
+                            <div className="me-3">{sessionStorage.getItem('adminLogin')}</div>
+                            <Button variant="light" onClick={handleLogout}>
+                                Log out
+                            </Button>
+                        </div>
+                    </Header>
+                    <Content
+                        className="site-layout-background"
+                        style={{
+                            margin: '24px 16px',
+                            padding: 24,
+                            minHeight: 280,
+                        }}
+                    >
+                        <Routes>
+                            <Route path="admin" element={<HomePage />} />
+                            <Route path="admin/ManageBook" element={<ManageBook />} />
+                            <Route path="admin/ManageAuthor" element={<ManageAuthor />} />
+                            <Route path="admin/ManageCategory" element={<ManageCategory />} />
+                            <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
+                            <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
+                            <Route path="admin/ManageOrder" element={<ManageOrder />} />
+                            <Route path="admin/ManageUser" element={<ManageUser />} />
+                            <Route path="admin/Statistic" element={<Statistic />} />
+                        </Routes>
+                    </Content>
+                </Layout>
+            </Layout>
+        );
+    };
     return (
-      <Layout >
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
-          <Menu
-            theme={theme}
-            mode="inline"
-            defaultSelectedKeys={['3']}
-            onClick = {onClick}
-            selectedKeys={[current]}
-            style={{height: "900px"}}
-            items={[
-              {
-                key: '1',
-                icon: <HomeOutlined />,
-                label: 'Home',
-              },
-              {
-                key: '2',
-                icon: <UserOutlined />,
-                label: 'Manage User',
-              },
-              {
-                key: '3',
-                icon: <BookOutlined />,
-                label: 'Manage Book',
-              },
-              {
-                key: '4',
-                icon: <ReconciliationOutlined />,
-                label: 'Manage Order',
-              },
-              {
-                key: '5',
-                icon: <FormOutlined />,
-                label: 'Manage Category',
-              },
-              {
-                key: '6',
-                icon: <FormOutlined />,
-                label: 'Manage Author',
-              },
-              {
-                key: '7',
-                icon: <FormOutlined />,
-                label: 'Manage Publisher',
-              },
-              {
-                key: '8',
-                icon: <DollarCircleOutlined />,
-                label: 'Manage Promotion',
-              },
-              {
-                key: '9',
-                icon: <BookOutlined />,
-                label: 'Statistic',
-              },
-              
-            ]}
-          />
-        </Sider>
-        <Layout id="contentAdmin" className="site-layout" style={{padding: "60px 20px 0px 20px"}}>
-          <Header
-            className="site-layout-background"
-            style={{
-              padding: 0,
-            }}
-          >
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-              className: 'trigger',
-              onClick: () => setCollapsed(!collapsed),
-            })}
-          <Switch
-            checked={theme === 'dark'}
-            onChange={changeTheme}
-            checkedChildren="Dark"
-            unCheckedChildren="Light"
-          />
-          <Button variant="light" style={{marginLeft: "1500px"}} onClick={handleLogout}>
-            Log out
-          </Button>
-          </Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
-            <Routes>
-              <Route path="admin" element={<HomePage />} />
-              <Route path="admin/ManageBook" element={<ManageBook />} />
-              <Route path="admin/ManageAuthor" element={<ManageAuthor />} />
-              <Route path="admin/ManageCategory" element={<ManageCategory />} />
-              <Route path="admin/ManagePublisher" element={<ManagePublisher />} />
-              <Route path="admin/ManageDiscount" element={<ManageDiscount />} />
-              <Route path="admin/ManageOrder" element={<ManageOrder />} />
-              <Route path="admin/ManageUser" element={<ManageUser />} />
-              <Route path="admin/Statistic" element={<Statistic />} />
-            </Routes> 
-          </Content>
-        </Layout>
-      </Layout>
+        <div className="d-flex flex-column m-height-100">
+            {test.indexOf('admin', 0) != -1 && sessionStorage.getItem('adminIsLogin') ? <RouteAdmin /> : <RouteClient />}
+        </div>
     );
-  }
-  return (
-      <div className="d-flex flex-column m-height-100"> 
-        {
-          test.indexOf('admin', 0) != -1 && sessionStorage.getItem('adminIsLogin')  ? <RouteAdmin /> : <RouteClient />
-        }
-      </div>
-  );
 }
 
 export default App;
