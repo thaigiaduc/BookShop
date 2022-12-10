@@ -1,0 +1,79 @@
+.banner-message {
+    position: absolute;
+    left: 15%;
+    top: 65%;
+    transform: translate(-10%, -80%);
+}
+
+.slider-middle {
+    align-items: center !important;
+}
+
+.slider-text {
+    font-family: Poppins-Bold;
+    font-size: 60px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.slider-more {
+    background-color: black;
+    color: white;
+    width: 25%;
+    margin-left: 0%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.fade-it-right {
+    animation-name: slide-left-to-right;
+    animation-duration: 1.5s;
+}
+
+@keyframes slide-left-to-right {
+    from {
+        opacity: 0;
+        -webkit-transform: translateX(120px);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+}
+
+.fade-it-up {
+    animation-name: slide-down-to-up;
+    animation-duration: 1s;
+}
+
+@keyframes slide-down-to-up {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-120px);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+}
+
+.fade-it-left {
+    animation-name: slide-right-to-left;
+    animation-duration: 2s;
+}
+
+@keyframes slide-right-to-left {
+    from {
+        opacity: 0;
+        -webkit-transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+}
