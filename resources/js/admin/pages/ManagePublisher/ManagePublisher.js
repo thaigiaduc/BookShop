@@ -134,7 +134,7 @@ const ManagePublisher = () => {
                 <Button type="text" onClick={() => handleModalUpdate(pb.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
-                <Button type="text" icon={<CloseOutlined />}>
+                <Button type="text" onClick={() => handleDelete(pb.id)} icon={<CloseOutlined />}>
                 </Button>,
         }
         data.push(dataItem);
@@ -232,6 +232,25 @@ const ManagePublisher = () => {
         })
     }
     
+    function handleDelete(id) {
+        const deletePublisher = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                if(confirm('Are you sure?') == true) { 
+                    const c = await servicesForManagePublisher.deletePublisher(id);
+                    if(c.status_code !== 422) {
+                        alert('success');
+                        setParams({...params});
+                    } else {
+                        alert('failed');
+                    }        
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        deletePublisher();
+    }
     return (
       <Container fluid>
         <Row>

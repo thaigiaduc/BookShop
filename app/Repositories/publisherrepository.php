@@ -10,7 +10,7 @@ class PublisherRepository
 {
     public function index()
     {
-        return Publisher::orderby('publisher_name','asc')->get();
+        return Publisher::orderby('publisher_name','asc')->where('isdelete', false)->get();
     }
 
     public function getpublisherByBook($id)
@@ -21,7 +21,7 @@ class PublisherRepository
     // admin ---------------------------------------------------------
     public function showPublisherAdmin($request)
     {
-        $publisher = Publisher::orderBy('id','asc')->search($request);
+        $publisher = Publisher::orderBy('id','asc')->where('isdelete', false)->search($request);
         return $publisher->get();
     }
     // thêm nhà cung cấp
@@ -56,7 +56,9 @@ class PublisherRepository
     // xóa nhà cung cấp
     public function deletePublisher($id)
     {
-        $publisher = Publisher::where('id',$id)->delete();
+        $publisher = Publisher::where('id',$id)->update([
+            'isdelete' => true,
+        ]);
         return $publisher;
     }
 }

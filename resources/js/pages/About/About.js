@@ -5,13 +5,13 @@ return(
 <section className="about-page flex-grow-1 d-flex align-items-center">
     <div className="container" style={{marginBottom: '500px'}}>
     
-    <div className="row py-3 px-5">
+    <div className="row py-3 px-5" style={{marginTop: '50px'}}>
         <div className="col-md-12">
-            <h2 className="text-center">Welcome to bookworm</h2>
-            <p>Bookworm is an independent New York bookstore and language school with locations in
+            <h3 className="text-center">Welcome to bookworm</h3>
+            <p style={{marginTop: '20px'}}>Bookworm is an independent New York bookstore and language school with locations in
                 Manhattan and Brooklyn. We specialize in travel books and language classes.</p>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6" style={{marginTop: '30px'}}>
             <h3>Our Story</h3>
             <p>
                 The name Bookworm was taken from the original name for New York International Airport,
@@ -23,7 +23,7 @@ return(
             </p>
             <p>From March 2008 through May 2016, the store was located in the Flatiron District.</p>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6" style={{marginTop: '30px'}}>
             <h3>Our Vision</h3>
             <p>One of the last travel bookstores in the country, our Manhattan store carries a range of
                 guidebooks (all 10% off) to suit the needs and tastes of every traveller and budget.</p>

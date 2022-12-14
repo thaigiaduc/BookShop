@@ -19,6 +19,11 @@ const serviceForManageCategory = {
     updateCategory: (object,id) => {
         const url = `/api/admin/ManageCategory/update/${id}`;
         return api.post(url,object);
+    },
+
+    deleteCategory: (id) => {
+        const url = `/api/admin/ManageCategory/delete/${id}`;
+        return api.post(url);
     }
 }
 

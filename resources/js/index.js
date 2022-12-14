@@ -25,7 +25,8 @@ import ManageDiscount from './admin/pages/ManageDiscount/ManageDiscount';
 import ManageOrder from './admin/pages/ManageOrder/ManageOrder';
 import ManageUser from './admin/pages/ManageUser/ManageUser';
 import Statistic from './admin/pages/Statistic/Statistic';
-import {Button} from 'react-bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import 'antd/dist/antd.css';
 import {
   MenuFoldOutlined,
@@ -39,7 +40,7 @@ import {
   DollarCircleOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Switch } from 'antd';
+import { Layout, Menu, Switch, Button } from 'antd';
 const { Header, Sider, Content } = Layout;
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
       sessionStorage.clear();
       window.location.reload();
     }
-      document.title = "welcome to admin";
+      document.title = "Welcome to admin";
       const navigate = useNavigate();
       const [collapsed, setCollapsed] = useState(false);
       const [theme, setTheme] = useState('dark');
@@ -195,8 +196,18 @@ function App() {
             checkedChildren="Dark"
             unCheckedChildren="Light"
           />
-          <Button variant="light" style={{marginLeft: "1500px"}} onClick={handleLogout}>
-            Log out
+          <Button style={{marginLeft: '1500px', border: 'none'}}>
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                {sessionStorage.getItem('adminLogin')}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#">Change Password</Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout}>
+                  Log out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Button>
           </Header>
           <Content

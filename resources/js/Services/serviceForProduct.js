@@ -6,13 +6,11 @@ const serviceForProduct = {
         return api.get(url);
     },
 
-
     getReview: (data) => {
         const url = "/api/review?"+data;
         console.log(url);
         return api.get(url);
     },
-
 
     getRating: (id) => {
         const url = "/api/review/rating?book_id="+id;

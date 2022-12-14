@@ -12,17 +12,18 @@ class DiscountRepository
     // admin ----------------------------------------------------------
     public function showDiscount()
     {
-        $Discount = Discount::orderBy('id','asc')->get();
+        $Discount = Discount::orderBy('id','asc')->where('discount.isdelete', false)->get();
         return $Discount;
     }
     // thêm danh mục sản phẩm
-    public function insertDiscount(StoreDiscountRequest $request)
+    public function insertDiscount($request)
     {
         $Discount = Discount::create([
             'book_id' => $request->book_id,
-            'discount_start_day' => $request->discount_start_day,
-            'discount_end_day' => $request->discount_end_day,
+            'discount_start_date' => $request->discount_start_day,
+            'discount_end_date' => $request->discount_end_day,
             'discount_price' => $request->discount_price,
+            'isdelete' => false,
         ]);
 
         return $Discount;
@@ -33,8 +34,8 @@ class DiscountRepository
     {
         $Discount = Discount::where('id',$id)->update([
             'book_id' => $request->book_id,
-            'discount_start_day' => $request->discount_start_day,
-            'discount_end_day' => $request->discount_end_day,
+            'discount_start_date' => $request->discount_start_day,
+            'discount_end_date' => $request->discount_end_day,
             'discount_price' => $request->discount_price,
         ]);
 
@@ -51,7 +52,9 @@ class DiscountRepository
     // xóa danh mục sản phẩm
     public function deleteDiscount($id)
     {
-        $Discount = Discount::where('id',$id)->delete();
+        $Discount = Discount::where('id',$id)->update([
+            'isdelete' => true,
+        ]);
         return $Discount;
     }
 }

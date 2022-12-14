@@ -141,7 +141,7 @@ const ManageAuthor = () => {
                 <Button type="text" onClick={() => handleModalUpdate(author.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
-                <Button type="text" icon={<CloseOutlined />}>
+                <Button type="text" onClick={() => handleDelete(author.id)} icon={<CloseOutlined />}>
                 </Button>,
         }
         data.push(dataItem);
@@ -250,6 +250,24 @@ const ManageAuthor = () => {
             ...params,
             search: se,
         })
+    }
+
+    function handleDelete(id) {
+        const UpdateAuthor = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                if(confirm('Are you sure?') == true) {
+                    const c = await servicesForManageAuthor.deleteAuthor(id);
+                    if(c.status_code !== 422) {
+                        alert('success');
+                        setParams({...params});
+                    }      
+                }  
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        UpdateAuthor();
     }
 
     return (

@@ -78,4 +78,14 @@ class publisherController extends Controller
             return response()->json($e->getMessage(),404);
         }
     }
+
+    public function deletePublisherAdmin($id)
+    {
+        try {
+            $cate = $this->publisherRepo->deletePublisher($id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
+    }
 }

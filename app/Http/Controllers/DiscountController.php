@@ -25,7 +25,7 @@ class DiscountController extends Controller
         }
     }
 
-    public function insertDiscountAdmin(StoreDiscountRequest $request)
+    public function insertDiscountAdmin(Request $request)
     {
         try {
             $dis = $this->discountRepo->insertDiscount($request);
@@ -52,6 +52,16 @@ class DiscountController extends Controller
             return response()->json($dis,200);
         } catch(\Exception $e) {
             return response()->json($e->getMessage(),404);
+        }
+    }
+
+    public function deleteDiscountAdmin($id)
+    {
+        try {
+            $dis = $this->discountRepo->deleteDiscount($id);
+            return response()->json($dis,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),422);
         }
     }
 }

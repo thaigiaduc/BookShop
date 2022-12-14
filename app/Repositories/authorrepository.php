@@ -10,7 +10,7 @@ class AuthorRepository
 {
     public function index()
     {
-        return Author::orderby('author_name','asc')->get();
+        return Author::orderby('author_name','asc')->where('isdelete', false)->get();
     }
 
     public function getAuthorByBook($id)
@@ -21,7 +21,7 @@ class AuthorRepository
     // admin ---------------------------------------------------------
     public function showAuthor($request)
     {
-        $author = Author::orderBy('id','asc')->search($request)->get();
+        $author = Author::orderBy('id','asc')->where('isdelete', false)->search($request)->get();
         return $author;
     }
     // thêm tác giả
@@ -54,7 +54,9 @@ class AuthorRepository
     // xóa tác giả
     public function deleteAuthor($id)
     {
-        $author = Author::where('id',$id)->delete();
+        $author = Author::where('id',$id)->update([
+            'isdelete' => true,
+        ]);
         return $author;
     }
 }

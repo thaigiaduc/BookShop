@@ -2,7 +2,7 @@ import api from "./api";
 
 const serviceForProfile = {
     getUserDetail: () => {
-        const url = "api/user/detail";
+        const url = "/api/user/detail";
         return api.get(url);
     },
 

@@ -80,7 +80,7 @@ const Home = () => {
                     }}
                     className="mb-4 mt-5"
                 >
-                    <div className="home-title-type">Biographies Books</div>
+                    <div className="home-title-type">OnSale Books</div>
                     <Link to="/shop">
                         <div>View All</div>
                     </Link>
@@ -157,9 +157,6 @@ const Home = () => {
                                             style={{ marginRight: "30%" }}
                                             className="pointer add-to-cart-text"
                                         >
-                                            <a href={`/shop/${book.id}`}>
-                                                Select Option
-                                            </a>
                                         </div>
                                     </div>
                                 </div>

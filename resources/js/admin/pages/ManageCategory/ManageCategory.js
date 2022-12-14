@@ -134,7 +134,7 @@ const ManageCategory = () => {
                 <Button type="text" onClick={() => handleModalUpdate(category.id)} icon={<SettingOutlined />} >
                 </Button>,
             delete: 
-                <Button type="text" icon={<CloseOutlined />}>
+                <Button type="text" onClick={() => handleDelete(category.id)} icon={<CloseOutlined />}>
                 </Button>,
         }
         data.push(dataItem);
@@ -232,6 +232,25 @@ const ManageCategory = () => {
         })
     }
 
+    function handleDelete(id) {
+        const deleteCategory = async () => {
+            try {
+                // truyền object sang productAPI và nhận về response
+                if(confirm('Are you sure?') == true) { 
+                    const c = await servicesForManageCategory.deleteCategory(id);
+                    if(c.status_code !== 422) {
+                        alert('success');
+                        setParams({...params});
+                    } else {
+                        alert('failed');
+                    }        
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        deleteCategory();
+    }
     return (
       <Container fluid>
         <Row>

@@ -66,4 +66,14 @@ class CategoryController extends Controller
             return response()->json($e->getMessage(),404);
         }
     }
+
+    public function deleteCategoryAdmin($id)
+    {
+        try {
+            $cate = $this->categoryRepo->deleteCategory($id);
+            return response()->json($cate,200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
+    }
 }

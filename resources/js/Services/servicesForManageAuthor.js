@@ -19,6 +19,11 @@ const serviceForManageAuthor = {
     updateAuthor: (object,id) => {
         const url = `/api/admin/ManageAuthor/update/${id}`;
         return api.post(url,object);
+    },
+
+    deleteAuthor: (id) => {
+        const url = `/api/admin/ManageAuthor/delete/${id}`;
+        return api.post(url);
     }
 }
 

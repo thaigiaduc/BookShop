@@ -11,7 +11,7 @@ class CategoryRepository
 {
     public function index()
     {
-        return Category::orderby('category_name','asc')->get();
+        return Category::orderby('category_name','asc')->where('isdelete', false)->get();
     }
 
     public function getCategoryByBook($id)
@@ -22,7 +22,7 @@ class CategoryRepository
     // admin ----------------------------------------------------------
     public function showCategory($request)
     {
-        $category = Category::orderBy('id','asc')->search($request)->get();
+        $category = Category::orderBy('id','asc')->where('isdelete', false)->search($request)->get();
         return $category;
     }
     // thêm danh mục sản phẩm
@@ -57,7 +57,9 @@ class CategoryRepository
     // xóa danh mục sản phẩm
     public function deleteCategory($id)
     {
-        $category = Category::where('id',$id)->delete();
+        $category = Category::where('id',$id)->update([
+            'isdelete' => true,
+        ]);
         return $category;
     }
 }

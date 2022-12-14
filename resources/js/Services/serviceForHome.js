@@ -6,7 +6,6 @@ const serviceForHome = {
         return api.get(url);
     },
 
-
     getBookRecommended: () => {
         const url = "/api/home/recommended";
         return api.get(url);

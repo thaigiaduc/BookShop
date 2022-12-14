@@ -19,6 +19,11 @@ const serviceForManageDiscount = {
     updateDiscount: (object,id) => {
         const url = `/api/admin/ManageDiscount/update/${id}`;
         return api.post(url,object);
+    },
+
+    deleteDiscount: (id) => {
+        const url = `/api/admin/ManageDiscount/delete/${id}`;
+        return api.post(url);
     }
 }
 

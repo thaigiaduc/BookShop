@@ -34,8 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user/detail',[UserController::class,'getUserDetail']);
   
     //order routing
-    Route::post('/admin/order',[OrderController::class,'createorder']);
-    Route::get('/admin/order',[OrderController::class,'showOrderUser']);
+    Route::post('/order',[OrderController::class,'createorder']);
+    Route::get('/order',[OrderController::class,'showOrderUser']);
 
     // admin ----------------------------------------------------------------------------------------
     // Manage book routing
@@ -49,25 +49,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/admin/ManageAuthor/create',[AuthorController::class,'insertAuthorAdmin']);
     Route::get('/admin/ManageAuthor/details/{id}',[AuthorController::class,'showDetailAuthor']);
     Route::post('/admin/ManageAuthor/update/{id}',[AuthorController::class,'updateAuthor']);
-
+    Route::post('/admin/ManageAuthor/delete/{id}',[AuthorController::class,'deleteAuthorAdmin']);
     // Manage category routing
     Route::get('/admin/ManageCategory',[CategoryController::class,'getCategoryAdmin']);
     Route::post('/admin/ManageCategory/create',[CategoryController::class,'insertCategoryAdmin']);
     Route::get('/admin/ManageCategory/details/{id}',[CategoryController::class,'showDetailCategory']);
     Route::post('/admin/ManageCategory/update/{id}',[CategoryController::class,'updateCategory']);
-
+    Route::post('/admin/ManageCategory/delete/{id}',[CategoryController::class,'deleteCategoryAdmin']);
     // Manage publisher routing
     Route::get('/admin/ManagePublisher', [PublisherController::class,'showPublisher']);
     Route::post('/admin/ManagePublisher/create', [PublisherController::class,'insertPubliserAdmin']);
     Route::get('/admin/ManagePublisher/details/{id}',[PublisherController::class,'showDetailPublisher']);
     Route::post('/admin/ManagePublisher/update/{id}',[PublisherController::class,'updatePublisher']);
-
+    Route::post('/admin/ManagePublisher/delete/{id}',[PublisherController::class,'deletePublisherAdmin']);
     // Manage discount routing
     Route::get('/admin/ManageDiscount', [DiscountController::class,'getDiscountAdmin']);
     Route::post('/admin/ManageDiscount/create', [DiscountController::class,'insertDiscountAdmin']);
     Route::get('/admin/ManageDiscount/details/{id}',[DiscountController::class,'showDetailDiscount']);
     Route::post('/admin/ManageDiscount/update/{id}',[DiscountController::class,'updateDiscount']);
-
+    Route::post('/admin/ManageDiscount/delete/{id}',[DiscountController::class,'deleteDiscountAdmin']);
     //Manage User Routing
     Route::get('admin/user',[UserController::class,'index']);
     Route::patch('admin/user/update',[UserController::class,'updateStatus']);

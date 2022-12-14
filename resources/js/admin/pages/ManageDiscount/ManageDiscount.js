@@ -171,14 +171,10 @@ const ManageDiscount = () => {
             try {
                 // truyền object sang productAPI và nhận về response
                 const c = await servicesForManageDiscount.insertDiscount({
-                    // category_id: dataInsert.category,
-                    // author_id: dataInsert.author,
-                    // publisher_id: dataInsert.publisher,
-                    // book_title: dataInsert.book_title,
-                    // book_summary: dataInsert.book_summary,
-                    // quantity: dataInsert.quantity,
-                    // book_price: dataInsert.book_price,
-                    // book_cover_photo: null,
+                    book_id: dataInsert.book_id,
+                    discount_start_date: dataInsert.discount_start_date,
+                    discount_end_date: dataInsert.discount_end_date,
+                    discount_price: dataInsert.discount_price,
                 });
                 if(c.status_code !== 422) {
                     alert('success');
@@ -219,11 +215,11 @@ const ManageDiscount = () => {
         UpdateDiscount();
     }
 
-    // function handle(e) {
-    //     let newData ={...dataInsert}
-    //     newData[e.target.id] = e.target.value;
-    //     setDataInsert(newData);
-    // }
+    function handle(e) {
+        let newData ={...dataInsert}
+        newData[e.target.id] = e.target.value;
+        setDataInsert(newData);
+    }
 
     // function handleUpdate(e) {
     //     let newData ={...dataUpdate}
@@ -261,13 +257,13 @@ const ManageDiscount = () => {
                             <Input id="book_id" onChange={(e) => handle(e)} value={dataInsert.book_id} />
                         </Form.Item>
                         <Form.Item label="Discount start_date">
-                            <DatePicker id="discount_start_date" onChange={(e) => handle(e)} value={dataInsert.discount_end_date} />
+                            <input type="date" id="discount_start_date" onChange={(e) => handle(e)} value={dataInsert.discount_start_date} />
                         </Form.Item>
                         <Form.Item label="Discount end_date">
-                            <DatePicker id="discount_end_date" onChange={(e) => handle(e)} value={dataInsert.discount_end_date} />
+                            <input type="date" id="discount_end_date" onChange={(e) => handle(e)} value={dataInsert.discount_end_date} />
                         </Form.Item>
                         <Form.Item label="Book_price">
-                            <Input id="book_price" onChange={(e) => handle(e)} value={dataInsert.book_price} />
+                            <Input id="discount_price" onChange={(e) => handle(e)} value={dataInsert.discount_price} />
                         </Form.Item>
                         <Button type="primary" onClick={handleCancel}>Cancel</Button>
                         <Button type="submit" onClick={(e) => handleSubmit(e)}>Submit</Button>
