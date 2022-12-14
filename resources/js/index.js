@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 // import ReactDOM from 'react-dom';
 import Home from './pages/Home/Home';
 import HeaderF from './components/layout/Header/Header';
@@ -14,7 +14,7 @@ import Profile from './pages/Profile/Profile';
 import Order from './pages/Order/Order';
 // import Login from './pages/Login/Login';
 // import Register from './pages/Register/Register';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Admin from './admin/index';
 import HomePage from './admin/pages/Home/Home';
 import ManageBook from './admin/pages/ManageBook/ManageBook';
@@ -29,45 +29,45 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import 'antd/dist/antd.css';
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  BookOutlined,
-  BarChartOutlined,
-  ReconciliationOutlined,
-  FormOutlined,
-  DollarCircleOutlined,
-  HomeOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UploadOutlined,
+    UserOutlined,
+    BookOutlined,
+    BarChartOutlined,
+    ReconciliationOutlined,
+    FormOutlined,
+    DollarCircleOutlined,
+    HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Switch, Button } from 'antd';
 const { Header, Sider, Content } = Layout;
 
 function App() {
-  const test = window.location.href;
- 
-  const RouteClient = () => {
-    return (
-      <>
-      <HeaderF />
-        {/* Config Routes pages */}
-        <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route path="home" element={<Home />} />
-          <Route path="shop">
-            <Route path=":id" element={<Product />} />
-            <Route index element={<Shop />} />
-          </Route>
-          <Route path="cart" element={<Cart />} />
-          <Route path="about" element={<About />} />
-          <Route path="profile" element={<Profile/>}/>
-          <Route path="order" element={<Order/>} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      <Footer />
-      </>
-    );
-  }
+    const test = window.location.href;
+
+    const RouteClient = () => {
+        return (
+            <>
+                <HeaderF />
+                {/* Config Routes pages */}
+                <Routes>
+                    <Route index path="/" element={<Home />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="shop">
+                        <Route path=":id" element={<Product />} />
+                        <Route index element={<Shop />} />
+                    </Route>
+                    <Route path="cart" element={<Cart />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="order" element={<Order />} />
+                    <Route path="*" element={<Error404 />} />
+                </Routes>
+                <Footer />
+            </>
+        );
+    };
 
   const RouteAdmin = () => {   
     const handleLogout = () => {
