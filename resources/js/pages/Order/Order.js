@@ -76,6 +76,18 @@ const Order = () => {
         setOpen(true);
     };
 
+    const handleCancelOrder = async(id) => {
+        try {
+            if (confirm('Are you sure to cancel this order ?') == true) {
+                await servicesForOrder.updateOrderStatus(id);
+                alert("Cancel Successfully");
+                const orders = await servicesForOrder.getOrder();
+                setOrder(orders.data);  
+            } 
+        } catch (error) {
+            
+        }
+    };
     const handleCancel = () => {
         setOpen(false);
     };
@@ -101,6 +113,10 @@ const Order = () => {
             title: 'Details',
             dataIndex: 'Details',
         },
+        {
+            title: 'Cancel',
+            dataIndex: 'Cancel',
+        }
     ];
 
     const columnsDetails = [
@@ -146,6 +162,7 @@ const Order = () => {
                 order_status: or.order_status,
                 Details: <Button type="text" onClick={() => handleModal(or.id)} icon={<SettingOutlined />} >
                 </Button>,
+                Cancel: <Button style={or.order_status=='awaiting accept' ? {cursor: 'pointer', color: 'red'}:{}} disabled={or.order_status != 'awaiting accept' && true}  onClick={() => handleCancelOrder(or.id)} >Cancel Order</Button>,
             }
             data.push(dataItem);
         });   

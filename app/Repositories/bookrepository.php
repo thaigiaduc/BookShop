@@ -61,7 +61,8 @@ class BookRepository
            return $res;    
     }
     public function getDetailBook($id){
-        return Book::find($id)->where('book.isdelete', false);
+
+        return Book::where('id', $id)->where('isdelete', false)->first();
     }
     public function getHomeBookOnSale(){
         $listing = Book::select('book.id','book_title','book_cover_photo','book_price','category_id')

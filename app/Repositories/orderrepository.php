@@ -72,6 +72,16 @@ class OrderRepository
     }
 
     public function updateStatusOrder($id,$status){
+       
+        if($status == 4) {
+        
+           $quantity = OrderItem::select('quantity','book_id')->where('order_id',$id)->get();
+           foreach ($quantity as $item => $value) {
+                $bookQuantity=Book::find($quantity[$item]['book_id'])->quantity;
+                Book::find($quantity[$item]['book_id'])->update(['quantity' => $bookQuantity + $quantity[$item]['quantity']]);
+           }
+     
+        }
         return Order::where('id',$id)->update(['order_status'=>$status]);
     }
 }

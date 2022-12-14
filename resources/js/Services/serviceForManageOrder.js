@@ -18,7 +18,7 @@ const serviceForManageOrder = {
             order_status: value,
         }
         console.log(data);
-        return api.post(url,data);
+        return api.patch(url,data);
     },
 
 }

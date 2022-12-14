@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user/detail',[UserController::class,'getUserDetail']);
   
     //order routing
-    Route::post('/admin/order',[OrderController::class,'createorder']);
+    Route::post('/order',[OrderController::class,'createorder']);
     Route::get('/admin/order',[OrderController::class,'showOrderUser']);
 
     // admin ----------------------------------------------------------------------------------------
