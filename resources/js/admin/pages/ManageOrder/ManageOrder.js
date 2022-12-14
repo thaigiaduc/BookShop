@@ -121,7 +121,7 @@ const ManageOrder = () => {
             <Dropdown.Toggle variant="secondary">
                          {order.order_status}
                     </Dropdown.Toggle>
-                    {(order.order_status != 'accepted' && order.order_status != 'cancelled') && (
+                    {(order.order_status != 'shipped' && order.order_status != 'cancelled') && (
                            <Dropdown.Menu>
                            <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,1)}  eventKey="1">Awaiting accept</Dropdown.Item>
                            <Dropdown.Item onClick={()=>handleUpdateStatus(order.id,2)}  eventKey="2">Accepted</Dropdown.Item>
