@@ -4,6 +4,7 @@ Project by Team 14
 test
 -   Backend by php, laravel framework
 -   Frontend by reactjs
+-   ahihi ## Contributing
 
 # How to use
 
