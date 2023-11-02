@@ -4,10 +4,9 @@ Project by Team 14
 test
 -   Backend by php, laravel framework
 -   Frontend by reactjs
--   ahihi ## Contributing
 
 # How to use
-
+     
 -   change
 -   clone code về, sửa file .env.example thành .env và sửa database, xài gì thì sửa đó, composer install để cài đặt file vendor, npm install.
 -   Dùng lệnh php artisan migrate:seeder để tạo các table, sau đó dùng lệnh php artisan db:seed để thêm data cho các bảng.
